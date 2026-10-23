@@ -20,11 +20,18 @@ Canonical entrypoints:
 - references/related_work.md: primary-source comparisons and attribution of
   imported mathematical methods and established quantum constructions.
 - references/references.bib: structured primary bibliography.
+- learning/HAEFFNER_BRIDGE.md: the single selected educational anchor, Häffner,
+  Roos and Blatt (2008), with focused section pointers, notation and assumption
+  translation, a complete single-pair loop, and the bridge to the project.
+- learning/MILESTONES.md: exactly 30 reader-independent understanding targets,
+  their prerequisites, conceptual connections and authoritative source routes.
 - verification/README.md: commands, expected outputs and the limits of checks.
 - verification/verify_bus.py: deterministic numerical verification runner.
 
 Reader routes:
 - Story: model, gate-layer bounds, matching construction, hardware resources.
+- Study: HAEFFNER_BRIDGE, MILESTONES, then each milestone's canonical science
+  pointers. The two phases progress from local objects to a global account.
 - Theorems: model definitions, spectral cost, full gate-layer proofs, construction.
 - Hardware interpretation: model assumptions, hardware resources, related work.
 - Reproduction: verification guide, code and committed reference output.
@@ -52,5 +59,9 @@ Preserve these distinctions:
   can give low-rank approximations at diverging force fluence.
 - Classical spectral geometry and parallel entangling constructions are prior
   work. Use references/related_work.md before making an originality claim.
+- Häffner, Roos and Blatt's 2008 review is the only educational anchor. It
+  supplies trapped-ion and geometric-gate foundations; the project develops
+  the spectral, phase-equivalence and fixed-error resource arguments. Other
+  research citations retain their attribution and verification roles.
 - Finite calculations check their stated cases and normalizations; the written
   proofs establish universal results. Model review is not external peer review.
