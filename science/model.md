@@ -12,7 +12,7 @@ The central result is
 \mathcal A_\epsilon(K,m)=\Theta_\epsilon(K+K^2/m),
 \qquad
 T_\epsilon(K,m,g)=\Theta_\epsilon\!\left(\frac{\sqrt{1+K/m}}{g}\right),
-\tag{1}
+\qquad\text{(1)}
 ```
 
 for every fixed $`0\le\epsilon<1/\sqrt2`$. Here $`K`$ is the number of disjoint target pairs, $`m`$ is the number of bus modes, $`g`$ is a per-qubit force bound, $`\mathcal A_\epsilon`$ is the minimum force fluence multiplied by duration, and $`\epsilon`$ is a worst-case error for the **entire gate layer**. The constants can depend on $`\epsilon`$, but not on $`K`$, $`m`$, or $`g`$.
@@ -27,7 +27,7 @@ There are $`N=2K`$ qubits, labeled $`A_1,\ldots,A_K,B_1,\ldots,B_K`$, and $`m\ge
 \frac{H(t)}{\hbar}
 =i\sum_{j=1}^{N}\sum_{\ell=1}^{m}
 Z_j\bigl[u_{j\ell}(t)a_\ell^\dagger-u_{j\ell}(t)^*a_\ell\bigr].
-\tag{2}
+\qquad\text{(2)}
 ```
 
 Each $`u_{j\ell}\in L^2([0,T];\mathbb C)`$ is an independently programmable effective force with units of inverse time. The qubit axes commute at all times. Define the absolutely continuous displacement paths
@@ -35,7 +35,7 @@ Each $`u_{j\ell}\in L^2([0,T];\mathbb C)`$ is an independently programmable effe
 ```math
 \alpha_{j\ell}(t)=\int_0^t u_{j\ell}(s)\,ds,
 \qquad \alpha_{j\ell}(0)=\alpha_{j\ell}(T)=0.
-\tag{3}
+\qquad\text{(3)}
 ```
 
 Exact closure is required separately for every qubit and mode. It implies exact spin–bus disentanglement for every initial oscillator state. In the physical picture the bus can still undergo its known free evolution; equality to its initial density operator requires compensating that evolution or choosing an invariant initial state. Neither finite oscillator temperature nor an initial coherent displacement changes the closed-loop spin gate in this ideal harmonic model.
@@ -45,12 +45,12 @@ The exact propagator at closure is
 ```math
 U_A=\exp(iZ^{\mathsf T}AZ),
 \qquad
-A_{ij}=\operatorname{Im}\sum_{\ell=1}^{m}
+A_{ij}=\mathrm{Im}\sum_{\ell=1}^{m}
 \int_0^T\alpha_{i\ell}(t)^*\dot\alpha_{j\ell}(t)\,dt.
-\tag{4}
+\qquad\text{(4)}
 ```
 
-Integration by parts and closure make $`A`$ real symmetric. Thus the coefficient of $`Z_iZ_j`$ for $`i<j`$ is **$`2A_{ij}`$**. Diagonal entries contribute the global phase $`\operatorname{tr}A`$. This factor of two is used throughout the proofs and the verification code.
+Integration by parts and closure make $`A`$ real symmetric. Thus the coefficient of $`Z_iZ_j`$ for $`i<j`$ is **$`2A_{ij}`$**. Diagonal entries contribute the global phase $`\mathrm{tr}A`$. This factor of two is used throughout the proofs and the verification code.
 
 Equation (4) follows either from the Weyl displacement composition law or the terminating Magnus expansion: the commutator of two Hamiltonians is a quadratic polynomial in the mutually commuting $`Z_j`$, and all higher nested commutators vanish. The [spectral account](spectral_cost.md) treats the $`L^2`$ control class and the associated convergent Fourier expansions explicitly.
 
@@ -60,7 +60,7 @@ The target layer is
 
 ```math
 V_K=\prod_{j=1}^K\exp\!\left(\frac{i\pi}{4}Z_{A_j}Z_{B_j}\right).
-\tag{5}
+\qquad\text{(5)}
 ```
 
 Each factor is a maximally entangling two-qubit gate up to single-qubit phases. The pairing is fixed before the control is chosen. Relabeling the qubits gives any disjoint matching. No claim about an arbitrary dense interaction graph is needed for the lower bound.
@@ -69,7 +69,7 @@ Allow free final local $`Z`$ corrections
 
 ```math
 L(\theta)=\exp\!\left(i\sum_{j=1}^{N}\theta_jZ_j\right).
-\tag{6}
+\qquad\text{(6)}
 ```
 
 For a unitary $`W`$, let $`\mathcal W(\rho)=W\rho W^\dagger`$. Define the layer error
@@ -77,7 +77,7 @@ For a unitary $`W`$, let $`\mathcal W(\rho)=W\rho W^\dagger`$. Define the layer 
 ```math
 \epsilon(A)=\inf_{\theta\in\mathbb R^N}
 \frac12\left\|\mathcal U_A-\mathcal L(\theta)\circ\mathcal V_K\right\|_\diamond.
-\tag{7}
+\qquad\text{(7)}
 ```
 
 Global phase is already invisible to a unitary channel. The infimum over local phases is attained because their channel action is periodic and continuous. Equation (7) permits all physical phase wraps of the target. It does not select one convenient real logarithm of the gate.
@@ -91,7 +91,7 @@ The force fluence and action are
 ```math
 \mathcal E=\int_0^T\sum_{j,\ell}|u_{j\ell}(t)|^2\,dt,
 \qquad \mathcal A=T\mathcal E.
-\tag{8}
+\qquad\text{(8)}
 ```
 
 $`\mathcal E`$ has units of inverse time and $`\mathcal A`$ is dimensionless. They are effective Hamiltonian control costs, not device-independent energies in joules. The action is unchanged when a waveform is stretched in time and its amplitude is reduced inversely.
@@ -101,7 +101,7 @@ For integers $`K,m\ge1`$, let $`\mathcal A_\epsilon(K,m)`$ be the infimum of $`T
 ```math
 \sum_{\ell=1}^{m}|u_{j\ell}(t)|^2\le g^2,
 \qquad g>0.
-\tag{9}
+\qquad\text{(9)}
 ```
 
 Let $`T_\epsilon(K,m,g)`$ be the infimum duration under this additional constraint. The norm in (9) charges a qubit's simultaneous drives on different modes together. A bound on each mode separately would supply a larger total force as $`m`$ grows and would define a different resource comparison. Equation (9) gives $`\mathcal E\le2Kg^2T`$.
@@ -117,7 +117,7 @@ c=\frac\pi8,\qquad
 w_r=\left\lceil\frac r{4m}\right\rceil,\qquad
 G_{K,m}=\left(\prod_{r=1}^K w_r\right)^{1/K},\qquad
 \delta=\arcsin\epsilon.
-\tag{10}
+\qquad\text{(10)}
 ```
 
 The connected argument has four parts.
@@ -136,7 +136,7 @@ Since $`G_{K,m}\ge\max\{1,K/(4em)\}`$, the lower bounds and the explicit constru
 ```math
 T_\epsilon(K,m,g)
 \ge\frac\pi g\sqrt{\frac{1-4\arcsin(\epsilon)/\pi}{8}\,G_{K,m}},
-\tag{11}
+\qquad\text{(11)}
 ```
 
 whereas the upper duration in the table is achievable with zero spin-gate error. The fixed-error range is a proved sufficient range. The boundary $`1/\sqrt2`$ is not asserted to be an optimal threshold for a stronger theorem.

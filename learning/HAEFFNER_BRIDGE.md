@@ -30,7 +30,7 @@ Let $`j`$ label ions and $`\ell`$ label harmonic normal modes. For identical ion
 (a_\ell+a_\ell^\dagger),
 \qquad
 x_{\mathrm{zpf},\ell}=\sqrt{\frac{\hbar}{2M_{\mathrm{ion}}\omega_\ell}}.
-\tag{B1}
+\qquad\text{(B1)}
 ```
 
 Here $`b_{j\ell}`$ is the $`j`$th entry of a real normalized mode vector, $`M_{\mathrm{ion}}`$ is the ion mass, and $`a_\ell`$ removes one excitation of mode $`\ell`$. Different modes are independent canonical coordinates, with $`[a_\ell,a_k^\dagger]=\delta_{\ell k}`$. Their spatial patterns determine which ions respond to a drive and with which relative signs.
@@ -45,7 +45,7 @@ An explicit conversion avoids ambiguity about what is being bounded. Consider a 
 H_F(t)=\sum_j F_j(t)Z_j\delta q_j,
 \qquad
 G_{j\ell}(t)=\frac{F_j(t)b_{j\ell}x_{\mathrm{zpf},\ell}}{\hbar}.
-\tag{B2}
+\qquad\text{(B2)}
 ```
 
 The real quantity $`F_j`$ is the signed coefficient of the potential; the corresponding mechanical force has the opposite sign. The free-oscillator interaction picture gives
@@ -55,7 +55,7 @@ The real quantity $`F_j`$ is the signed coefficient of the potential; the corres
 =\sum_{j,\ell}Z_jG_{j\ell}(t)
 \left(a_\ell e^{-i\omega_\ell t}
 +a_\ell^\dagger e^{i\omega_\ell t}\right).
-\tag{B3}
+\qquad\text{(B3)}
 ```
 
 This is exactly the project's convention
@@ -66,7 +66,7 @@ This is exactly the project's convention
 \left(u_{j\ell}(t)a_\ell^\dagger-u_{j\ell}(t)^*a_\ell\right)
 \quad\text{with}\quad
 u_{j\ell}(t)=-iG_{j\ell}(t)e^{i\omega_\ell t}.
-\tag{B4}
+\qquad\text{(B4)}
 ```
 
 Thus $`u_{j\ell}`$ has units of inverse time. This change of frame preserves its magnitude. A different sign for the potential changes the sign of $`u`$, without changing the charged force norm.
@@ -92,7 +92,7 @@ In (B2), one function $`F_j(t)`$ determines all the mode components on ion $`j`$
 \quad\text{for every qubit},
 \qquad
 \mathcal E=\int_0^T\sum_{j,\ell}|u_{j\ell}(t)|^2\,dt.
-\tag{B5}
+\qquad\text{(B5)}
 ```
 
 This enlarged control class is useful for a converse: any hardware controls satisfying the same Hamiltonian and budget are among its admissible controls. Attaining its upper construction requires those particular complex waveforms to be physically available. The bound is on one qubit's total force across modes; assigning an independent allowance $`g`$ to every mode would increase the available total force as $`m`$ grows.
@@ -104,7 +104,7 @@ Take two qubits and one harmonic mode. Fix a duration $`T>0`$ and use the equal 
 ```math
 u_1(t)=u_2(t)=\frac{i\pi}{2T}e^{2\pi it/T},
 \qquad 0\le t\le T.
-\tag{B6}
+\qquad\text{(B6)}
 ```
 
 All amplitudes in this example are Hamiltonian coefficients in (B4). The extra factor $`i`$ simply chooses the origin of the drive phase.
@@ -117,7 +117,7 @@ Integrating either force gives
 \alpha_1(t)=\alpha_2(t)=\alpha(t)
 =\frac{e^{2\pi it/T}-1}{4},
 \qquad \alpha(0)=\alpha(T)=0.
-\tag{B7}
+\qquad\text{(B7)}
 ```
 
 For spin eigenvalues $`z_1,z_2\in\{\pm1\}`$, the actual conditional displacement of the oscillator is
@@ -125,7 +125,7 @@ For spin eigenvalues $`z_1,z_2\in\{\pm1\}`$, the actual conditional displacement
 ```math
 \beta_z(t)=z_1\alpha_1(t)+z_2\alpha_2(t)
 =(z_1+z_2)\alpha(t).
-\tag{B8}
+\qquad\text{(B8)}
 ```
 
 Opposite spin signs give zero displacement. Equal signs give a circular path with one of two opposite displacement amplitudes. All four paths end at the origin. The final bus operator is therefore the identity in the interaction picture, for every initial bus state within the harmonic model. The pulse can entangle an initially uncorrelated bus with the spins during the path, while factorizing into a spin gate and bus identity at $`T`$.
@@ -137,14 +137,14 @@ The [closed-loop phase formula](../science/model.md#hamiltonian-and-exact-closur
 ```math
 \begin{aligned}
 A_{ij}
-&=\operatorname{Im}\int_0^T\alpha(t)^*\dot\alpha(t)\,dt\\
-&=\operatorname{Im}\left[
+&=\mathrm{Im}\int_0^T\alpha(t)^*\dot\alpha(t)\,dt\\
+&=\mathrm{Im}\left[
 \frac{i(2\pi/T)}{16}\int_0^T
 \left(1-e^{2\pi it/T}\right)dt\right]
 =\frac\pi8,
 \qquad i,j\in\{1,2\}.
 \end{aligned}
-\tag{B9}
+\qquad\text{(B9)}
 ```
 
 Thus
@@ -154,18 +154,18 @@ A=\frac\pi8\begin{pmatrix}1&1\\1&1\end{pmatrix},
 \qquad
 U_A=\exp\!\left[\frac{i\pi}{8}(Z_1+Z_2)^2\right]
 =e^{i\pi/4}\exp\!\left(\frac{i\pi}{4}Z_1Z_2\right).
-\tag{B10}
+\qquad\text{(B10)}
 ```
 
 The two diagonal entries contribute the global phase $`e^{i\pi/4}`$. The physical pair angle is **$`2A_{12}=\pi/4`$** because $`Z^{\mathsf T}AZ`$ contains both $`A_{12}Z_1Z_2`$ and $`A_{21}Z_2Z_1`$.
 
-With $`Z\lvert0\rangle=\lvert0\rangle`$ and $`Z\lvert1\rangle=-\lvert1\rangle`$, the gate matrix is $`\operatorname{diag}(i,1,1,i)`$. On the product input $`\lvert++\rangle`$, where $`\lvert+\rangle=(\lvert0\rangle+\lvert1\rangle)/\sqrt2`$, it produces
+With $`Z\lvert0\rangle=\lvert0\rangle`$ and $`Z\lvert1\rangle=-\lvert1\rangle`$, the gate matrix is $`\mathrm{diag}(i,1,1,i)`$. On the product input $`\lvert++\rangle`$, where $`\lvert+\rangle=(\lvert0\rangle+\lvert1\rangle)/\sqrt2`$, it produces
 
 ```math
 U_A\lvert++\rangle
 =\frac{i\lvert00\rangle+\lvert01\rangle
 +\lvert10\rangle+i\lvert11\rangle}{2}.
-\tag{B11}
+\qquad\text{(B11)}
 ```
 
 Either qubit alone has reduced state $`I/2`$, so this pure two-qubit output is maximally entangled. The qubits have retained an operation even though the bus has returned.
@@ -179,7 +179,7 @@ Each qubit's force magnitude is $`\pi/(2T)`$, and
 =\frac{\pi^2}{2T},
 \qquad
 T\mathcal E=\frac{\pi^2}{2}.
-\tag{B12}
+\qquad\text{(B12)}
 ```
 
 The pulse meets the per-qubit bound $`g`$ by choosing $`T=\pi/(2g)`$. Its phase matrix has eigenvalues $`\pi/4`$ and zero, so its action also agrees with the [exact prescribed-matrix optimum](../science/spectral_cost.md#2-exact-minimum-for-a-prescribed-full-matrix).
@@ -194,7 +194,7 @@ The target for $`K`$ disjoint pairs is
 
 ```math
 V_K=\prod_{r=1}^K\exp\!\left(\frac{i\pi}{4}Z_{A_r}Z_{B_r}\right).
-\tag{B13}
+\qquad\text{(B13)}
 ```
 
 The [matching construction](../science/matching_construction.md) extends the example by assigning pair directions to mode, frequency-sign, and quadrature slots. Two real directions fit in one complex Fourier coefficient; the two frequency signs give separate signs of geometric phase. Each harmonic magnitude therefore supplies $`4m`$ slots. Additional pairs can use higher harmonics, with a corresponding action and force cost.
@@ -206,7 +206,7 @@ The full result is
 \qquad
 T_\epsilon(K,m,g)=
 \Theta_\epsilon\!\left(\frac{\sqrt{1+K/m}}g\right).
-\tag{B14}
+\qquad\text{(B14)}
 ```
 
 Here $`\mathcal A_\epsilon`$ is the optimal action $`T\mathcal E`$, and $`T_\epsilon`$ is the optimal duration under (B5). The error is the half-diamond distance for the **whole layer**, optimized over final local $`Z`$ corrections. It measures worst-case distinguishability of the spin operations, including inputs entangled with a reference. For every fixed $`0\le\epsilon<1/\sqrt2`$, the constants in (B14) are independent of $`K,m,g`$. Exact conditional bus closure is required even when the allowed spin-gate error is nonzero.

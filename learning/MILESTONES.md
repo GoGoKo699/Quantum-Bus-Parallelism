@@ -169,7 +169,7 @@ The [model](../science/model.md#hamiltonian-and-exact-closure), [gate-equivalenc
 
 **Central question:** How many independent real phase directions can one signed harmonic contribute?
 
-**Understanding target:** Explain why a complex coefficient $`v=x+iy`$ contributes $`\operatorname{Re}(vv^\dagger)=xx^{\mathsf T}+yy^{\mathsf T}`$, so each mode supplies two real directions. Track the independent positive and negative harmonics and the resulting $`2m`$ directions per sign.
+**Understanding target:** Explain why a complex coefficient $`v=x+iy`$ contributes $`\mathrm{Re}(vv^\dagger)=xx^{\mathsf T}+yy^{\mathsf T}`$, so each mode supplies two real directions. Track the independent positive and negative harmonics and the resulting $`2m`$ directions per sign.
 
 **Dependencies and story role:** Uses M08, M09, and M12. It begins the project argument with the local contribution of one waveform component.
 

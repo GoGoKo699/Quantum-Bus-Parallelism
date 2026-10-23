@@ -27,8 +27,8 @@ For dimensionless quadratures $`x=(a+a^\dagger)/\sqrt2`$ and $`p=(a-a^\dagger)/(
 
 ```math
 H/\hbar=\sqrt2\sum_{j,\ell}Z_j
-\left[(\operatorname{Re}u_{j\ell})p_\ell
--(\operatorname{Im}u_{j\ell})x_\ell\right].
+\left[(\mathrm{Re}u_{j\ell})p_\ell
+-(\mathrm{Im}u_{j\ell})x_\ell\right].
 ```
 
 Thus an independent complex force means independent access to two rotating-frame quadratures. It does not mean that two independently accessible laboratory quadratures are automatically present.
@@ -44,7 +44,7 @@ the exact free-oscillator interaction picture gives
 
 ```math
 u_j(t)=-iG_j(t)e^{i\omega_rt},\qquad |u_j(t)|=|G_j(t)|.
-\tag{H1}
+\qquad\text{(H1)}
 ```
 
 A physical force term $`F_j(t)Z_jx_{\rm phys}`$, where $`x_{\rm phys}=x_{\rm zpf}(a+a^\dagger)`$, has $`G_j=F_jx_{\rm zpf}/\hbar`$. The sign of the potential changes the sign of $`u_j`$ without changing its norm. Qubit-controlled electrical resonator displacements are developed explicitly in [Kerman, Sections II–III](https://arxiv.org/html/1212.3300v4).
@@ -55,7 +55,7 @@ A useful general calibration is
 u_j(t)=C_j(t)v_j(t),
 \qquad
 \|u_j(t)\|_2\le\sigma_{\max}(C_j(t))\|v_j(t)\|_2,
-\tag{H2}
+\qquad\text{(H2)}
 ```
 
 where $`v_j`$ contains actual actuator amplitudes and $`C_j`$ includes participation factors, conversion constants, and rotating-frame phases. A restricted real domain for $`v_j`$ remains a restriction even when $`u_j`$ is complex. A usable peak-force bound follows from an upper bound on the right-hand side. The converse is valid with such a bound; achieving a desired $`u_j`$ additionally requires that it lie in the image of the calibrated actuator map with allowed amplitudes and rates of change.
@@ -66,7 +66,7 @@ For example, a single independently addressed ion drive can have effective coupl
 u_{j\ell}(t)=b_{j\ell}\Omega_j(t)e^{i\Delta_\ell t},
 \qquad
 \|u_j(t)\|_2^2=|\Omega_j(t)|^2\sum_\ell|b_{j\ell}|^2,
-\tag{H3}
+\qquad\text{(H3)}
 ```
 
 with convention-dependent constants absorbed into $`b_{j\ell}`$. Fixed normal-mode participation factors constrain all the components together. More tones enlarge the actuator map but do not generally remove those constraints. The exact hardware coefficients, rather than the schematic normalization in (H3), must be used for a numerical comparison. [Peleg et al., Section II and Appendix A](https://arxiv.org/html/2307.09566v2) formulate such a hardware-dependent multimode gate problem.
@@ -101,14 +101,14 @@ The [construction, Section 3](matching_construction.md#3-bandwidth-of-the-constr
 T_{\rm force}=\frac\pi{2g}\sqrt L,
 \qquad
 B_{\rm tone}=\frac{2\pi L}{T_{\rm force}}=4g\sqrt L.
-\tag{H4}
+\qquad\text{(H4)}
 ```
 
 Thus the time-optimal order at fixed $`g`$ uses increasing modulation frequencies when $`K/m`$ grows. Within this finite-tone control model, a separate maximum tone frequency $`B`$ can be respected by stretching the same construction to
 
 ```math
 T\ge\max\left\{\frac\pi{2g}\sqrt L,\frac{2\pi L}{B}\right\}.
-\tag{H5}
+\qquad\text{(H5)}
 ```
 
 The geometric phase and $`T\mathcal E`$ are unchanged by this stretching. Equation (H5) is a sufficient construction cost, not an asserted universal bandwidth-dependent optimum.
@@ -123,14 +123,14 @@ In a computational basis sector $`z\in\{\pm1\}^{2K}`$, the displacement of mode 
 
 ```math
 \beta_{\ell,z}(t)=\sum_jz_j\alpha_{j\ell}(t).
-\tag{H6}
+\qquad\text{(H6)}
 ```
 
 The [construction, Section 4](matching_construction.md#4-displacement-and-oscillator-excursion), derives the individual-loop and collective bounds. A qubit assigned harmonic $`k`$ obeys
 
 ```math
 |\alpha_{j\ell}(t)|\le\frac1{2\sqrt k}.
-\tag{H7}
+\qquad\text{(H7)}
 ```
 
 The displacement amplitudes are independent of the overall time stretch. Filling every slot through harmonic $`L`$ gives the conservative, state-uniform bounds
@@ -140,7 +140,7 @@ The displacement amplitudes are independent of the overall time stretch. Filling
 \le4\sum_{k=1}^L k^{-1/2}\le8\sqrt L,
 \qquad
 \max_{z,t}|\beta_{\ell,z}(t)|^2\le64L.
-\tag{H8}
+\qquad\text{(H8)}
 ```
 
 This is an upper bound for this construction, not a necessary occupation cost and not a claim that the worst phases align at one time. Partial slot filling can reduce it.
@@ -152,12 +152,12 @@ A different statistic is the uniform average over computational basis strings. F
 \qquad
 \frac1T\int_0^T\mathbb E_z|\beta_{\ell,z}(t)|^2dt=H_L,
 \quad H_L=\sum_{k=1}^L\frac1k.
-\tag{H9}
+\qquad\text{(H9)}
 ```
 
 The latter grows logarithmically, whereas the bound (H8) allows larger excursions for adversarial spin strings. Neither statistic substitutes for the other in a hardware specification.
 
-For an oscillator input with zero mean and occupation $`\bar n_\ell`$, the conditional occupation is $`\bar n_\ell+|\beta_{\ell,z}|^2`$. For nonzero initial mean it also contains $`2\operatorname{Re}[\beta_{\ell,z}^*\langle a_\ell\rangle]`$. Exact endpoint closure removes the final ideal displacement for every input state. It does not remove information already lost to an environment, nor ensure that a real device remains harmonic during the path. Photon loss during a longitudinal gate is analyzed in [Royer et al., “Oscillator-induced qubit dephasing,” Eq. (4)](https://arxiv.org/html/1603.04424v3). For trapped-ion realizations, the Lamb–Dicke approximation also constrains motional excitation; see [Leibfried et al., Section III.B.3](https://www.nist.gov/system/files/documents/2017/05/09/rmp1.pdf).
+For an oscillator input with zero mean and occupation $`\bar n_\ell`$, the conditional occupation is $`\bar n_\ell+|\beta_{\ell,z}|^2`$. For nonzero initial mean it also contains $`2\mathrm{Re}[\beta_{\ell,z}^*\langle a_\ell\rangle]`$. Exact endpoint closure removes the final ideal displacement for every input state. It does not remove information already lost to an environment, nor ensure that a real device remains harmonic during the path. Photon loss during a longitudinal gate is analyzed in [Royer et al., “Oscillator-induced qubit dephasing,” Eq. (4)](https://arxiv.org/html/1603.04424v3). For trapped-ion realizations, the Lamb–Dicke approximation also constrains motional excitation; see [Leibfried et al., Section III.B.3](https://www.nist.gov/system/files/documents/2017/05/09/rmp1.pdf).
 
 The model's statement for every oscillator input is an exact mathematical property of the harmonic Hamiltonian. It is not a claim that a physical harmonic or Lamb–Dicke approximation holds for arbitrarily high-energy initial states.
 
@@ -170,7 +170,7 @@ Equation (H1) gives the exact force
 ```math
 u_j(t)=-\frac{iG_j}{2}
 \left[e^{i(\omega_r-\omega_m)t}+e^{i(\omega_r+\omega_m)t}\right].
-\tag{H10}
+\qquad\text{(H10)}
 ```
 
 The physical peak in this exact expression is $`G_j`$. Retaining only the slowly varying term gives the rotating-wave envelope amplitude $`g_j=G_j/2`$. The theorem must use the budget of whichever Hamiltonian is actually being analyzed: $`G_j`$ for the exact real-force model, or $`G_j/2`$ for the ideal slow-envelope model. The two should not be interchanged.
