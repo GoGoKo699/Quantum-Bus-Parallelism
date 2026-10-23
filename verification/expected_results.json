@@ -1,0 +1,53 @@
+{
+  "schema_version": 1,
+  "status": "pass",
+  "construction": {
+    "cases": 60,
+    "off_diagonal_phase_error_below": 1e-13,
+    "action_and_spectral_formula_error_below": 1e-10,
+    "single_tone_per_qubit": true,
+    "example_K20_m1_action": 296.088132
+  },
+  "direct_integration": {
+    "cases": [
+      [1, 1],
+      [4, 1],
+      [5, 1],
+      [9, 2],
+      [13, 3]
+    ],
+    "grid_points": 8193,
+    "analytic_path_phase_error_below": 2e-12,
+    "cumulative_quadrature_phase_error_below": 2e-7,
+    "closure_error_below": 2e-12
+  },
+  "boolean_unwrapping": {
+    "seed": 20261023,
+    "quadratic_gate_cases": 12,
+    "largest_qubit_count": 8,
+    "residual_phase_radii": [0.1, 0.4, 0.72],
+    "weighted_spectral_comparisons": 36,
+    "integer_wrap_recovered_exactly": true,
+    "Frobenius_and_Mirsky_bounds_hold": true,
+    "strict_unwrapping_threshold_example": true
+  },
+  "weight_constants": {
+    "cases": 512,
+    "largest_norm_w_over_KG": 1.0
+  },
+  "ill_conditioned_wraps": {
+    "cases": 36,
+    "phase_wrap_residual_below": 2e-10,
+    "illustrative_case": {
+      "K": 6,
+      "m": 1,
+      "integer_shear": 1024,
+      "cross_block_rank": 3,
+      "uniform_phase_error": 0.001152,
+      "half_diamond_error": 0.001152,
+      "prescribed_matrix_action": 40425.909265,
+      "finite_size_lower_bound": 18.639851
+    }
+  },
+  "scope": "Finite formula checks; the universal results are proved in science/."
+}
