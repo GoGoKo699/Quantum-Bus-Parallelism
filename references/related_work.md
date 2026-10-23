@@ -1,8 +1,8 @@
 # Related work and scope of the contribution
 
-Closed oscillator trajectories, geometric entangling phases, and spectral pulse optimization are established tools. The result developed in this repository concerns a more specific question: the force action and duration required for a layer of $K$ independent maximally entangling pairs through $m$ harmonic modes, when every physically equivalent phase representative is allowed and the whole layer may have a fixed worst-case error.
+Closed oscillator trajectories, geometric entangling phases, and spectral pulse optimization are established tools. The result developed in this repository concerns a more specific question: the force action and duration required for a layer of $`K`$ independent maximally entangling pairs through $`m`$ harmonic modes, when every physically equivalent phase representative is allowed and the whole layer may have a fixed worst-case error.
 
-The [model](../science/model.md) assumes commuting linear conditional forces and exact bus closure. It allows final local $Z$ corrections and global phase; it does not optimize over arbitrary local basis changes during the interaction. For every fixed half-diamond layer error $\epsilon<1/\sqrt2$, the [gate-layer bounds](../science/gate_layer_bounds.md) establish the finite-mode converse. The [construction](../science/matching_construction.md) supplies the matching scaling order. The distinction between a lower bound in an independently controlled relaxation and implementability on a specific device is developed in [hardware resources](../science/hardware_resources.md).
+The [model](../science/model.md) assumes commuting linear conditional forces and exact bus closure. It allows final local $`Z`$ corrections and global phase; it does not optimize over arbitrary local basis changes during the interaction. For every fixed half-diamond layer error $`\epsilon<1/\sqrt2`$, the [gate-layer bounds](../science/gate_layer_bounds.md) establish the finite-mode converse. The [construction](../science/matching_construction.md) supplies the matching scaling order. The distinction between a lower bound in an independently controlled relaxation and implementability on a specific device is developed in [hardware resources](../science/hardware_resources.md).
 
 Bibliographic entries, including publication metadata and versioned preprints, are collected in [references.bib](references.bib). Section and equation pointers below identify the actual primary version used; preprint and journal numbering can differ.
 
@@ -10,15 +10,15 @@ Bibliographic entries, including publication metadata and versioned preprints, a
 
 **Brockett (1982), Theorem 2.** The chapter [“Control Theory and Singular Riemannian Geometry”](https://doi.org/10.1007/978-1-4612-5651-9_2), pp. 11–27, treats the corresponding step-two control geometry and a vertical-distance spectral formula. An [author-hosted reprint](https://hrl.harvard.edu/publications/brockett81control.pdf) is available. Its normalization must be checked rather than transferred by inspection. BibTeX key: `Brockett1982`.
 
-**Rizzi and Serres (2017), Appendix A, Proposition 15, Eq. (48), with proof Eqs. (49)–(51).** [arXiv:1610.01596v2](https://arxiv.org/html/1610.01596v2) gives the vertical-distance formula for a skew-symmetric area matrix $Y$ with nonzero eigenvalue magnitudes $0<\alpha_1\le\cdots\le\alpha_r$:
+**Rizzi and Serres (2017), Appendix A, Proposition 15, Eq. (48), with proof Eqs. (49)–(51).** [arXiv:1610.01596v2](https://arxiv.org/html/1610.01596v2) gives the vertical-distance formula for a skew-symmetric area matrix $`Y`$ with nonzero eigenvalue magnitudes $`0<\alpha_1\le\cdots\le\alpha_r`$:
 
-$$
+```math
 d((0,0),(0,Y))^2=4\pi\sum_{j=1}^r(r-j+1)\alpha_j.
-$$
+```
 
-The integer weights come from distinct closed-loop harmonics. This is a direct mathematical antecedent of weighted spectral area costs. The author's [research page](https://sites.google.com/view/rizziluca/research) links an [erratum](https://drive.google.com/file/d/1uSMry_CAEsKCGpL39tgO8ND7TX48HHLG/view): it corrects Proposition 4's codimension and restores missing $J_2$ blocks in Eq. (50), without changing Proposition 15 or Eq. (48). BibTeX keys: `RizziSerres2017`, `RizziSerresErrata`.
+The integer weights come from distinct closed-loop harmonics. This is a direct mathematical antecedent of weighted spectral area costs. The author's [research page](https://sites.google.com/view/rizziluca/research) links an [erratum](https://drive.google.com/file/d/1uSMry_CAEsKCGpL39tgO8ND7TX48HHLG/view): it corrects Proposition 4's codimension and restores missing $`J_2`$ blocks in Eq. (50), without changing Proposition 15 or Eq. (48). BibTeX keys: `RizziSerres2017`, `RizziSerresErrata`.
 
-The repository's real symmetric phase matrix is a projection of the underlying skew-area data, with multiplicities set by the number of bus modes. The [spectral proof](../science/spectral_cost.md) establishes that projection and its normalization directly. The weighted-harmonic mechanism is not claimed as new geometry. Also, a theorem for a prescribed full matrix $A$ does not by itself solve the physical gate problem: diagonal entries of $A$ are unobservable, and many different off-diagonal logarithms can represent the same gate up to local phases.
+The repository's real symmetric phase matrix is a projection of the underlying skew-area data, with multiplicities set by the number of bus modes. The [spectral proof](../science/spectral_cost.md) establishes that projection and its normalization directly. The weighted-harmonic mechanism is not claimed as new geometry. Also, a theorem for a prescribed full matrix $`A`$ does not by itself solve the physical gate problem: diagonal entries of $`A`$ are unobservable, and many different off-diagonal logarithms can represent the same gate up to local phases.
 
 ## 2. Hardware-aware optimal pulses and parallel ion gates
 
@@ -74,14 +74,14 @@ A matching layer is already one such instruction. Constant numbers of these inst
 
 ## 5. What the additional converse establishes
 
-The distinction rests on physical gate equivalence. At zero error, every allowed representative has a matching cross block $C=(\pi/8)(I+2M)$ for an integer matrix $M$. Its determinant cannot vanish. The resulting constraint on all singular values, combined with the weighted spectral control cost, prevents reducing the resource scaling by choosing a more favorable wrapped logarithm or unobservable diagonal.
+The distinction rests on physical gate equivalence. At zero error, every allowed representative has a matching cross block $`C=(\pi/8)(I+2M)`$ for an integer matrix $`M`$. Its determinant cannot vanish. The resulting constraint on all singular values, combined with the weighted spectral control cost, prevents reducing the resource scaling by choosing a more favorable wrapped logarithm or unobservable diagonal.
 
 At fixed whole-layer error, the proof derives a controlled unwrapping from closeness of the actual unitary channels. It does not assume that the implemented real phase matrix is already close to the preferred target matrix. This gives
 
-$$
+```math
 T\mathcal E=\Omega_\epsilon(K+K^2/m)
-$$
+```
 
-for every fixed $\epsilon<1/\sqrt2$, with exact bus closure retained. Together with an explicit exact upper bound it yields the scaling law in the [model](../science/model.md).
+for every fixed $`\epsilon<1/\sqrt2`$, with exact bus closure retained. Together with an explicit exact upper bound it yields the scaling law in the [model](../science/model.md).
 
 The cited geometric results and parallel-gate constructions are essential antecedents. The inspected results above do not supply this combined all-representative, fixed-error matching-layer converse under the same primitive-force assumptions. This scoped comparison is not a claim that spectral optimal control, geometric oscillator gates, parallel gates, or square-root upper constructions originate here.
