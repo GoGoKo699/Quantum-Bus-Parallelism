@@ -34,6 +34,12 @@ The closure nullspace and the phase quadratic form yield a power-optimal pulse f
 
 EASE constructs independently specified simultaneous pair interactions, including overlapping pairs, using linear closure conditions and bilinear phase constraints. Its constructive and experimental results preclude presenting arbitrary simultaneous gate synthesis as a new capability here. The present question charges primitive force norms and finite bus dimension, rather than only pulse-design complexity or the existence of a simultaneous solution.
 
+### Zhu et al.: additional mode families enable parallel gates
+
+**“Pairwise-Parallel Entangling Gates on Orthogonal Modes in a Trapped-Ion Chain,” Advanced Quantum Technologies 6, 2300056 (2023).** [Primary preprint v1](https://arxiv.org/html/2302.09145v1): Section II, Eqs. (1)–(7). [Published DOI](https://doi.org/10.1002/qute.202300056). Key: `Zhu2023`.
+
+The scheme implements two pair gates through orthogonal radial mode families. Their commuting Hamiltonians allow independently designed gate pulses to run simultaneously, including when the pairs share an ion. This establishes additional motional modes as a parallelism resource and supplies a direct experimental precedent. Each family contains several canonical oscillator modes; a family is not one mode in the present count. The result does not supply a finite-mode primitive-force converse over all phase representatives or a fixed whole-layer diamond-error bound.
+
 ### Peleg et al.: a prior spectral resource estimate
 
 **“Fast Design and Scaling of Multiqubit Gates in Large-Scale Trapped-Ion Quantum Computers,” PRX Quantum 7, 033021 (2026).** [Primary preprint v2](https://arxiv.org/html/2307.09566v2): Section II, “Formulation of the gate design problem,” particularly Eqs. (3) and (5); Section III, “Scalability in large ion crystals,” Eqs. (7) and (8); Appendix A, model derivation. [Published DOI](https://doi.org/10.1103/r78y-3q89). Key: `Peleg2026`.
