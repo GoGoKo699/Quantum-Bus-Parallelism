@@ -70,7 +70,7 @@ Each pair contributes two coefficient magnitudes $`a_{n_r}`$. Parseval gives
 \qquad\text{(7)}
 ```
 
-This also equals the prescribed-matrix optimum for the particular $`A`$ in (5): its positive and negative eigenvalues occupy their respective lowest available spectral slots. Optimality over every physically equivalent phase matrix is not asserted.
+This also equals the prescribed-matrix optimum for the particular $`A`$ in (5): its positive and negative eigenvalues occupy their respective lowest available spectral slots. For $`K\le4m`$, all $`w_r=1`$, and the [sharp physical-gate lower bound](gate_layer_bounds.md) equals (7). In that regime the action $`\pi^2K/2`$ and duration $`\pi/(2g)`$ are exact optima over every allowed phase representative. For $`K>4m`$, optimality over all representatives is not asserted.
 
 For a finite-size expression, write $`K=4mJ+s`$ with integers $`J\ge0`$ and $`0\le s<4m`$. Then
 
@@ -269,6 +269,46 @@ has exact closure and produces $`A_t`$ through (4). It uses only the first posit
 where the lower bound uses the top-right matrix entry $`(B_t)_{1K}=(2t)^{K-1}`$. This action is also the prescribed-matrix optimum. At fixed duration the fluence diverges; enforcing a fixed peak-force bound instead requires stretching the pulse. Neither choice gives a low-cost implementation. For $`K=1`$ the first harmonics already realize the target exactly, so the approximation statement is trivial. $`\square`$
 
 The proposition exposes a genuine boundary between exact capacity and fixed-error resource bounds. The action converse remains valid because it charges the large surviving singular values. The simpler two-pair shear example in [gate-layer bounds](gate_layer_bounds.md#8-why-approximate-rank-is-insufficient) gives a numerically well-conditioned illustration of the same issue.
+
+## 7. Exposure, total force, and compensated damping
+
+The total squared coefficient force of (3) is constant in time:
+
+```math
+\sum_{j,\ell}|u_{j\ell}(t)|^2
+=\frac{\pi^2}{2T^2}\sum_{r=1}^K w_r.
+\qquad\text{(27)}
+```
+
+It therefore meets a total cap $`P`$ at $`T^2\ge(\pi^2/(2P))\sum_rw_r`$, with no extra peak factor. This is a different constraint from bounding every individual qubit by $`g`$.
+
+For the displacement paths (12), the integrated basis-averaged occupation is
+
+```math
+X=\int_0^T\sum_{j,\ell}|\alpha_{j\ell}(t)|^2dt
+=\frac T4\sum_{r=1}^K\frac1{w_r}.
+\qquad\text{(28)}
+```
+
+Under common-rate vacuum damping, these same paths remain exactly closed if driven by $`u=\dot\alpha+\kappa\alpha/2`$. Their geometric phase is unchanged, but the [actual channel](loss_and_frontier.md#1-exact-channel-including-the-imaginary-trajectory-gram-matrix) has environmental dephasing. The paid fluence and exact peak magnitude of either qubit in a pair at harmonic $`n`$ are
+
+```math
+\mathcal E=\frac{\pi^2}{2T}\sum_rw_r
++\frac{\kappa^2T}{16}\sum_r\frac1{w_r},\qquad
+\max_t|u_j(t)|=
+\frac{\sqrt{(2\pi n/T)^2+\kappa^2/4}+\kappa/2}{4\sqrt n}.
+\qquad\text{(29)}
+```
+
+The maximum follows by writing the force as the sum of one rotating complex number of magnitude $`\sqrt{(2\pi n/T)^2+\kappa^2/4}/(4\sqrt n)`$ and a constant of magnitude $`\kappa/(8\sqrt n)`$. The relative phase covers a full circle. Thus this particular compensated path respects the per-qubit cap precisely when $`\kappa<4g\sqrt n`$ and
+
+```math
+T\ge\frac{\pi\sqrt n}{2g\sqrt{1-\kappa/(4g\sqrt n)}}
+\qquad\text{for every occupied }n.
+\qquad\text{(30)}
+```
+
+These formulas establish closure and physical-force feasibility, not accuracy of the noisy gate. The [hardware example](hardware_resources.md#10-a-damped-matching-with-an-actual-peak-force-cap) compares their exposures to a global error target; the exact fixed-matrix [frontier](loss_and_frontier.md) uses more general trajectories.
 
 ## Verification
 

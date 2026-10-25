@@ -1,0 +1,167 @@
+{
+  "schema_version": 1,
+  "status": "pass",
+  "matching_resources": {
+    "cases": [
+      [
+        1,
+        1
+      ],
+      [
+        3,
+        1
+      ],
+      [
+        9,
+        1
+      ],
+      [
+        11,
+        2
+      ],
+      [
+        9,
+        4
+      ]
+    ],
+    "grid_points": 6001,
+    "residuals_below": 1e-09,
+    "individual_force_cap": 1.0,
+    "exposure_and_constant_total_power": true,
+    "sharp_cross_block_action_attained": true
+  },
+  "sharp_completions": {
+    "sharp_completions": 3,
+    "cross_block_shape": [
+      13,
+      11
+    ],
+    "sampled_other_completions": 24,
+    "residual_below": 1e-10,
+    "sharp_factor_4pi": true
+  },
+  "fixed_error_bounds": {
+    "weighted_perturbation_cases": 36,
+    "all_size_constant_cases": 1024,
+    "largest_pairs": 256,
+    "sharp_weighted_bound_and_positive_combination": true
+  },
+  "spectral_frontier": {
+    "phase_frontier_constructions": 6,
+    "phase_matrix_shape": [
+      8,
+      8
+    ],
+    "signed_nonzero_spectrum": [
+      2.2,
+      1.4,
+      0.8,
+      0.3,
+      -1.9,
+      -0.9,
+      -0.2
+    ],
+    "phase_and_exposure_error_below": 1e-09,
+    "closure_error_below": 1e-12,
+    "paid_force_error_below": 1e-08,
+    "finite_difference_grid_points": [
+      120,
+      240
+    ],
+    "spectrum_error_decreases_by_factor_above": 3
+  },
+  "damped_channel": {
+    "oscillator_levels": 12,
+    "kappa": 0.7,
+    "T": 1.0,
+    "coherences_checked": 16,
+    "channel_multiplier_error_below": 2e-08,
+    "nonzero_imaginary_gram_and_detectable_skew_phase": true
+  },
+  "resource_examples": {
+    "model_only": true,
+    "damped_circle_table": [
+      {
+        "pairs": 256,
+        "modes": 1,
+        "kappa_over_g": 0.001,
+        "highest_harmonic": 64,
+        "gT": 12.566567,
+        "gX": 59.614423,
+        "paid_force_action_over_g": 3267.205323,
+        "highest_in_interval_angular_frequency_over_g": 31.9995,
+        "half_diamond_error_lower_bound": 0.056198,
+        "maximum_individual_force_over_g": 1.0,
+        "conservative_total_peak_branch_occupation_bound": 3411.524421
+      },
+      {
+        "pairs": 256,
+        "modes": 4,
+        "kappa_over_g": 0.001,
+        "highest_harmonic": 16,
+        "gT": 6.283382,
+        "gX": 84.969642,
+        "paid_force_action_over_g": 1708.973017,
+        "highest_in_interval_angular_frequency_over_g": 15.9995,
+        "half_diamond_error_lower_bound": 0.078142,
+        "maximum_individual_force_over_g": 1.0,
+        "conservative_total_peak_branch_occupation_bound": 2842.164745
+      },
+      {
+        "pairs": 256,
+        "modes": 16,
+        "kappa_over_g": 0.001,
+        "highest_harmonic": 4,
+        "gT": 3.141789,
+        "gX": 104.726301,
+        "paid_force_action_over_g": 1005.246842,
+        "highest_in_interval_angular_frequency_over_g": 7.9995,
+        "half_diamond_error_lower_bound": 0.094486,
+        "maximum_individual_force_over_g": 1.0,
+        "conservative_total_peak_branch_occupation_bound": 1984.819473
+      },
+      {
+        "pairs": 256,
+        "modes": 64,
+        "kappa_over_g": 0.001,
+        "highest_harmonic": 1,
+        "gT": 1.570993,
+        "gX": 100.543534,
+        "paid_force_action_over_g": 804.147207,
+        "highest_in_interval_angular_frequency_over_g": 3.9995,
+        "half_diamond_error_lower_bound": 0.091079,
+        "maximum_individual_force_over_g": 1.0,
+        "conservative_total_peak_branch_occupation_bound": 1024.0
+      }
+    ],
+    "noisy_time_converse": {
+      "pairs": 256,
+      "epsilon": 0.01,
+      "kappa_over_g": 0.001,
+      "gT_lower_bound": 7.791598
+    },
+    "fixed_A_frontier_endpoints": [
+      {
+        "modes": 1,
+        "paid_action_times_T_min": 2684.540849,
+        "X_over_T_at_min": 3.380577
+      },
+      {
+        "modes": 4,
+        "paid_action_times_T_min": 789.589185,
+        "X_over_T_at_min": 8.332737
+      },
+      {
+        "modes": 16,
+        "paid_action_times_T_min": 315.867338,
+        "X_over_T_at_min": 15.997974
+      }
+    ],
+    "domains": {
+      "panel_A": "Lossless, individual coefficient-force cap; all phase-lift converse versus a particular attaining construction.",
+      "panel_B": "Fixed A, fixed T and kappa, no instantaneous-force cap; exact action/exposure Pareto frontier.",
+      "table": "Damped, compensated circular pulses satisfying the individual force cap; error entries are rigorous lower bounds."
+    }
+  },
+  "scope": "Finite construction, convention, and formula checks; analytical proofs remain necessary."
+}

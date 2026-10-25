@@ -1,67 +1,36 @@
 # Quantum Bus Parallelism
 
-This repository studies the force, time, and physical-mode resources required
-for a layer of disjoint geometric entangling gates through a shared harmonic bus.
-The complete scientific account is organized by topic under science/.
+> Resource laws for independent geometric entangling gates through a shared harmonic bus: phase-equivalence-invariant force/time bounds, attaining pulses, and a vacuum-loss drive–exposure frontier.
 
-Canonical entrypoints:
-- README.md: scientific question, scaling law, direct proof route, reproduction
-  command, physical scope, purpose and contact.
-- science/model.md: Hamiltonian, exact closure, target matching, local-Z
-  equivalence, half-diamond error, force constraints, exact statements and route.
-- science/spectral_cost.md: exact weighted spectral action for a prescribed full
-  phase matrix, L2/H1 Fourier justification, lower bound and attaining loops.
-- science/gate_layer_bounds.md: all-wrap determinant invariant, fixed-error
-  phase lifting, perturbation bound and mode-force-time lower bounds.
-- science/matching_construction.md: explicit mode, harmonic, sign and quadrature
-  allocation, exact gate, peak force, bandwidth and the finite-harmonic boundary.
-- science/hardware_resources.md: physical mode counting, longitudinal resonator
-  mapping, participation restrictions, bandwidth, excursion and device limits.
-- references/related_work.md: primary-source comparisons and attribution of
-  imported mathematical methods and established quantum constructions.
-- references/references.bib: structured primary bibliography.
-- learning/HAEFFNER_BRIDGE.md: the single selected educational anchor, Häffner,
-  Roos and Blatt (2008), with focused section pointers, notation and assumption
-  translation, a complete single-pair loop, and the bridge to the project.
-- learning/MILESTONES.md: exactly 30 reader-independent understanding targets,
-  their prerequisites, conceptual connections and authoritative source routes.
-- verification/README.md: commands, expected outputs and the limits of checks.
-- verification/verify_bus.py: deterministic numerical verification runner.
+## Reading routes
 
-Reader routes:
-- Story: model, gate-layer bounds, matching construction, hardware resources.
-- Study: HAEFFNER_BRIDGE, MILESTONES, then each milestone's canonical science
-  pointers. The two phases progress from local objects to a global account.
-- Theorems: model definitions, spectral cost, full gate-layer proofs, construction.
-- Hardware interpretation: model assumptions, hardware resources, related work.
-- Reproduction: verification guide, code and committed reference output.
+- **Overview:** [README](README.md) → [scientific route](science/README.md).
+- **Lossless theorem:** [model](science/model.md) → [spectral cost](science/spectral_cost.md) → [gate-layer bounds](science/gate_layer_bounds.md) → [matching construction](science/matching_construction.md).
+- **Loss and architecture:** [vacuum channel and fixed-matrix frontier](science/loss_and_frontier.md) → [hardware resources](science/hardware_resources.md).
+- **Study:** [Häffner–Roos–Blatt bridge](learning/HAEFFNER_BRIDGE.md) → [30-milestone map](learning/MILESTONES.md) → each milestone's scientific pointers. The sole educational anchor is Häffner, Roos and Blatt (2008); it supplies physical foundations, while the project pages own the resource proofs.
+- **Reproduction:** [verification guide](verification/README.md) → `python3 verification/run_all.py`. The original [lossless runner](verification/verify_bus.py) remains available through the common command.
 
-Preserve these distinctions:
-- K counts disjoint pairs; the number of data qubits is 2K. m counts dynamical
-  canonical oscillator modes, not modulation tones or drive envelopes.
-- H/hbar=i sum Z_j(u_jl a_l^dagger-u_jl^* a_l), U=exp(i Z^T A Z).
-  Off-diagonal pair angle is 2 A_ij; the diagonal of A is only global phase.
-- The spectral theorem optimizes a prescribed full A. A physical-gate lower
-  bound must also allow diagonal gauges, local Z corrections and phase wraps.
-- The fixed-error theorem uses half-diamond error for the entire unitary layer,
-  with fixed epsilon<1/sqrt(2), and still requires exact oscillator closure.
-- The duration bound charges sum_l |u_jl(t)|^2 <= g^2 separately for each qubit.
-  Effective-force fluence is not automatically energy in joules.
-- The upper construction is exact and matches scaling order, not every finite
-  constant in the lower bound. It assumes independent complex force control.
-- The optimal few-mode construction uses growing modulation bandwidth and
-  can require growing oscillator excursions; these are not free hardware claims.
-- The converse survives hardware control restrictions within the stated model.
-  Attainment on a device requires verifying its accessible force functions.
-- Intermediate noncommuting spin control, direct qubit interactions, nonlinear
-  couplings and active squeezing are not included in the primitive model.
-- Approximate rank alone cannot prove the robust cost law: large phase wraps
-  can give low-rank approximations at diverging force fluence.
-- Classical spectral geometry and parallel entangling constructions are prior
-  work. Use references/related_work.md before making an originality claim.
-- Häffner, Roos and Blatt's 2008 review is the only educational anchor. It
-  supplies trapped-ion and geometric-gate foundations; the project develops
-  the spectral, phase-equivalence and fixed-error resource arguments. Other
-  research citations retain their attribution and verification roles.
-- Finite calculations check their stated cases and normalizations; the written
-  proofs establish universal results. Model review is not external peer review.
+## Find an authoritative answer
+
+| Question | Source |
+|---|---|
+| What is a physical mode, which forces are allowed, and how is whole-layer half-diamond error defined? | [Model](science/model.md) |
+| What is the prescribed-matrix optimum and sharp cross-block completion? | [Spectral cost](science/spectral_cost.md) |
+| Why do phase wraps, local Z corrections and fixed unitary error preserve the lower bound? | [Gate-layer bounds](science/gate_layer_bounds.md) |
+| What are the exact pulses, bandwidth/excursion costs and harmonic-capacity boundary? | [Matching construction](science/matching_construction.md) |
+| Why must the imaginary bath Gram phase be retained, and what is the loss floor relative to any unitary? | [Vacuum loss](science/loss_and_frontier.md) |
+| What does the exact paid-force/exposure frontier optimize? | [Fixed-matrix frontier](science/loss_and_frontier.md#5-paid-damping-and-the-complete-fixed-a-exposure-frontier) |
+| How do force caps, participation patterns, occupation and memory affect implementation? | [Hardware resources](science/hardware_resources.md) |
+| What is inherited and what is the scope of the contribution? | [Related work](references/related_work.md) and [bibliography](references/references.bib) |
+
+## Scientific distinctions to preserve
+
+K counts disjoint pairs and there are 2K data qubits. m counts dynamical oscillator modes, distinct from control tones and drive envelopes. A is the real phase matrix in U=exp(i Z^T A Z); a physical pair angle is 2A_ij, while ordinary diagonal entries supply global phase. The spectral theorem fixes full A. A gate-level converse must allow diagonal gauges, local Z corrections and all equivalent phase wraps.
+
+The lossless theorem uses half-diamond error for the entire unitary layer, fixed below 1/sqrt(2), and exact oscillator closure. The direct noisy-channel converse requires half-diamond error below 1/(2sqrt(2)) and uses delta=arcsin(2epsilon). Approximate rank alone cannot prove the robust resource law: small error after large phase wrapping can coexist with diverging force fluence.
+
+The force cap sums squared couplings across modes separately for each qubit. Effective-force fluence is not energy in joules. Attainment assumes independent complex controls, growing modulation bandwidth where required, and excursions compatible with the ideal harmonic model. Hardware restrictions within that model inherit the lower bound; they need a separate attainment check.
+
+Vacuum Markov loss uses the actual closed damped trajectory D, with paid force u=dot(D)+kappa D/2. Paid fluence is derivative action plus kappa^2 X/4. Retain both real and imaginary parts of the trajectory Gram matrix. X is integrated basis-averaged displacement occupation, distinct from maximum-branch occupation and full gate error. The exact frontier fixes A, time and mode count; it imposes no pointwise force cap and does not solve noisy gate synthesis over all phase representatives.
+
+The primitive interaction has a fixed commuting spin axis. Noncommuting intermediate control, direct qubit interactions, nonlinear buses, active squeezing and extra coherent resources need their own models. Preserve exact assumptions and attribution when editing summaries; finite calculations support their stated cases while analytical proofs establish universal claims. [Provenance](references/PROVENANCE.md) supplies durable historical sources.
