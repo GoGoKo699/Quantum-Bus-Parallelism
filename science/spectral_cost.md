@@ -1,385 +1,356 @@
-# Exact spectral cost of closed conditional displacements
+# Exact spectral cost of closed linear-bus gates
 
-For commuting forces through $`m`$ harmonic modes, the least fluence needed to generate a prescribed real phase matrix is an integer-weighted sum of its positive and negative eigenvalues. The weights count how many independent real directions fit at each Fourier harmonic. This section proves the exact result for square-integrable complex forces, including infinite Fourier series, and gives controls that attain it.
+This page proves the minimum trajectory energy for a specified real symmetric geometric-phase matrix, and the sharp consequence when only a cross block is fixed. The gate-level minimization over physically equivalent phase matrices is treated in [matching.md](matching.md).
 
-The geometric mechanism belongs to the spectral area-minimization tradition of [Brockett](https://hrl.harvard.edu/publications/brockett81control.pdf) and [Rizzi–Serres](https://doi.org/10.1090/proc/13658). The connection to that work is made explicit below. The further optimization over physically equivalent gates is a separate step, developed in [gate-layer bounds](gate_layer_bounds.md).
+The weighted spectral minimization method is inherited from bilinear optimal control and matrix-area geometry. In particular, Wong and Baillieul give an exact weighted singular-value control cost in their Theorem 5.1 and its Brockett–Heisenberg specialization in Corollary 5.1 [1]. Closed-loop frequency allocation also appears in Brockett's Theorem 2 [2] and the vertical-distance formula of Rizzi and Serres, Appendix A, Proposition 15 [3]. The proofs below establish the symmetric phase-matrix specialization, its real multiplicity for $`b`$ complex buses, and the normalization needed for quantum gates. The inherited spectral method is not presented as a new general principle.
 
-## 1. Control class and normalization
+## 1. Model, regularity, and normalization
 
-Use the Hamiltonian and interaction picture of the [model](model.md), allowing any number $`n\ge1`$ of qubits:
-
-```math
-\frac{H(t)}{\hbar}
-=i\sum_{j=1}^{n}\sum_{\ell=1}^{m}
-Z_j\bigl[u_{j\ell}(t)a_\ell^\dagger-u_{j\ell}(t)^*a_\ell\bigr],
-\qquad m\ge1,\quad T>0.
-\qquad\text{(1)}
-```
-
-For each mode, collect the forces and displacements into vectors $`u_\ell,\alpha_\ell\in\mathbb C^n`$. The admissible forces satisfy
+There are $`n`$ commuting spin observables $`Z_i`$, with eigenvalues $`z_i\in\{-1,1\}`$, and $`b\geq1`$ independent complex harmonic-bus coordinates. Put the conditional displacement coefficients into a matrix
 
 ```math
-u_\ell\in L^2([0,T];\mathbb C^n),\qquad
-\alpha_\ell(t)=\int_0^t u_\ell(s)\,ds,\qquad
-\alpha_\ell(0)=\alpha_\ell(T)=0.
-\qquad\text{(2)}
+A(t)=[\alpha_1(t)\ \cdots\ \alpha_n(t)]
+\in\mathbb{C}^{b\times n}.
 ```
 
-Equivalently, $`\alpha_\ell`$ is an $`H^1`$ path with zero endpoint values. In one time dimension an $`H^1`$ path has an absolutely continuous representative, so these endpoint conditions and the integrals below are well defined. Closure is imposed for every qubit and every mode; the final displacement then vanishes for every computational-basis configuration, returning the bus in the interaction picture for any initial bus state.
+Every entry belongs to $`H_0^1(0,T)`$: it has a square-integrable weak derivative and its continuous representative obeys
 
-The spin propagator and fluence are
+**(SC.1)**
 
 ```math
-U_A=\exp(iZ^{\mathsf T}AZ),\qquad
-A_{ij}=\mathrm{Im}\sum_{\ell=1}^{m}
-\int_0^T\alpha_{i\ell}(t)^*\dot\alpha_{j\ell}(t)\,dt,
-\qquad
-\mathcal E=\int_0^T\sum_{\ell=1}^{m}\lVert u_\ell(t)\rVert^2\,dt.
-\qquad\text{(3)}
+A(0)=A(T)=0.
 ```
 
-Integration by parts gives
+Thus every computational branch $`A(t)z`$ returns exactly to the same bus state. No finite bus Fock-space cutoff or peak branch occupation bound is imposed.
 
-```math
-\int_0^T\alpha_{i\ell}^*\dot\alpha_{j\ell}\,dt
-=-\left(\int_0^T\alpha_{j\ell}^*\dot\alpha_{i\ell}\,dt\right)^*,
-\qquad\text{(4)}
-```
+Define the entrywise real and imaginary parts
 
-so $`A`$ is real symmetric. In particular, the coefficient of $`Z_iZ_j`$ for $`i<j`$ is $`2A_{ij}`$, while $`\mathrm{tr}A`$ contributes only a global phase. The matrix $`A`$ and the action $`T\mathcal E`$ are dimensionless; $`\mathcal E`$ is the fluence of the effective Hamiltonian forces, with units of inverse time.
-
-For smooth controls, (3) follows directly from the Weyl displacement composition law. The same formula holds for (2): approximate the zero-mean $`L^2`$ forces by zero-mean Fourier polynomials. Their primitives converge uniformly, their phase integrals converge, and Weyl displacements are strongly continuous in their amplitudes. At closure the propagators are finite-dimensional spin unitaries tensored with the bus identity, so their endpoint convergence is also in operator norm. This gives an extension to the stated control class without relying on a formal manipulation of unbounded oscillator operators.
-
-## 2. Exact minimum for a prescribed full matrix
-
-For $`A\in\mathrm{Sym}_n(\mathbb R)`$, let $`\lambda_r^+(A)`$ be its positive eigenvalues in nonincreasing order and let $`\lambda_r^-(A)`$ be the magnitudes of its negative eigenvalues in nonincreasing order. Append zeros to each list. Define
-
-```math
-\Phi_m(A)=\sum_{r=1}^{n}
-\left\lceil\frac r{2m}\right\rceil
-\bigl[\lambda_r^+(A)+\lambda_r^-(A)\bigr].
-\qquad\text{(5)}
-```
-
-**Theorem 1 — spectral fluence.** For fixed $`T>0`$ and $`m\ge1`$, the minimum of (3) over all controls (2) producing a prescribed full real symmetric matrix $`A`$ is
-
-```math
-\boxed{\mathcal E_{\min}(A,T,m)=\frac{2\pi}{T}\,\Phi_m(A).}
-\qquad\text{(6)}
-```
-
-The prescribed data include the diagonal of $`A`$. The minimum is attained by a finite Fourier sum. No temporal-frequency cutoff, pulse-segmentation constraint, or bound on instantaneous force is assumed in this theorem.
-
-The positive and negative spectra have separate harmonic resources. At a fixed positive harmonic magnitude $`k`$, the $`m`$ complex mode amplitudes supply at most $`2m`$ real directions of each sign. A direction assigned to harmonic $`k`$ costs $`2\pi k`$ units of action per unit eigenvalue magnitude.
-
-### 2.1 Fourier representation for the entire control class
-
-For each mode define the Fourier coefficients of the force by
-
-```math
-b_{\ell k}=\frac1T\int_0^T u_\ell(t)e^{-2\pi ikt/T}\,dt,
-\qquad k\in\mathbb Z.
-\qquad\text{(7)}
-```
-
-Closure is exactly $`b_{\ell0}=0`$. Put
-
-```math
-c_{\ell k}=\frac{T}{2\pi ik}\,b_{\ell k},\qquad k\ne0.
-\qquad\text{(8)}
-```
-
-Then
-
-```math
-\alpha_\ell(t)=\sum_{k\ne0}
-c_{\ell k}\bigl(e^{2\pi ikt/T}-1\bigr).
-\qquad\text{(9)}
-```
-
-Parseval's identity gives $`\sum_{\ell,k\ne0}k^2\lVert c_{\ell k}\rVert^2<\infty`$. In addition,
-
-```math
-\sum_{k\ne0}\lVert c_{\ell k}\rVert
-\le
-\left(\sum_{k\ne0}k^2\lVert c_{\ell k}\rVert^2\right)^{1/2}
-\left(\sum_{k\ne0}k^{-2}\right)^{1/2}<\infty.
-\qquad\text{(10)}
-```
-
-Thus (9) converges absolutely and uniformly. Its partial sums have zero values at both endpoints and their derivatives converge to $`u_\ell`$ in $`L^2`$. They converge to $`\alpha_\ell`$ in $`H^1`$ as well. Conversely, coefficients satisfying the weighted square-summability condition define an admissible path through (9).
-
-For a finite Fourier sum, orthogonality of the harmonics yields
-
-```math
-A=2\pi\sum_{\ell=1}^{m}\sum_{k\ne0}
-k\,\mathrm{Re}(c_{\ell k}c_{\ell k}^\dagger),
-\qquad
-T\mathcal E=4\pi^2\sum_{\ell=1}^{m}\sum_{k\ne0}
-k^2\lVert c_{\ell k}\rVert^2.
-\qquad\text{(11)}
-```
-
-These identities extend to the infinite series. The phase integral is continuous under uniform convergence of the paths and $`L^2`$ convergence of their derivatives. The matrix series is absolutely convergent in trace norm because
-
-```math
-\sum_{\ell,k\ne0}|k|
-\left\lVert\mathrm{Re}(c_{\ell k}c_{\ell k}^\dagger)\right\rVert_1
-=\sum_{\ell,k\ne0}|k|\lVert c_{\ell k}\rVert^2
-\le\sum_{\ell,k\ne0}k^2\lVert c_{\ell k}\rVert^2<\infty.
-\qquad\text{(12)}
-```
-
-Here $`\mathrm{Re}(cc^\dagger)`$ is positive semidefinite as a real matrix: writing $`c=x+iy`$ gives $`\mathrm{Re}(cc^\dagger)=xx^{\mathsf T}+yy^{\mathsf T}`$. This also proves the trace-norm equality used in (12). Positive and negative Fourier indices are independent because the paths and forces are complex; no conjugacy constraint relates them.
-
-### 2.2 A weighted positive-decomposition lemma
-
-**Lemma 2.** Suppose $`P_k\succeq0`$ are real symmetric matrices of size $`n`$, $`\mathrm{rank}P_k\le d`$, and $`\sum_{k\ge1}k\mathrm{tr}P_k<\infty`$. If $`P=\sum_{k\ge1}P_k`$ and $`\lambda_1(P)\ge\cdots\ge\lambda_n(P)\ge0`$, then
-
-```math
-\sum_{k\ge1}k\mathrm{tr}P_k
-\ge\sum_{r=1}^{n}\left\lceil\frac r d\right\rceil\lambda_r(P).
-\qquad\text{(13)}
-```
-
-**Proof.** Let $`S_q=\sum_{k=1}^{q}P_k`$, with $`S_0=0`$. Then $`0\preceq S_q\preceq P`$ and $`\mathrm{rank}S_q\le dq`$. If $`\Pi_q`$ is the orthogonal projection onto the range of $`S_q`$, the variational principle for sums of ordered eigenvalues gives
-
-```math
-\mathrm{tr}S_q
-=\mathrm{tr}(\Pi_q S_q)
-\le\mathrm{tr}(\Pi_q P)
-\le\sum_{r=1}^{\min(dq,n)}\lambda_r(P).
-\qquad\text{(14)}
-```
-
-Consequently,
-
-```math
-\mathrm{tr}(P-S_q)\ge\sum_{r>dq}\lambda_r(P).
-\qquad\text{(15)}
-```
-
-Sum this inequality over $`q=0,1,\ldots`$. All summands are nonnegative, so Tonelli's theorem applies:
+**(SC.2)**
 
 ```math
 \begin{aligned}
-\sum_{k\ge1}k\mathrm{tr}P_k
-&=\sum_{q\ge0}\mathrm{tr}(P-S_q)\\
-&\ge\sum_{q\ge0}\sum_{r>dq}\lambda_r(P)
-=\sum_{r=1}^{n}\left\lceil\frac r d\right\rceil\lambda_r(P).
+F&=\mathrm{Re}\int_0^T A^\dagger A\,dt,\\
+K&=\mathrm{Im}\int_0^T A^\dagger\dot A\,dt,\\
+E_{\rm mat}&=\mathrm{Re}\int_0^T\dot A^\dagger\dot A\,dt,
+\qquad
+X=\mathrm{tr}F,\quad E=\mathrm{tr}E_{\rm mat}.
 \end{aligned}
-\qquad\text{(16)}
 ```
 
-Each $`P_k`$ occurs in exactly $`k`$ of the tails on the first line; each eigenvalue $`\lambda_r(P)`$ occurs in exactly $`\lceil r/d\rceil`$ tails on the second. This proves the lemma. Equality is obtained by grouping the descending spectral rank-one terms of $`P`$ into successive batches of at most $`d`$. $`\square`$
+Integration by parts gives
+$`\int A^\dagger\dot A=-(\int A^\dagger\dot A)^\dagger`$, so $`K`$ is real symmetric. The ideal spin gate is
 
-### 2.3 Signed contributions and the lower bound
-
-Separate the positive and negative Fourier indices in (11). For $`k\ge1`$, define
+**(SC.3)**
 
 ```math
-P_k=2\pi k\sum_{\ell=1}^{m}
-\mathrm{Re}(c_{\ell k}c_{\ell k}^\dagger),
-\qquad
-Q_k=2\pi k\sum_{\ell=1}^{m}
-\mathrm{Re}(c_{\ell,-k}c_{\ell,-k}^\dagger).
-\qquad\text{(17)}
+U_K\vert z\rangle=e^{iz^{\mathsf{T}}Kz}\vert z\rangle.
 ```
 
-Both are positive semidefinite and each has rank at most $`2m`$. With $`P=\sum_{k\ge1}P_k`$ and $`Q=\sum_{k\ge1}Q_k`$, equations (11) become
+Consequently the coefficient of $`Z_iZ_j`$, for $`i\lt j`$, is $`2K_{ij}`$. The diagonal of $`K`$ contributes only the global phase $`\mathrm{tr}K`$. Fixing all of $`K`$ is therefore a stronger requirement than fixing the physical spin gate.
+
+At zero loss the coefficient-force matrix is $`u=\dot A`$, and $`E=\int\Vert u\Vert _F^2dt`$. With dimensionless displacement, $`K`$ is dimensionless, $`X`$ has time units, and $`E`$ has inverse-time units. This is an independent coupling-coefficient budget. It is not $`\max_z\Vert u(t)z\Vert ^2`$, a maximum bus occupation, or a bound on the energy in an arbitrary computational branch.
+
+## 2. Fixed-matrix optimum
+
+Write the positive eigenvalues of $`K`$ in descending order as
+$`\lambda_1^+\geq\lambda_2^+\geq\cdots\gt 0`$. Write the magnitudes of its negative eigenvalues, independently in descending order, as
+$`\lambda_1^-\geq\lambda_2^-\geq\cdots\gt 0`$. Empty lists contribute zero. Define
+
+**(SC.4)**
 
 ```math
-A=P-Q,\qquad
-\frac{T\mathcal E}{2\pi}
-=\sum_{k\ge1}k\bigl[\mathrm{tr}P_k+\mathrm{tr}Q_k\bigr].
-\qquad\text{(18)}
+\Phi_b(K)=
+\sum_{j\geq1}\left\lceil\frac{j}{2b}\right\rceil\lambda_j^+
++
+\sum_{j\geq1}\left\lceil\frac{j}{2b}\right\rceil\lambda_j^-.
 ```
 
-Apply Lemma 2 separately to $`P`$ and $`Q`$ with $`d=2m`$. Since $`A\preceq P`$ and $`-A\preceq Q`$, monotonicity of ordered eigenvalues implies
+**Theorem SC1.** For every real symmetric $`K`$, every $`T\gt 0`$, and every integer $`b\geq1`$,
 
-```math
-\lambda_r(P)\ge\lambda_r^+(A),\qquad
-\lambda_r(Q)\ge\lambda_r^-(A)
-\quad (1\le r\le n).
-\qquad\text{(19)}
-```
-
-The zero padding causes no difficulty because $`P`$ and $`Q`$ are positive semidefinite. Therefore
-
-```math
-\frac{T\mathcal E}{2\pi}
-\ge\sum_{r=1}^{n}\left\lceil\frac r{2m}\right\rceil
-\bigl[\lambda_r(P)+\lambda_r(Q)\bigr]
-\ge\Phi_m(A).
-\qquad\text{(20)}
-```
-
-This step permits arbitrary cancellation between the two signs, including noncommuting $`P`$ and $`Q`$. Only the eigenvalue inequalities (19) are used. The stronger matrix assertion $`P\succeq A_+`$, with $`A_+`$ the positive spectral part of $`A`$, is generally false and is not needed.
-
-### 2.4 Attainment with finitely many harmonics
-
-Choose real orthonormal eigenvectors and set
-
-```math
-p_r=\sqrt{\lambda_r^+(A)}\,v_r^+,
-\qquad
-q_r=\sqrt{\lambda_r^-(A)}\,v_r^-,
-\qquad
-A=\sum_r p_rp_r^{\mathsf T}-\sum_r q_rq_r^{\mathsf T}.
-\qquad\text{(21)}
-```
-
-Set $`p_r`$ or $`q_r`$ to zero after the corresponding list ends. For each $`k\ge1`$ and $`1\le\ell\le m`$, put
-
-```math
-r_1=2m(k-1)+2\ell-1,\qquad r_2=r_1+1,
-\qquad\text{(22)}
-```
-
-and choose
-
-```math
-c_{\ell k}=\frac{p_{r_1}+ip_{r_2}}{\sqrt{2\pi k}},
-\qquad
-c_{\ell,-k}=\frac{q_{r_1}+iq_{r_2}}{\sqrt{2\pi k}}.
-\qquad\text{(23)}
-```
-
-The real and imaginary quadratures contribute their two real rank-one matrices without cross terms in $`\mathrm{Re}(cc^\dagger)`$. Thus (11) gives exactly the prescribed $`A`$. The energy identity gives
-
-```math
-T\mathcal E
-=2\pi\sum_{k\ge1}k\sum_{r=2m(k-1)+1}^{2mk}
-\bigl[\lambda_r^+(A)+\lambda_r^-(A)\bigr]
-=2\pi\Phi_m(A).
-\qquad\text{(24)}
-```
-
-Use (9) for the path and differentiate it for the force. Closure is exact, and only harmonics with
-
-```math
-1\le |k|\le
-\left\lceil\frac{\max(n_+,n_-)}{2m}\right\rceil
-\qquad\text{(25)}
-```
-
-are needed, where $`n_+`$ and $`n_-`$ are the numbers of positive and negative eigenvalues. For $`A=0`$, the zero control suffices. This completes the proof of Theorem 1.
-
-For a normalization check, one scalar positive entry $`A=a`$ is produced by $`\alpha(t)=\sqrt{a/(2\pi)}(e^{2\pi it/T}-1)`$. Its phase integral is $`a`$ and its action is $`2\pi a`$. The phase integral is twice the ordinary oriented area of this circle in its two real quadratures.
-
-## 3. A bound in terms of singular values
-
-Let $`s_1(A)\ge\cdots\ge s_n(A)\ge0`$ be the singular values of $`A`$. They are the merged positive and negative eigenvalue magnitudes. Theorem 1 implies
+**(SC.5)**
 
 ```math
 \boxed{
-T\mathcal E\ge2\pi\sum_{r=1}^{n}
-\left\lceil\frac r{4m}\right\rceil s_r(A).
+\min_{\substack{A\in H_0^1(0,T;\mathbb{C}^{b\times n})\\
+\mathrm{Im}\int A^\dagger\dot A=K}}
+\int_0^T\Vert \dot A\Vert _F^2dt
+=\frac{2\pi}{T}\Phi_b(K).
 }
-\qquad\text{(26)}
 ```
 
-To see this directly, express the two weighted spectral sums in (5) as tails:
+The minimum is attained by a finite sum of closed circular Fourier trajectories. A signed temporal harmonic supports at most $`2b`$ real phase directions, because each complex bus supplies two real quadratures.
+
+### 2.1. Fourier representation, including the endpoint issue
+
+Since the endpoint traces agree, $`A`$ has a periodic $`H^1`$ extension. Let its Fourier coefficients be $`V_k`$, with frequencies $`\omega_k=2\pi k/T`$. Then
 
 ```math
-\Phi_m(A)=\sum_{q\ge0}
-\left[\sum_{r>2mq}\lambda_r^+(A)
-+\sum_{r>2mq}\lambda_r^-(A)\right].
-\qquad\text{(27)}
+\sum_{k\in\mathbb{Z}}(1+k^2)\Vert V_k\Vert _F^2\lt \infty.
 ```
 
-At each $`q`$, the two omitted prefixes contain at most $`4mq`$ singular values. Their sum is at most the sum of the $`4mq`$ largest singular values. Hence the bracket in (27) is at least $`\sum_{r>4mq}s_r(A)`$. Summing the tails proves (26).
-
-Equation (26) relaxes the distinction between positive and negative harmonic resources. It can be weaker than the exact formula for a specified $`A`$, but its dependence only on singular values makes it useful for submatrix and determinant arguments. It is the form used in the [physical gate converse](gate_layer_bounds.md).
-
-## 4. A phase matrix and a physical gate have different optimization domains
-
-Fix a quadratic target $`U_{A_0}=\exp(iZ^{\mathsf T}A_0Z)`$ and permit a global phase and free final local $`Z`$ rotations. The real symmetric matrices representing the same target are exactly
+For the nonconstant coefficients, Cauchy–Schwarz gives
 
 ```math
-\mathscr R(A_0)=
-\left\{A_0+D+\frac\pi4N:
-D\text{ real diagonal},\quad
-N=N^{\mathsf T},\quad N_{ij}\in\mathbb Z,\quad N_{ii}=0\right\}.
-\qquad\text{(28)}
+\sum_{k\ne0}\Vert V_k\Vert _F
+\leq
+\left(\sum_{k\ne0}k^2\Vert V_k\Vert _F^2\right)^{1/2}
+\left(\sum_{k\ne0}k^{-2}\right)^{1/2}\lt \infty.
 ```
 
-For necessity, evaluate the relative phase on the four sign configurations obtained by independently flipping $`z_i,z_j\in\{\pm1\}`$. The mixed difference removes all local and constant phases and gives $`8(A-A_0)_{ij}\in2\pi\mathbb Z`$. For sufficiency, each permitted off-diagonal shift contributes
+The Fourier series therefore converges uniformly as well as in $`H^1`$. Its value at $`t=0`$ fixes
+$`V_0=-\sum_{k\ne0}V_k`$, and hence
+
+**(SC.6)**
 
 ```math
-\exp\!\left(\frac{i\pi}{2}N_{ij}Z_iZ_j\right)
-=i^{N_{ij}}(Z_iZ_j)^{N_{ij}},
-\qquad\text{(29)}
+A(t)=\sum_{k\ne0}V_k(e^{i\omega_kt}-1).
 ```
 
-a product of local $`Z`$ operators up to a global phase. The diagonal contributes only a global phase.
+The series for $`\dot A`$ converges in $`L^2`$. Products in the area integral converge in $`L^1`$ by Cauchy–Schwarz, so computing that integral from finite partial sums is legitimate. Parseval and Fourier orthogonality give
 
-It follows from Theorem 1 that the exact gate-level optimal action in this equivalence class is
+**(SC.7)**
 
 ```math
-\inf_{A\in\mathscr R(A_0)}2\pi\Phi_m(A).
-\qquad\text{(30)}
+\begin{aligned}
+K&=2\pi\sum_{k\ne0}k\,\mathrm{Re}(V_k^\dagger V_k),\\
+E&=\frac{4\pi^2}{T}\sum_{k\ne0}k^2\Vert V_k\Vert _F^2.
+\end{aligned}
 ```
 
-The freedom in (28) is essential: even the identity channel admits representatives with nonzero spectrum. A lower bound evaluated only at a chosen diagonal or a chosen real logarithm does not bound every realization of the physical gate. The [gate-layer analysis](gate_layer_bounds.md) controls the entire class (28), and its fixed-error extension, by a constraint on the cross block of the phase matrix. The [matching construction](matching_construction.md) chooses useful diagonal representatives and applies the harmonic allocation above to obtain the matching order of resource cost.
+The constant in (SC.6) does not contribute to $`K`$: its product with each derivative has zero time integral. The matrix series for $`K`$ is absolutely convergent in trace norm, since
+$`\sum \vert k\vert \Vert V_k\Vert _F^2\lt \infty`$.
 
-## 5. Relation to the classical spectral area problem
-
-Brockett's Theorem 2 and the explicit vertical-distance formula in Rizzi–Serres, Appendix A, Proposition 15, connect minimum control energy to integer-weighted area spectra. In the latter paper's normalization, let $`Y`$ be a real skew-symmetric area matrix with nonzero eigenvalues $`\pm i\mu_r`$, where $`\mu_1\ge\cdots\ge\mu_s>0`$. The minimum action for a closed real path with prescribed $`Y`$ is
+For $`k\geq1`$, set
 
 ```math
-\min T\int_0^T\lVert\dot q(t)\rVert^2\,dt
-=4\pi\sum_{r=1}^{s}r\mu_r,
+X_k=2\pi k\,\mathrm{Re}(V_k^\dagger V_k),
 \qquad
-Y=\frac12\int_0^T
-\bigl(q\dot q^{\mathsf T}-\dot q q^{\mathsf T}\bigr)\,dt.
-\qquad\text{(31)}
+Y_k=2\pi k\,\mathrm{Re}(V_{-k}^\dagger V_{-k}).
 ```
 
-This is their squared sub-Riemannian distance to a vertical endpoint; constant-speed parametrization identifies it with the minimum action. See [Rizzi–Serres, Appendix A](https://arxiv.org/html/1610.01596v2#A1), which also discusses the normalization difference from Brockett's formula.
+These are real positive semidefinite matrices of rank at most $`2b`$, and
 
-The [author-linked erratum](https://drive.google.com/file/d/1uSMry_CAEsKCGpL39tgO8ND7TX48HHLG/view) corrects a codimension statement in Proposition 4 and restores missing skew-symmetric $`J_2`$ blocks in Eq. (50). It leaves Proposition 15 and its distance formula, Eq. (48), unchanged; (31) uses that formula.
-
-The map to the present problem can be derived explicitly. Write $`\alpha_\ell=x_\ell+iy_\ell`$ and concatenate
+**(SC.8)**
 
 ```math
-q=(x_1,y_1,\ldots,x_m,y_m)\in\mathbb R^{2mn}.
-\qquad\text{(32)}
+K=\sum_{k\geq1}(X_k-Y_k),
+\qquad
+E=\frac{2\pi}{T}\sum_{k\geq1}k\,\mathrm{tr}(X_k+Y_k).
 ```
 
-Then $`\lVert\dot q\rVert^2=\sum_\ell\lVert u_\ell\rVert^2`$. For the area matrix in (31), integration by parts along the closed path gives
+The rank statement follows by writing a complex matrix as its real and imaginary parts:
+$`\mathrm{Re}(V^\dagger V)=(\mathrm{Re}V)^{\mathsf{T}}\mathrm{Re}V+ (\mathrm{Im}V)^{\mathsf{T}}\mathrm{Im}V`$.
+
+### 2.2. The rank-tail lower bound
+
+We use the following elementary fact. If $`P_k\succeq0`$ have rank at most $`r`$, their sum $`P`$ has finite trace, and $`\mu_j(P)`$ are its descending eigenvalues, then
+
+**(SC.9)**
 
 ```math
-Y_{x_{\ell,i},y_{\ell,j}}
-=\int_0^T x_{\ell,i}\dot y_{\ell,j}\,dt.
-\qquad\text{(33)}
+\sum_{k\geq1}k\,\mathrm{tr}P_k
+\geq
+\sum_j\left\lceil\frac{j}{r}\right\rceil\mu_j(P).
 ```
 
-Here the subscripts label coordinates of $`q`$. Consequently the phase observable is the linear image
+To prove it, fix $`s\geq1`$. The sum $`L_s=\sum_{k\lt s}P_k`$ has rank at most $`r(s-1)`$ and satisfies $`0\preceq L_s\preceq P`$. The variational principle for the sum of the largest eigenvalues implies
 
 ```math
-A_{ij}=\sum_{\ell=1}^{m}
-\left[Y_{x_{\ell,i},y_{\ell,j}}
-+Y_{x_{\ell,j},y_{\ell,i}}\right]
-\equiv\mathcal L(Y)_{ij}.
-\qquad\text{(34)}
+\mathrm{tr}(P-L_s)
+\geq\sum_{j\gt r(s-1)}\mu_j(P).
 ```
 
-Thus prescribing $`A`$ leaves many components of $`Y`$ free: the same-mode $`x`$–$`x`$ and $`y`$–$`y`$ areas, cross-mode areas, and parts of the $`x`$–$`y`$ blocks are unobserved. In geometric language, this is a quotient of the free step-two area system by a subspace of its center. In optimization language, it minimizes (31) over all skew area matrices satisfying $`\mathcal L(Y)=A`$.
+For completeness, take the orthogonal projection $`Q_s`$ onto the range of $`L_s`$. Then
+$`\mathrm{tr}L_s=\mathrm{tr}(Q_sL_s)\leq \mathrm{tr}(Q_sP)\leq\sum_{j\leq r(s-1)}\mu_j(P)`$.
+Summing over $`s`$, with nonnegative terms, proves (SC.9) by Tonelli's theorem.
 
-Equations (6) and (34) therefore give the explicit projected-area identity
+Apply (SC.9) to $`P_+=\sum X_k`$. Since $`P_+-K=\sum Y_k\succeq0`$, eigenvalue monotonicity gives
+$`\mu_j(P_+)\geq\lambda_j^+(K)`$ for every index in the positive list. Apply the same argument to $`P_-=\sum Y_k\succeq-K`$ and its negative list. Equation (SC.8) proves the lower bound in (SC.5). This argument remains valid for infinite Fourier series; all required sums are nonnegative and finite when $`E\lt \infty`$.
+
+### 2.3. Attainment and quadrature packing
+
+Let $`q_j^+`$ and $`q_j^-`$ be real orthonormal eigenvectors for the two sign lists. Put the first $`2b`$ positive eigenvectors into harmonic $`+1`$, the next $`2b`$ into harmonic $`+2`$, and continue. Treat the negative list independently at harmonics $`-1,-2,\ldots`$. Thus the desired positive contribution at harmonic $`k`$ is
 
 ```math
-\min_{\mathcal L(Y)=A}
-4\pi\sum_{r=1}^{s(Y)}r\mu_r(Y)
-=2\pi\Phi_m(A).
-\qquad\text{(35)}
+X_k=\sum_{2b(k-1)\lt j\leq2bk}
+\lambda_j^+q_j^+(q_j^+)^{\mathsf{T}},
 ```
 
-The Fourier proof evaluates this projection with its $`2m`$ real directions per sign and harmonic. The classical weighted-spectrum principle is the antecedent; the separate gate-equivalence and finite-error arguments are needed to obtain the architecture-level converse. The [related-work account](../references/related_work.md) places these mathematical and gate-synthesis ingredients in their broader context.
+with the analogous definition for $`Y_k`$.
 
-## Primary sources
+Every real positive semidefinite matrix $`G`$ of rank at most $`2b`$ is
+$`\mathrm{Re}(V^\dagger V)`$ for a $`b`$-by-$`n`$ complex matrix $`V`$. Indeed, factor $`G=R^{\mathsf{T}}R`$ with at most $`2b`$ real rows, pad with zero rows, and take the first $`b`$ rows of $`R`$ as $`\mathrm{Re}V`$, the remaining $`b`$ as $`\mathrm{Im}V`$.
 
-- **Brockett1982:** R. W. Brockett, “Control theory and singular Riemannian geometry,” in *New Directions in Applied Mathematics*, pp. 11–27 (Springer, 1982), especially Theorem 2. [Author-hosted reprint](https://hrl.harvard.edu/publications/brockett81control.pdf); the reprint bears a 1981 copyright date.
-- **RizziSerres2017:** L. Rizzi and U. Serres, “On the cut locus of free, step two Carnot groups,” *Proceedings of the American Mathematical Society* **145**, 5341–5357 (2017), Appendix A, Proposition 15 and Eq. (48). [DOI](https://doi.org/10.1090/proc/13658); [author preprint](https://arxiv.org/html/1610.01596v2).
-- **RizziSerresErrata:** L. Rizzi and U. Serres, “Errata to: On the cut locus of free, step two Carnot groups,” undated. [Erratum](https://drive.google.com/file/d/1uSMry_CAEsKCGpL39tgO8ND7TX48HHLG/view), linked from [Luca Rizzi's research page](https://sites.google.com/view/rizziluca/research).
+Use this factorization for $`X_k/(2\pi k)`$ and $`Y_k/(2\pi k)`$ to choose $`V_k,V_{-k}`$. The finite series (SC.6) then realizes $`K`$ exactly and pays exactly the right-hand side of (SC.5).
+
+## 3. Sharp cross-block cost
+
+Let $`\mathcal{A},\mathcal{B}`$ be disjoint sets of spin coordinates, and put
+$`C=K_{\mathcal{A}\mathcal{B}}`$. Its nonzero singular values are
+$`\sigma_1(C)\geq\cdots\geq\sigma_m(C)\gt 0`$. Zero singular values may be appended without changing the statements.
+
+**Theorem SC2.** Every real symmetric completion $`K`$ of $`C`$ obeys
+
+**(SC.10)**
+
+```math
+\boxed{
+\Phi_b(K)\geq
+2\sum_{j=1}^m\left\lceil\frac{j}{4b}\right\rceil\sigma_j(C).
+}
+```
+
+Consequently every closed trajectory obeys
+
+**(SC.11)**
+
+```math
+E\geq\frac{4\pi}{T}\sum_{j=1}^m
+\left\lceil\frac{j}{4b}\right\rceil\sigma_j(C)
+\geq
+\frac{\pi}{bT}\sum_{j=1}^m j\,\sigma_j(C),
+```
+
+and also $`E\geq(4\pi/T)\Vert C\Vert _*`$.
+If the two diagonal blocks of $`K`$ may be chosen freely, equality in the first bound (SC.10) and in the first bound (SC.11) is attainable.
+
+### 3.1. Proof of the lower bound
+
+For any real symmetric block matrix $`R`$,
+
+**(SC.12)**
+
+```math
+\Vert R\Vert _*\geq2\Vert R_{\mathcal{A}\mathcal{B}}\Vert _*.
+```
+
+If $`P`$ is the polar partial isometry of $`R_{\mathcal{A}\mathcal{B}}`$, the symmetric matrix with off-diagonal blocks $`P,P^{\mathsf{T}}`$, all other blocks zero, has operator norm at most one and pairs with $`R`$ to give $`2\Vert R_{\mathcal{A}\mathcal{B}}\Vert _*`$. The dual characterization of the nuclear norm proves (SC.12).
+
+For $`s\geq1`$, let $`K^{\lt s}`$ retain the first $`2b(s-1)`$ positive eigenvectors of $`K`$ and the first $`2b(s-1)`$ negative eigenvectors. Its rank is at most $`4b(s-1)`$. Therefore its cross block is a rank-at-most-$`4b(s-1)`$ approximation to $`C`$. The nuclear-norm best-rank approximation principle and (SC.12) yield
+
+```math
+\begin{aligned}
+\sum_{j\gt 2b(s-1)}(\lambda_j^++\lambda_j^-)
+&=\Vert K-K^{\lt s}\Vert _*\\
+&\geq2\Vert C-(K^{\lt s})_{\mathcal{A}\mathcal{B}}\Vert _*\\
+&\geq2\sum_{j\gt 4b(s-1)}\sigma_j(C).
+\end{aligned}
+```
+
+Summation over $`s`$ gives (SC.10). The different denominators $`2b`$ and $`4b`$ are essential: $`K`$ has separate positive and negative harmonic capacity.
+
+### 3.2. Sharp completion
+
+Write a real singular-value decomposition
+$`C=\sum_j\sigma_j u_jv_j^{\mathsf{T}}`$. In each consecutive block of $`4b`$ singular directions, assign the first $`2b`$ the sign $`s_j=+1`$, and the remaining $`2b`$ the sign $`s_j=-1`$. Define
+
+**(SC.13)**
+
+```math
+q_j=\frac{1}{\sqrt2}(u_j\oplus s_jv_j),
+\qquad
+K_*=\sum_j2s_j\sigma_jq_jq_j^{\mathsf{T}}.
+```
+
+The cross block of $`K_*`$ is $`C`$. Its nonzero eigenvalues are $`2s_j\sigma_j`$; within each sign, the corresponding singular directions remain in descending order. The $`j`$-th singular direction therefore receives weight $`\lceil j/(4b)\rceil`$, and
+
+```math
+\Phi_b(K_*)=2\sum_j\left\lceil\frac{j}{4b}\right\rceil\sigma_j(C).
+```
+
+Theorem SC1 supplies an attaining trajectory.
+
+For a general $`C`$, the chosen diagonal blocks can contain same-side two-spin interactions. Thus this completion theorem alone is not an upper bound for an arbitrary prescribed spin gate. For $`C=cI_m`$, the singular vectors are coordinate vectors and both diagonal blocks in (SC.13) are ordinary diagonal matrices. Their only spin effect is a global phase, which is why the completion is directly usable for a matching of pair gates.
+
+## 4. Phase–exposure–energy inequalities
+
+The trajectories and their rotated derivatives form a real Gram matrix:
+
+**(SC.14)**
+
+```math
+\begin{pmatrix}F&K\\K&E_{\rm mat}\end{pmatrix}\succeq0.
+```
+
+Hence $`\ker F\subseteq\ker K`$ and
+$`E_{\rm mat}\succeq KF^+K`$, with the Moore–Penrose inverse. A useful scalar consequence is
+
+**(SC.15)**
+
+```math
+EX\geq\Vert K\Vert _*^2.
+```
+
+It also follows directly by Cauchy–Schwarz: if $`S`$ is a real symmetric orthogonal sign matrix of $`K`$, completed arbitrarily on the kernel, then
+$`\mathrm{tr}(SK)=\Vert K\Vert _*`$, while multiplication of $`A`$ by $`S`$ preserves its Frobenius norm.
+
+Closure yields the stronger finite-time scalar inequality
+
+**(SC.16)**
+
+```math
+\boxed{
+E\geq\frac{\Vert K\Vert _*^2}{X}+\frac{\pi^2}{T^2}X
+}
+\qquad (X\gt 0).
+```
+
+To prove it, apply Dirichlet Poincaré to
+$`B(t)=A(t)e^{-i\omega St}`$. Direct differentiation gives
+
+```math
+\int_0^T\Vert \dot B\Vert _F^2dt
+=E-2\omega\Vert K\Vert _*+\omega^2X
+\geq\frac{\pi^2}{T^2}X.
+```
+
+Optimizing the real parameter $`\omega`$ proves (SC.16).
+If each of the positive and negative ranks of $`K`$ is at most $`2b`$, equality can be attained: in a real eigenbasis of $`K`$, use columns
+$`c_j\sin(\pi t/T)e^{i\,\mathrm{sign}(\lambda_j)\omega t}`$, with the $`c_j`$ real-orthogonal within each sign and scaled to their required areas. The area cross terms between opposite signs vanish by a boundary derivative. More ranks require higher temporal modes, as quantified by Theorem SC1.
+
+### A tempting matrix strengthening is false
+
+One must not replace (SC.16) by
+$`E_{\rm mat}\succeq KF^+K+(\pi/T)^2F`$.
+For one bus and two columns, take
+
+```math
+\alpha_1(t)=\sin(\pi t/T)e^{i\pi t/T},
+\qquad
+\alpha_2(t)=\sin(\pi t/T)e^{-i\pi t/T}.
+```
+
+Direct integration gives
+
+```math
+F=\frac T4\begin{pmatrix}2&-1\\-1&2\end{pmatrix},
+\quad
+K=\frac\pi2\begin{pmatrix}1&0\\0&-1\end{pmatrix},
+\quad
+E_{\rm mat}=\frac{\pi^2}{T}I_2.
+```
+
+The proposed matrix residual is
+
+```math
+E_{\rm mat}-KF^{-1}K-\frac{\pi^2}{T^2}F
+=\frac{\pi^2}{T}
+\begin{pmatrix}-1/6&7/12\\7/12&-1/6\end{pmatrix},
+```
+
+whose eigenvalues are $`(\pi^2/T)\{5/12,-3/4\}`$. The scalar inequality (SC.16) is nevertheless saturated. Its proof must therefore remain independent of that false matrix claim.
+
+## 5. Physical scope of the optimum
+
+The constructive optimum assumes arbitrary complex coefficient forces on each participating spin–bus coupling. Restricted addressing or fixed hardware force patterns can only increase the required cost. The model covers pulse shaping and concatenation of closed loops while all coupled spin observables commute. It does not cover interspersed noncommuting spin rotations, measurement and feedback, extra spin ancillas, active squeezing, uncharged bus mixing, or nonlinear mediator dynamics.
+
+The bus is an ideal harmonic oscillator with no finite occupation cutoff. Peak branch force, peak branch displacement, finite slew, and a hard bandwidth constraint are additional resources. Circular controls have a well-defined modulation frequency within the gate interval, but switching a nonzero endpoint force on and off creates frequency tails. The constructions here are not claims of strict bandwidth limitation.
+
+For Markovian damping at rate $`\kappa`$, when $`A`$ denotes the actual closed damped trajectory and $`u=\dot A+\kappa A/2`$, the paid drive energy is
+$`G=E+\kappa^2X/4\geq E`$. Thus every lower bound on $`E`$ remains a lower bound on $`G`$. The exact damping-weighted optimum and exposure frontier require the corresponding generalized spectral problem; the zero-loss construction is not automatically a construction of an accurate noisy gate.
+
+## References
+
+1. W. S. Wong and J. Baillieul, *Control Communication Complexity of Distributed Actions*, especially Theorem 5.1 and Corollary 5.1, [arXiv:1201.6527v2](https://arxiv.org/abs/1201.6527v2), [full text](https://arxiv.org/pdf/1201.6527).
+2. R. W. Brockett, *Control Theory and Singular Riemannian Geometry*, in *New Directions in Applied Mathematics*, Springer (1982), pp. 11–27, especially Theorem 2, [publisher record](https://doi.org/10.1007/978-1-4612-5651-9_2), [author-hosted primary text](https://hrl.harvard.edu/publications/brockett81control.pdf).
+3. L. Rizzi and U. Serres, *On the cut locus of free, step two Carnot groups*, *Proceedings of the American Mathematical Society* **145**, 5341–5357 (2017), Appendix A, Proposition 15, [arXiv:1610.01596v2](https://arxiv.org/html/1610.01596v2). Their discussion explicitly records a normalization difference from Brockett's formula. The [author's publication list](https://sites.google.com/view/rizziluca/research) also links an erratum whose contents have not been reviewed here; no assertion is made about its scope. This reference is used as mathematical lineage. The proofs and constants on this page are independent and import no normalization from that source.

@@ -1,0 +1,85 @@
+{
+  "model_only": true,
+  "damped_circle_table": [
+    {
+      "pairs": 256,
+      "buses": 1,
+      "kappa_over_g": 0.001,
+      "highest_harmonic": 64,
+      "gT": 12.566566968502084,
+      "gX": 59.61442273268642,
+      "G_over_g": 3267.205323357528,
+      "highest_in_interval_angular_frequency_over_g": 31.99949999609369,
+      "half_diamond_error_lower_bound": 0.05619767339089664,
+      "maximum_individual_force_over_g": 1.0,
+      "conservative_total_peak_branch_occupation_bound": 3411.524421399875
+    },
+    {
+      "pairs": 256,
+      "buses": 4,
+      "kappa_over_g": 0.001,
+      "highest_harmonic": 16,
+      "gT": 6.283381665924799,
+      "gX": 84.96964229406187,
+      "G_over_g": 1708.9730168856356,
+      "highest_in_interval_angular_frequency_over_g": 15.999499992187257,
+      "half_diamond_error_lower_bound": 0.07814197919586652,
+      "maximum_individual_force_over_g": 1.0,
+      "conservative_total_peak_branch_occupation_bound": 2842.164744871534
+    },
+    {
+      "pairs": 256,
+      "buses": 16,
+      "kappa_over_g": 0.001,
+      "highest_harmonic": 4,
+      "gT": 3.1417890215403297,
+      "gX": 104.72630071801098,
+      "G_over_g": 1005.2468415136192,
+      "highest_in_interval_angular_frequency_over_g": 7.999499984374023,
+      "half_diamond_error_lower_bound": 0.09448595995579442,
+      "maximum_individual_force_over_g": 0.9999999999999999,
+      "conservative_total_peak_branch_occupation_bound": 1984.8194727397322
+    },
+    {
+      "pairs": 256,
+      "buses": 64,
+      "kappa_over_g": 0.001,
+      "highest_harmonic": 1,
+      "gT": 1.5709927131589563,
+      "gX": 100.5435336421732,
+      "G_over_g": 804.1472072059848,
+      "highest_in_interval_angular_frequency_over_g": 3.9994999687460933,
+      "half_diamond_error_lower_bound": 0.09107938938014992,
+      "maximum_individual_force_over_g": 1.0,
+      "conservative_total_peak_branch_occupation_bound": 1024.0
+    }
+  ],
+  "noisy_time_converse": {
+    "pairs": 256,
+    "epsilon": 0.01,
+    "kappa_over_g": 0.001,
+    "gT_lower_bound": 7.7915984058899195
+  },
+  "fixed_K_frontier_endpoints": [
+    {
+      "buses": 1,
+      "GT_min": 2684.540848728797,
+      "X_over_T_at_min": 3.380577008276207
+    },
+    {
+      "buses": 4,
+      "GT_min": 789.5891846748018,
+      "X_over_T_at_min": 8.332736822496484
+    },
+    {
+      "buses": 16,
+      "GT_min": 315.86733830215064,
+      "X_over_T_at_min": 15.997973961220243
+    }
+  ],
+  "domains": {
+    "panel_A": "Lossless, individual coefficient-force cap; all phase-lift converse versus a particular attaining construction.",
+    "panel_B": "Fixed K, fixed T and kappa, no instantaneous-force cap; exact action/exposure Pareto frontier.",
+    "table": "Damped, compensated circular pulses satisfying the individual force cap; error entries are rigorous lower bounds."
+  }
+}

@@ -1,0 +1,10 @@
+{
+  "status": "passed",
+  "oscillator_levels": 12,
+  "kappa": 0.7,
+  "T": 1.0,
+  "coherences_checked": 16,
+  "max_channel_multiplier_error": 1.4284828875332778e-10,
+  "maximum_imaginary_gram_entry": 0.025,
+  "scope": "Finite truncated oscillator check of the exact-channel conventions, including skew phase; not a universal proof."
+}

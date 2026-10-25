@@ -1,154 +1,221 @@
-# Independent gates through a shared harmonic bus
+# Linear displacement-bus model and resource conventions
 
-## The architectural question
+The results in this project concern a specified control model: commuting data Pauli operators drive linear displacements of a finite collection of harmonic oscillators. They are not bounds on unrestricted quantum architectures. The constructive optima assume independently programmable complex forces on every data–bus coupling. A device with fewer control channels is a restricted subclass: the converse still applies, but attainment need not.
 
-A harmonic oscillator can mediate interactions between many qubits. Closed conditional displacements accumulate a geometric phase while removing the final spin–oscillator entanglement. This mechanism supports collective interactions and selected two-qubit gates. Its ability to connect every pair leaves a separate resource question: how long does it take to implement a layer of many **disjoint** entangling gates through a fixed number of oscillators?
+Geometric phases from conditional oscillator trajectories, and their modification by dissipation, are established ingredients. See [Louis, Munro, Spiller and Nemoto, *Loss in hybrid qubit-bus couplings and gates*](https://arxiv.org/pdf/0804.3240) and [Müller, Luoma and Strunz, *Geometric phase gates in dissipative quantum dynamics*](https://arxiv.org/html/1907.08033v2). This page fixes the conventions needed for the resource statements. The exact noisy channel and the optimization over closed trajectories are derived in [loss_and_frontier.md](loss_and_frontier.md).
 
-This project answers that question for commuting linear conditional forces. The model gives every qubit independent control of its force on every mode, subject only to explicitly stated force constraints. It is a relaxation of many hardware control models. A lower bound in this permissive model therefore remains valid for a device whose available controls form a subset, after converting its drives to the same effective-force units. Attaining the bound on a particular device requires a separate control and bandwidth check.
+## 1. Dynamics and admissible controls
 
-The central result is
+There are $`n`$ data qubits with commuting operators $`Z_i`$, and $`b\geq1`$ independent bosonic modes with $`[a_\mu,a_\nu^\dagger]=\delta_{\mu\nu}`$. In an interaction picture for the known free oscillator motion, set $`\hbar=1`$ and use
+
+**(M1)**
 
 ```math
-\mathcal A_\epsilon(K,m)=\Theta_\epsilon(K+K^2/m),
+H(t)=i\sum_{\mu=1}^b\sum_{i=1}^n
+ Z_i\bigl[u_{\mu i}(t)a_\mu^\dagger-u_{\mu i}(t)^*a_\mu\bigr].
+```
+
+Each $`u_{\mu i}\in L^2(0,T;\mathbb{C})`$ is available independently. In particular, its two quadratures are independently controllable; this is stronger than a single real laboratory force with a prescribed rotating phase. There is no direct two-qubit Hamiltonian available for free.
+
+For the loss results, all buses and their input fields start in vacuum and the joint data–bus state obeys
+
+**(M2)**
+
+```math
+\dot\rho=-i[H(t),\rho]
+ +\kappa\sum_{\mu=1}^b
+ \left(a_\mu\rho a_\mu^\dagger
+ -\tfrac12\{a_\mu^\dagger a_\mu,\rho\}\right),
+\qquad \kappa\geq0.
+```
+
+Thus $`\kappa`$ is the number-decay rate, and the coherent amplitude decays at rate $`\kappa/2`$. This convention is fixed by (M2), independently of rate notation used in other papers. Loss is Markovian, unmonitored, and has the same rate in all modes.
+
+During the gate interval, the data coupling axis remains $`Z_i`$. No measurements, feedforward, intermediate noncommuting data rotations, auxiliary data encodings, squeezing, parametric amplification, nonlinear mediator control, or controlled bus mixing are included. Global phases and local diagonal $`Z`$ corrections may be ignored when specifying the target data gate. Statements about more general endpoint rotations require an additional equivalence argument; none is implicit in (M1).
+
+## 2. Conditional trajectories, closure, and phase
+
+Let $`A(t)\in\mathbb{C}^{b\times n}`$ have columns $`\alpha_i(t)`$, and write $`u(t)=(u_{\mu i}(t))`$. Define
+
+**(M3)**
+
+```math
+\dot A(t)=u(t)-\frac\kappa2 A(t),\qquad A(0)=0.
+```
+
+For a computational string $`z\in\{+1,-1\}^n`$, the bus coherent amplitude is $`A(t)z`$. Since the sign strings span the real data-coordinate space, return to vacuum in every branch is equivalent to the matrix condition
+
+**(M4)**
+
+```math
+A(T)=0.
+```
+
+We impose (M4) exactly. Equivalently, every coupling obeys
+
+**(M5)**
+
+```math
+\int_0^T e^{\kappa t/2}u_{\mu i}(t)\,dt=0.
+```
+
+Conversely, any $`A\in H^1_0([0,T];\mathbb{C}^{b\times n})`$ is an admissible closed trajectory when driven by $`u=\dot A+\kappa A/2`$. The Sobolev condition gives continuous trajectories with well-defined endpoint values. It permits nonzero one-sided endpoint values of the force; a zero-force switching condition is an additional constraint.
+
+Use the displacement convention $`D(\alpha)=\exp(\alpha a^\dagger-\alpha^*a)`$. A small drive displacement $`D(u\,dt)`$ acting on a coherent state of amplitude $`\alpha`$ contributes phase $`\mathrm{Im}(\alpha^*u)dt`$. Passive vacuum attenuation changes the coherent amplitudes without adding such a scalar phase. Therefore the accumulated phase in branch $`z`$ is
+
+**(M6)**
+
+```math
+q_K(z)=\mathrm{Im}\int_0^T (A z)^\dagger u z\,dt
+       =\mathrm{Im}\int_0^T (A z)^\dagger\dot A z\,dt
+       =z^T Kz,
+\quad
+K=\mathrm{Im}\int_0^T A^\dagger\dot A\,dt.
+```
+
+The damping contribution $`\kappa\Vert Az\Vert ^2/2`$ is real and drops out of this expression. Integration by parts and closure give
+
+```math
+\left(\int_0^T A^\dagger\dot A\,dt\right)^\dagger
+=-\int_0^T A^\dagger\dot A\,dt,
+```
+
+so $`K`$ is real symmetric. At zero loss the returned bus factors out and the data operation is
+
+**(M7)**
+
+```math
+U_K=\exp\bigl(i\,\mathbf{Z}^T K\mathbf{Z}\bigr).
+```
+
+With loss, $`U_K`$ names the geometric part of the exact channel; it does not describe the whole operation.
+
+The factor convention matters:
+
+**(M8)**
+
+```math
+\mathbf{Z}^T K\mathbf{Z}
+=\mathrm{tr}K+2\sum_{i\lt j}K_{ij}Z_iZ_j.
+```
+
+Thus the physical $`ZZ`$ angle is $`2K_{ij}`$, and a change of the ordinary matrix diagonal changes only the global gate phase. For a CZ edge, $`K_{ij}=\pi/8`$ is a representative. Allowing local $`Z`$ corrections gives the equivalent representatives $`K_{ij}=\pi/8+\pi N_{ij}/4`$, $`N_{ij}\in\mathbb{Z}`$. A missing edge has $`K_{ij}=\pi N_{ij}/4`$. One can check the necessity by taking the four-point mixed phase difference, which is $`8K_{ij}\bmod 2\pi`$; sufficiency follows because a $`\pi/4`$ shift of $`K_{ij}`$ multiplies the gate by $`iZ_iZ_j`$.
+
+An optimum for a specified full matrix $`K`$ is consequently different from an optimum over all implementations of a quantum gate. Gate-level converses must allow every diagonal completion and every admissible phase representative.
+
+## 3. What is paid
+
+Define the real symmetric matrices
+
+```math
+F=\mathrm{Re}\int_0^T A^\dagger A\,dt,
 \qquad
-T_\epsilon(K,m,g)=\Theta_\epsilon\!\left(\frac{\sqrt{1+K/m}}{g}\right),
-\qquad\text{(1)}
+E_{\rm mat}=\mathrm{Re}\int_0^T\dot A^\dagger\dot A\,dt,
 ```
 
-for every fixed $`0\le\epsilon<1/\sqrt2`$. Here $`K`$ is the number of disjoint target pairs, $`m`$ is the number of bus modes, $`g`$ is a per-qubit force bound, $`\mathcal A_\epsilon`$ is the minimum force fluence multiplied by duration, and $`\epsilon`$ is a worst-case error for the **entire gate layer**. The constants can depend on $`\epsilon`$, but not on $`K`$, $`m`$, or $`g`$.
+and the scalar resources
 
-The exact upper construction also implements the target with zero error. Its growing bandwidth requirement in the few-mode regime is part of the [resource interpretation](hardware_resources.md).
-
-## Hamiltonian and exact closure
-
-There are $`N=2K`$ qubits, labeled $`A_1,\ldots,A_K,B_1,\ldots,B_K`$, and $`m\ge1`$ dynamical canonical harmonic modes. The number $`m`$ counts oscillator degrees of freedom, not control channels or modulation tones. Write $`Z_j`$ for Pauli $`Z`$ on qubit $`j`$ and $`a_\ell`$ for the annihilation operator of mode $`\ell`$. In an interaction picture,
+**(M9)**
 
 ```math
-\frac{H(t)}{\hbar}
-=i\sum_{j=1}^{N}\sum_{\ell=1}^{m}
-Z_j\bigl[u_{j\ell}(t)a_\ell^\dagger-u_{j\ell}(t)^*a_\ell\bigr].
-\qquad\text{(2)}
+X=\mathrm{tr}F=\int_0^T\Vert A\Vert _F^2dt,
+\quad
+E=\mathrm{tr}E_{\rm mat}=\int_0^T\Vert \dot A\Vert _F^2dt,
+\quad
+G=\int_0^T\Vert u\Vert _F^2dt.
 ```
 
-Each $`u_{j\ell}\in L^2([0,T];\mathbb C)`$ is an independently programmable effective force with units of inverse time. The qubit axes commute at all times. Define the absolutely continuous displacement paths
-
-```math
-\alpha_{j\ell}(t)=\int_0^t u_{j\ell}(s)\,ds,
-\qquad \alpha_{j\ell}(0)=\alpha_{j\ell}(T)=0.
-\qquad\text{(3)}
-```
-
-Exact closure is required separately for every qubit and mode. It implies exact spin–bus disentanglement for every initial oscillator state. In the physical picture the bus can still undergo its known free evolution; equality to its initial density operator requires compensating that evolution or choosing an invariant initial state. Neither finite oscillator temperature nor an initial coherent displacement changes the closed-loop spin gate in this ideal harmonic model.
-
-The exact propagator at closure is
-
-```math
-U_A=\exp(iZ^{\mathsf T}AZ),
-\qquad
-A_{ij}=\mathrm{Im}\sum_{\ell=1}^{m}
-\int_0^T\alpha_{i\ell}(t)^*\dot\alpha_{j\ell}(t)\,dt.
-\qquad\text{(4)}
-```
-
-Integration by parts and closure make $`A`$ real symmetric. Thus the coefficient of $`Z_iZ_j`$ for $`i<j`$ is **$`2A_{ij}`$**. Diagonal entries contribute the global phase $`\mathrm{tr}A`$. This factor of two is used throughout the proofs and the verification code.
-
-Equation (4) follows either from the Weyl displacement composition law or the terminating Magnus expansion: the commutator of two Hamiltonians is a quadratic polynomial in the mutually commuting $`Z_j`$, and all higher nested commutators vanish. The [spectral account](spectral_cost.md) treats the $`L^2`$ control class and the associated convergent Fourier expansions explicitly.
-
-## Target and physical gate equivalence
-
-The target layer is
-
-```math
-V_K=\prod_{j=1}^K\exp\!\left(\frac{i\pi}{4}Z_{A_j}Z_{B_j}\right).
-\qquad\text{(5)}
-```
-
-Each factor is a maximally entangling two-qubit gate up to single-qubit phases. The pairing is fixed before the control is chosen. Relabeling the qubits gives any disjoint matching. No claim about an arbitrary dense interaction graph is needed for the lower bound.
-
-Allow free final local $`Z`$ corrections
-
-```math
-L(\theta)=\exp\!\left(i\sum_{j=1}^{N}\theta_jZ_j\right).
-\qquad\text{(6)}
-```
-
-For a unitary $`W`$, let $`\mathcal W(\rho)=W\rho W^\dagger`$. Define the layer error
-
-```math
-\epsilon(A)=\inf_{\theta\in\mathbb R^N}
-\frac12\left\|\mathcal U_A-\mathcal L(\theta)\circ\mathcal V_K\right\|_\diamond.
-\qquad\text{(7)}
-```
-
-Global phase is already invisible to a unitary channel. The infimum over local phases is attained because their channel action is periodic and continuous. Equation (7) permits all physical phase wraps of the target. It does not select one convenient real logarithm of the gate.
-
-The diamond norm measures worst-case distinguishability, including an entangled reference. A constant error bound on the whole layer is stronger than a constant error bound for each pair separately. Average gate fidelity is a different criterion. The fixed-error theorem still requires exact closure (3); it does not replace that hypothesis by a bound on residual bus displacement.
-
-## Charged resources and optimization problems
-
-The force fluence and action are
-
-```math
-\mathcal E=\int_0^T\sum_{j,\ell}|u_{j\ell}(t)|^2\,dt,
-\qquad \mathcal A=T\mathcal E.
-\qquad\text{(8)}
-```
-
-$`\mathcal E`$ has units of inverse time and $`\mathcal A`$ is dimensionless. They are effective Hamiltonian control costs, not device-independent energies in joules. The action is unchanged when a waveform is stretched in time and its amplitude is reduced inversely.
-
-For integers $`K,m\ge1`$, let $`\mathcal A_\epsilon(K,m)`$ be the infimum of $`T\mathcal E`$ over all $`T>0`$ and controls satisfying (2), (3), and $`\epsilon(A)\le\epsilon`$. For the duration problem impose, for each qubit and almost every time,
-
-```math
-\sum_{\ell=1}^{m}|u_{j\ell}(t)|^2\le g^2,
-\qquad g>0.
-\qquad\text{(9)}
-```
-
-Let $`T_\epsilon(K,m,g)`$ be the infimum duration under this additional constraint. The norm in (9) charges a qubit's simultaneous drives on different modes together. A bound on each mode separately would supply a larger total force as $`m`$ grows and would define a different resource comparison. Equation (9) gives $`\mathcal E\le2Kg^2T`$.
-
-These optimizations impose no independent bandwidth, oscillator-occupation, pulse-segmentation, or hardware participation constraint. The [construction](matching_construction.md) states its bandwidth and displacement costs, and the [hardware account](hardware_resources.md) explains when extra constraints matter.
-
-## Exact statements and proof route
-
-Put
-
-```math
-c=\frac\pi8,\qquad
-w_r=\left\lceil\frac r{4m}\right\rceil,\qquad
-G_{K,m}=\left(\prod_{r=1}^K w_r\right)^{1/K},\qquad
-\delta=\arcsin\epsilon.
-\qquad\text{(10)}
-```
-
-The connected argument has four parts.
-
-| Result | Statement and scope | Authoritative proof |
+| Quantity | Meaning in this model | Units with dimensionless displacement |
 |---|---|---|
-| Spectral control cost | For a **prescribed full real symmetric** $`A`$, the optimal action is $`2\pi\sum_r\lceil r/(2m)\rceil[\lambda_r^+(A)+\lambda_r^-(A)]`$. | [Spectral cost](spectral_cost.md) |
-| Exact physical-gate converse | Every exact implementation of (5), up to (6), has a cross block $`C=c(I+2M)`$ with integer $`M`$; therefore $`\mathcal ET\ge(\pi^2/4)KG_{K,m}`$. | [Gate-layer bounds](gate_layer_bounds.md) |
-| Fixed-error converse | If (7) is at most $`\epsilon<1/\sqrt2`$, then $`\mathcal ET\ge(\pi^2/4)KG_{K,m}-\pi\delta\lVert w\rVert_2\ge(\pi^2/4)(1-4\delta/\pi)KG_{K,m}`$. | [Gate-layer bounds](gate_layer_bounds.md) |
-| Exact attaining order | An explicit closed-loop construction has $`\mathcal ET=(\pi^2/2)\sum_{r=1}^K w_r`$ and $`T=(\pi/2g)\sqrt{\lceil K/(4m)\rceil}`$. | [Matching construction](matching_construction.md) |
+| $`b`$ | Simultaneously available bosonic modes | Dimensionless |
+| $`T`$ | Gate duration | Time |
+| $`K`$ | Geometric phase matrix | Dimensionless |
+| $`X`$ | Integrated displacement exposure | Time |
+| $`E`$ | Squared trajectory-velocity integral | Inverse time |
+| $`G`$ | Paid squared-force action | Inverse time |
+| $`P`$ | Bound on instantaneous $`\sum_{\mu i}\lvert u_{\mu i}\rvert^2`$ | Inverse time squared |
 
-Here $`\lambda_r^+`$ are the positive eigenvalues in descending order and $`\lambda_r^-`$ are the descending magnitudes of negative eigenvalues, with zeros appended. The last row attains the **scaling order** of the gate-level converse; the finite-size lower and upper constants need not coincide.
+We call $`G`$ the squared-force action. It is a quadratic control cost, not an assertion that a particular laboratory source expends $`G`$ joules. A hardware application must supply the conversion from its control amplitude to $`u`$.
 
-Since $`G_{K,m}\ge\max\{1,K/(4em)\}`$, the lower bounds and the explicit construction imply (1). In particular,
+Using (M3) and exact closure,
+
+**(M10)**
 
 ```math
-T_\epsilon(K,m,g)
-\ge\frac\pi g\sqrt{\frac{1-4\arcsin(\epsilon)/\pi}{8}\,G_{K,m}},
-\qquad\text{(11)}
+\begin{aligned}
+G
+&=E+\frac{\kappa^2}{4}X
+  +\kappa\mathrm{Re}\int_0^T\mathrm{tr}(\dot A^\dagger A)\,dt\\
+&=E+\frac{\kappa^2}{4}X.
+\end{aligned}
 ```
 
-whereas the upper duration in the table is achievable with zero spin-gate error. The fixed-error range is a proved sufficient range. The boundary $`1/\sqrt2`$ is not asserted to be an optimal threshold for a stronger theorem.
+In particular $`G=E`$ only at zero damping or for a trivial trajectory. Choosing a closed path under loss requires paying for the compensating force. A pointwise total-force cap implies $`G\leq PT`$; the reverse implication does not hold.
 
-## Physical interpretation and scope
+For a uniform random computational string, $`\mathbb{E}_z\Vert A(t)z\Vert ^2=\Vert A(t)\Vert _F^2`$. Thus $`X`$ is the basis-averaged integrated bus occupation, and $`\kappa X`$ is the corresponding average number of photons emitted into the vacuum output field. The coefficient cost $`\Vert u\Vert _F^2`$ likewise equals the basis average of the squared collective force $`\Vert uz\Vert ^2`$.
 
-At fixed $`g`$ and fixed error tolerance, a bounded number of modes forces the matching-layer duration to grow as $`\sqrt K`$. Keeping duration bounded as $`K`$ grows requires $`m=\Omega(K)`$ in this model, and $`m=\Theta(K)`$ suffices in the independently controlled model. A collective phase proportional to $`(\sum_jZ_j)^2`$ can instead use one real spectral direction. Thus pairwise connectivity and independent-pair throughput are different resources.
+These are averages, not bounds on $`\max_z\Vert A(t)z\Vert ^2`$ or $`\max_z\Vert u(t)z\Vert ^2`$. Fixed bus occupation, Lamb–Dicke validity, per-qubit amplitude, slew-rate, and finite modulation bandwidth are additional resources. An infinite harmonic ladder is assumed. Finite-interval harmonic formulas with abrupt force switching are not strictly bandlimited waveforms.
 
-The assumptions permit sign reversals and time-dependent envelopes that preserve the commuting qubit axes. Spin-independent, number-preserving quadratic oscillator evolution can be absorbed into a passive mode frame without changing the Euclidean force norm; its known net bus unitary remains in the physical picture. A time-dependent frame need not preserve the bandwidth of the original actuator signal. Intermediate noncommuting spin controls, additional direct qubit interactions, measurements, nonlinear oscillator couplings, and freely supplied active squeezing are different models. Any use of those mechanisms must account for its own resources before comparing it with (1).
+## 4. Phase, exposure, and control inequalities
 
-Closed-loop geometric gates, spectral area inequalities, and parallel constructions have substantial antecedents. The contribution developed here is the gate-equivalence-invariant, fixed-error finite-mode converse and the resulting resource scaling. The [related-work account](../references/related_work.md) separates those ingredients and states the scope of the literature comparison.
+Closed trajectories obey the Gram and finite-time inequalities proved in [spectral_cost.md, §4](spectral_cost.md). In the notation above,
 
-## Reading route
+**(M11)**
 
-Read [spectral cost](spectral_cost.md) for the geometric control theorem, then [gate-layer bounds](gate_layer_bounds.md) for phase wrapping and robustness. The [explicit construction](matching_construction.md) supplies the upper bound and its implementation costs. [Hardware resources](hardware_resources.md) translates the ideal law into device-level questions. The [verification guide](../verification/README.md) records finite checks of the formulas and constructions; the universal statements rest on the proofs.
+```math
+\begin{pmatrix}F&K\\K&E_{\rm mat}\end{pmatrix}\succeq0.
+```
+
+Consequently,
+
+**(M12)**
+
+```math
+\ker F\subseteq\ker K,
+\qquad KF^+K\preceq E_{\rm mat}.
+```
+
+Here $`F^+`$ is the Moore–Penrose inverse. There is also the scalar consequence
+
+**(M13)**
+
+```math
+EX\geq\Vert K\Vert _*^2,
+```
+
+where $`\Vert K\Vert _*`$ is the sum of its eigenvalue magnitudes.
+
+A stronger finite-time **trace** inequality is
+
+**(M14)**
+
+```math
+E\geq\frac{\Vert K\Vert _*^2}{X}+\frac{\pi^2}{T^2}X,
+\qquad X\gt 0.
+```
+
+Together with the paid-action identity (M10), this yields
+
+**(M15)**
+
+```math
+G\geq\frac{\Vert K\Vert _*^2}{X}
+ +\left(\frac{\pi^2}{T^2}+\frac{\kappa^2}{4}\right)X.
+```
+
+The finite-time term in (M14) is a trace statement; it cannot generally be added to (M12) as a matrix-order inequality. The proof and an explicit counterexample to that stronger claim are in [spectral_cost.md, §4](spectral_cost.md). The spectrum in [loss_and_frontier.md](loss_and_frontier.md) supplies the additional finite-bus multiplicity constraints missing from (M14).
+
+## 5. Environmental rank is not physical bus count
+
+The complex trajectory Gram matrix is
+
+**(M16)**
+
+```math
+C=\int_0^T A^\dagger A\,dt=F+iJ,
+\qquad J^T=-J.
+```
+
+For $`\kappa\gt 0`$, $`F`$ describes the real span of the emitted displacement records. The first part of (M12) implies $`\mathrm{rank}F\geq\mathrm{rank}K`$. But $`C`$ describes their complex span, and $`\mathrm{rank}F\leq2\mathrm{rank}C`$. For example, a single row $`A(t)=f(t)(1,1,i,i)`$, with a closed scalar path of nonzero area, has $`\mathrm{rank}C=1`$ and $`\mathrm{rank}F=\mathrm{rank}K=2`$.
+
+Thus a rank statement about real environmental records cannot be identified with the number of complex jump operators or the number $`b`$ of physical bus modes. One bus can emit many temporal modes. The relevant obstruction is the control cost of supplying sufficiently many temporal directions, quantified by the spectrum derived in the companion page.

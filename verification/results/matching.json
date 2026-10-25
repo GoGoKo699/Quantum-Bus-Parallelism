@@ -1,0 +1,68 @@
+{
+  "status": "passed",
+  "checks": [
+    {
+      "pairs": 1,
+      "buses": 1,
+      "T": 1.5707963267948966,
+      "phase_matrix_error": 1.27675647831893e-15,
+      "closure_error": 6.123233995736765e-17,
+      "action_error": 8.881784197001252e-16,
+      "exposure_error": 1.1102230246251565e-16,
+      "individual_power_error": 8.881784197001252e-16,
+      "maximum_individual_power": 1.0,
+      "total_power_variation": 1.7763568394002505e-15,
+      "cz_phase_after_local_corrections_error": 4.440892098500626e-16
+    },
+    {
+      "pairs": 3,
+      "buses": 1,
+      "T": 1.5707963267948966,
+      "phase_matrix_error": 1.27675647831893e-15,
+      "closure_error": 6.123233995736765e-17,
+      "action_error": 3.552713678800501e-15,
+      "exposure_error": 4.440892098500626e-16,
+      "individual_power_error": 8.881784197001252e-16,
+      "maximum_individual_power": 1.0,
+      "total_power_variation": 5.329070518200751e-15,
+      "cz_phase_after_local_corrections_error": 4.440892098500626e-16
+    },
+    {
+      "pairs": 9,
+      "buses": 1,
+      "T": 2.7206990463513265,
+      "phase_matrix_error": 1.2212453270876722e-15,
+      "closure_error": 2.274228861132057e-16,
+      "action_error": 3.552713678800501e-15,
+      "exposure_error": 1.7763568394002505e-15,
+      "individual_power_error": 6.661338147750939e-16,
+      "maximum_individual_power": 1.0000000000000009,
+      "total_power_variation": 1.2434497875801753e-14
+    },
+    {
+      "pairs": 11,
+      "buses": 2,
+      "T": 2.221441469079183,
+      "phase_matrix_error": 1.3322676295501878e-15,
+      "closure_error": 2.274228861132057e-16,
+      "action_error": 0.0,
+      "exposure_error": 2.6645352591003757e-15,
+      "individual_power_error": 6.661338147750939e-16,
+      "maximum_individual_power": 1.0000000000000004,
+      "total_power_variation": 8.881784197001252e-15
+    },
+    {
+      "pairs": 9,
+      "buses": 4,
+      "T": 1.5707963267948966,
+      "phase_matrix_error": 1.27675647831893e-15,
+      "closure_error": 6.123233995736765e-17,
+      "action_error": 7.105427357601002e-15,
+      "exposure_error": 1.7763568394002505e-15,
+      "individual_power_error": 8.881784197001252e-16,
+      "maximum_individual_power": 1.0,
+      "total_power_variation": 1.4210854715202004e-14
+    }
+  ],
+  "scope": "Explicit pulse phase/closure/instantaneous-force checks; no finite check proves the phase-lift lower bound."
+}

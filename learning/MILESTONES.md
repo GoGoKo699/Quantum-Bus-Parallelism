@@ -1,389 +1,389 @@
-# Thirty milestones for quantum bus parallelism
+# Project understanding map: 30 milestones
 
-This map follows one scientific question: what force action and duration are required to implement many independent entangling pairs through a finite number of harmonic bus modes? It connects the physical gate mechanism to the spectral control cost, the converse for physically equivalent gates, the matching construction, and the interpretation for hardware.
+This map organizes Quantum Bus Congestion into exactly **30 milestones**. Its targets and order follow the scientific dependencies of the project and are common to every reader, including an LLM.
 
-The single educational anchor is H. Häffner, C. F. Roos, and R. Blatt, *Quantum computing with trapped ions* (2008), using [arXiv:0809.4368v1](https://arxiv.org/abs/0809.4368v1). The [Häffner bridge](HAEFFNER_BRIDGE.md) translates its physical language into this project's notation and assumptions. The review supplies the trapped-ion and geometric-gate foundation. The project's canonical science pages supply the spectral optimization, phase-wrap, and channel-error arguments, with their own research references.
+The allocation is **13 background/preliminaries milestones** and **17 narrative/innovation milestones**. The background begins with a qubit and an oscillator, develops a two-qubit gate and its environment, then introduces register-level matrix, temporal, Boolean, and resource tools. The narrative begins again with one completely specified CZ loop. It then joins the spectral control theorem, quantum phase equivalence, approximation robustness, exact loss model, and paid architecture consequences. Seventeen narrative milestones give these logically distinct arguments room before the final synthesis.
 
-The allocation is **12 background/preliminaries milestones and 18 narrative/innovation milestones**. Twelve establish the common language of conditional motion, phase matrices, force resources, and gate error. Eighteen connect the longer argument needed to make a control bound apply to an actual gate under phase equivalence and nonzero error, then connect it to an achievable construction and its physical limits. Each phase moves from individual objects and mechanisms to an integrated account; M12 and M30 are its synthesis milestones.
+The single educational anchor is H. Häffner, C. F. Roos, and R. Blatt, *Quantum computing with trapped ions* (2008), specifically **[arXiv:0809.4368v1][HRB]**. The [Häffner bridge](HAEFFNER_BRIDGE.md) owns the detailed section mapping, notation translation, and source-to-model transition. The review supplies the physical route into the project. The matrix optimization, functional analysis, Boolean unwrapping, and diamond-distance arguments are supplied by the project pages; they are not attributed to the review. Other primary references remain sources of mathematical and physical attribution, not additional educational anchors.
 
-| Phase | Range | Local-to-global route |
+Each milestone gives a central question, an understanding target, earlier dependencies and its role in the story, a conceptual connection, and anchor/project source pointers. The scientific pages remain authoritative for exact assumptions, constants, and complete proofs. The 2008 review is used for physical foundations and historical context, not as a current hardware performance forecast.
+
+[HRB]: https://arxiv.org/pdf/0809.4368v1
+
+## Route through the project
+
+| Phase | Milestones | Connection established |
 |---|---|---|
-| Background/preliminaries | M01–M12 | One spin and oscillator → collective modes and closed conditional paths → phase, resource, and error language → the complete architectural question. |
-| Narrative/innovation | M13–M30 | One Fourier contribution → spectral and physical-gate converses → fixed-error robustness → parallel construction → architectural meaning and scope. |
+| Background/preliminaries | [M01](#m01-local-qubits-and-phase-conventions)–[M06](#m06-state-fidelity-process-error-and-operational-distance) | Local quantum phases, one oscillator, conditional gates, environmental records, and operational error |
+| Background/preliminaries | [M07](#m07-normal-modes-addressability-and-physical-controls)–[M11](#m11-quadratic-boolean-phases-and-their-modular-ambiguity) | A register's physical controls and the matrix, temporal, and Boolean tools needed to analyze it |
+| Background/preliminaries | [M12](#m12-a-complete-ledger-of-control-resources)–[M13](#m13-the-complete-architecture-question) | The full resource ledger, model boundaries, and quantifiers of an architecture claim |
+| Narrative/innovation | [M14](#m14-a-fully-paid-single-cz-loop)–[M19](#m19-the-sharp-cost-of-a-cross-block) | A concrete gate develops into the exact spectral optimum and its sharp cross-block consequence |
+| Narrative/innovation | [M20](#m20-quantum-phase-equivalence-and-the-odd-determinant)–[M24](#m24-a-positive-congestion-bound-at-every-size) | All quantum phase representatives, attaining matching controls, physical caps, and finite-accuracy robustness |
+| Narrative/innovation | [M25](#m25-the-exact-lossy-channel-and-its-skew-phase)–[M28](#m28-the-complete-fixed-matrix-exposure-frontier) | The actual noisy channel, operational converses, and exact paid-action/exposure optimization |
+| Narrative/innovation | [M29](#m29-a-paid-architecture-comparison-with-global-accuracy)–[M30](#m30-the-complete-scoped-architecture-story) | Explicit resource comparisons and the complete, attributed architecture conclusion |
 
-## Shared notation and authoritative assumptions
+## Phase I: background/preliminaries
 
-There are $`K`$ disjoint target pairs on $`2K`$ qubits, $`m`$ canonical harmonic modes, and a pulse duration $`T`$. The effective complex forces are $`u_{j\ell}(t)`$, their paths are $`\alpha_{j\ell}(t)`$, and the closed-loop spin gate is $`U_A=\exp(iZ^{\mathsf T}AZ)`$. Force fluence is $`\mathcal E=\int\sum_{j,\ell}|u_{j\ell}|^2dt`$, and action is $`T\mathcal E`$. The force-limited problem uses a per-qubit bound $`\sum_\ell|u_{j\ell}|^2\le g^2`$. The layer error $`\epsilon`$ is half the diamond norm after optimizing final local $`Z`$ corrections.
+### M01 Local qubits and phase conventions
 
-The [model](../science/model.md#hamiltonian-and-exact-closure), [gate-equivalence definition](../science/model.md#target-and-physical-gate-equivalence), and [resource definitions](../science/model.md#charged-resources-and-optimization-problems) are authoritative throughout. In particular, the force axes commute during the evolution and every conditional path closes exactly. The fixed-error result changes the allowed spin-gate error while retaining exact bus closure. Source pointers below identify the relevant proof sections rather than reproduce their derivations.
+**Central question.** Which phases change a quantum operation, and which can be removed by allowed local control?
 
-## Phase I — Background and preliminaries
+**Understanding target.** Interpret a qubit state, Pauli $`Z`$, and a diagonal rotation in a fixed computational basis. Distinguish a scalar global phase from a relative phase, and a product of one-qubit phases from a two-qubit conditional phase. The sign labels $`z_i=\pm1`$ and bit labels $`x_i=(1-z_i)/2`$ describe the same basis with different polynomial coefficients.
 
-### M01 — A qubit, a basis state, and a phase
+**Earlier dependencies and story role.** None within the map. This fixes the local language used in every subsequent gate-equivalence statement.
 
-**Central question:** How can an operation change a quantum state while leaving its computational-basis label unchanged?
+**Conceptual connection.** A change of basis is a specified control operation. It does not make a time-dependent, noncommuting coupling axis part of a model that permits only fixed commuting $`Z_i`$ forces.
 
-**Understanding target:** Explain the two-level qubit, the signs $`z_j=\pm1`$ of a Pauli-$`Z`$ eigenstate, and the distinction between a relative phase of a superposition and an overall phase. Relate this language to a gate diagonal in the computational basis.
+**Anchor and project sources.** [HRB] §2.5, especially the single-qubit rotation convention; [model, §§1–2](../science/model.md#1-dynamics-and-admissible-controls), including equation (M8).
 
-**Dependencies and story role:** No earlier milestone is required. This is the local spin description on which the conditional-force model is built.
+### M02 One harmonic mode and coherent displacement
 
-**Conceptual connection:** The review's internal ionic states become the project's spin labels; their phases, rather than changes of population, will encode the entangling operation.
+**Central question.** What does a point in oscillator phase space represent physically?
 
-**Source pointers:** Anchor [§2.2, “The basic Hamiltonian”][hrb22] and [§2.6.4, “Geometric phase gate”][hrb264]; project [model, target and physical gate equivalence](../science/model.md#target-and-physical-gate-equivalence); [notation bridge](HAEFFNER_BRIDGE.md).
+**Understanding target.** Relate $`a,a^\dagger`$, number states, vacuum, and a coherent amplitude $`\alpha`$ to a harmonic oscillator. Interpret $`D(\alpha)=e^{\alpha a^\dagger-\alpha^*a}`$ and $`\langle a^\dagger a\rangle=\vert \alpha\vert ^2`$ for a coherent state. The noncommuting composition of displacements produces a phase, while the coherent-state overlap carries both magnitude and phase information.
 
-### M02 — One harmonic mode and its displacement
+**Earlier dependencies and story role.** [M01](#m01-local-qubits-and-phase-conventions) supplies phase conventions. The oscillator now provides the smallest mediator in the story.
 
-**Central question:** What does a complex displacement describe about a harmonic oscillator?
+**Conceptual connection.** An oscillator mode has an unbounded harmonic ladder in this model. A finite-dimensional bus approximation and a fixed peak occupation are additional assumptions.
 
-**Understanding target:** Connect the oscillator operators $`a,a^\dagger`$, motional occupation, and the two real quadratures of a complex displacement $`\alpha`$. Interpret an effective force $`u(t)`$ as the rate of change of that displacement in the chosen interaction picture.
+**Anchor and project sources.** [HRB] §§2.2 and 2.6.4, with Fig. 15 for the state-dependent-force picture; [conditional trajectories](../science/model.md#2-conditional-trajectories-closure-and-phase) and [coherent-state overlaps](../science/loss_and_frontier.md#coherent-state-dilation) supply the explicit phase-space conventions.
 
-**Dependencies and story role:** Builds on M01 by adding the local physical mediator. It supplies the objects whose trajectories will generate spin phases.
+### M03 From ion-light coupling to a conditional force
 
-**Conceptual connection:** Quantized ion motion provides the physical example; complex paths provide the mathematical description shared by motional and resonator buses.
+**Central question.** How does a laboratory spin–motion interaction become the force used in the model?
 
-**Source pointers:** Anchor [§2.2][hrb22]; project [spectral cost §1, control class and normalization](../science/spectral_cost.md#1-control-class-and-normalization) and [hardware resources §1, force quadratures](../science/hardware_resources.md#1-converting-a-laboratory-coupling-to-the-force-norm); [bridge](HAEFFNER_BRIDGE.md).
+**Understanding target.** Identify the roles of the rotating frame, carrier and sideband terms, Lamb–Dicke expansion, detuning, and optical phase. Relate a fixed-axis spin-dependent force to $`iZ(ua^\dagger-u^*a)`$, keeping the complex envelope and its two quadratures explicit. The resulting effective Hamiltonian is a controlled approximation to particular hardware interactions.
 
-### M03 — Normal modes and the number of mediators
+**Earlier dependencies and story role.** [M01](#m01-local-qubits-and-phase-conventions) and [M02](#m02-one-harmonic-mode-and-coherent-displacement) provide the spin and oscillator. This milestone identifies the physical entry point and its approximation boundary.
 
-**Central question:** What is being counted when a device has $`m`$ bus modes?
+**Conceptual connection.** A fixed spin-axis convention can describe an appropriate gate interaction after a specified basis change. Independently programmable complex envelopes on every qubit–mode coupling remain a stronger assumption than many native drive arrangements.
 
-**Understanding target:** Distinguish an individual ion's motion from a collective normal mode, and a canonical oscillator degree of freedom from a control channel or modulation tone. Explain why a single waveform can interact with several modes.
+**Anchor and project sources.** [HRB] §2.2, equations (1)–(7), and §§2.6.3–2.6.4; [admissible controls](../science/model.md#1-dynamics-and-admissible-controls); [Häffner bridge](HAEFFNER_BRIDGE.md).
 
-**Dependencies and story role:** Uses M02 and enlarges the physical setting from one oscillator to a shared multimode mediator.
+### M04 A closed loop as an entangling primitive
 
-**Conceptual connection:** The normal-mode description fixes the meaning of the architectural variable $`m`$ before any resource comparison is made.
+**Central question.** How can motion return to its initial state while leaving a nontrivial spin gate?
 
-**Source pointers:** Anchor [§2.6.1, “Motion of ion strings”][hrb261]; project [hardware resources §2, which modes and controls count](../science/hardware_resources.md#2-which-modes-and-controls-count) and [model, Hamiltonian](../science/model.md#hamiltonian-and-exact-closure).
+**Understanding target.** Follow the conditional oscillator path for each spin-basis branch. Exact return removes the final spin–bus correlation, while the accumulated phase depends on the path's signed area. For two qubits, the branch phases can contain an entangling $`Z_1Z_2`$ term even when the bus returns to vacuum.
 
-### M04 — From a physical drive to a commuting conditional force
+**Earlier dependencies and story role.** [M02](#m02-one-harmonic-mode-and-coherent-displacement) and [M03](#m03-from-ion-light-coupling-to-a-conditional-force) combine into the first mediated gate.
 
-**Central question:** Which physical couplings are represented by the project's force Hamiltonian?
+**Conceptual connection.** Bus return and zero gate action are different conditions. The useful output is the phase retained by the spins; the mediator can finish in its initial state.
 
-**Understanding target:** Explain how an effective drive can exert different forces for different spin states, why an interaction picture is useful, and what it means to keep each spin's coupling axis fixed. Recognize that a rotating-wave or Lamb–Dicke approximation is part of a physical model's justification.
+**Anchor and project sources.** [HRB] §2.6.4 and Fig. 15; [closure and geometric phase](../science/model.md#2-conditional-trajectories-closure-and-phase). The project's vacuum assumption for loss is specified separately.
 
-**Dependencies and story role:** Combines the spin, oscillator, and mode descriptions of M01–M03 into the local interaction mechanism.
+### M05 An open bus leaves an environmental record
 
-**Conceptual connection:** The Mølmer–Sørensen and geometric-gate discussions motivate the effective description; the project grants independent complex forces as a specified control class.
+**Central question.** What can the environment retain after the oscillator itself has returned?
 
-**Source pointers:** Anchor [§2.2][hrb22], [§2.6.3, “Mølmer-Sørensen gate”][hrb263], and [§2.6.4][hrb264]; project [model, Hamiltonian and closure](../science/model.md#hamiltonian-and-exact-closure) and [hardware resources §1](../science/hardware_resources.md#1-converting-a-laboratory-coupling-to-the-force-norm); [bridge](HAEFFNER_BRIDGE.md).
+**Understanding target.** Trace out an environment whose state depends on the spin branch. Its branch overlaps multiply spin coherences, so final bus closure does not imply a unitary reduced spin channel. In the project's vacuum Markov model, $`\kappa`$ is the number-decay rate and coherent amplitudes decay at $`\kappa/2`$.
 
-### M05 — A closed path leaves a spin phase
+**Earlier dependencies and story role.** [M02](#m02-one-harmonic-mode-and-coherent-displacement) and [M04](#m04-a-closed-loop-as-an-entangling-primitive) provide the paths whose histories can become distinguishable.
 
-**Central question:** How can an oscillator return to its starting displacement while mediating an entangling operation?
+**Conceptual connection.** Motional heating, dephasing, and vacuum amplitude damping are different physical processes. The review's discussion of ion-motion imperfections motivates an open-system analysis without identifying every experimental mechanism with $`\kappa\mathcal{D}[a]`$.
 
-**Understanding target:** Relate a closed conditional path to its oriented phase-space area and the accumulated phase. Explain how the force depends on a joint spin configuration and how the resulting phase can contain a two-spin term.
+**Anchor and project sources.** [HRB] §§3.2–3.3 for motional coherence and modeling; [vacuum Markov dynamics](../science/model.md#1-dynamics-and-admissible-controls) and [the output-field dilation](../science/loss_and_frontier.md#coherent-state-dilation) specify the project's narrower channel.
 
-**Dependencies and story role:** Uses M02 and M04. It identifies the local geometric mechanism before considering how many independent interactions it can support.
+### M06 State fidelity, process error, and operational distance
 
-**Conceptual connection:** Motional mediation becomes a spin gate through path-dependent phase accumulation; the project's area integral makes that mechanism quantitative.
+**Central question.** What does it mean for an entire gate to be accurate?
 
-**Source pointers:** Anchor [§2.6.4][hrb264]; project [model, Eq. (4)](../science/model.md#hamiltonian-and-exact-closure) and [spectral cost §1, Eqs. (3)–(4)](../science/spectral_cost.md#1-control-class-and-normalization).
+**Understanding target.** Distinguish preparation of one desired state from approximation of a quantum channel on all inputs. Separate state fidelity, entanglement fidelity, average gate fidelity, and half-diamond distance $`\Vert \mathcal{E}-\mathcal{V}\Vert _\diamond/2`$. The last is a worst-case distinguishability criterion that permits an ancilla; a particular input supplies a lower bound.
 
-### M06 — Exact closure and its physical limits
+**Earlier dependencies and story role.** [M01](#m01-local-qubits-and-phase-conventions), [M04](#m04-a-closed-loop-as-an-entangling-primitive), and [M05](#m05-an-open-bus-leaves-an-environmental-record) connect the ideal operation to its noisy output.
 
-**Central question:** What does it mean to return the bus for every possible spin input?
+**Conceptual connection.** A Bell-state fidelity, an averaged error, and a global layer-error guarantee support different conclusions. None alone supplies a local stochastic noise model or fault-tolerance threshold.
 
-**Understanding target:** Explain why each qubit–mode path must close, so every spin-conditioned sum of paths closes. Separate the ideal gate's independence of the initial oscillator state from heating, loss, nonlinear motion, and the validity range of a harmonic approximation.
+**Anchor and project sources.** [HRB] §§4.4 and 4.7 motivate state/process characterization; [operational error and fidelities](../science/loss_and_frontier.md#2-operational-error-and-first-order-gate-metrics) and [matching conventions](../science/matching.md#1-conventions-and-precise-scope) supply the precise metrics used here.
 
-**Dependencies and story role:** Uses M03–M05 and turns a one-path picture into a condition on the entire spin–bus evolution.
+### M07 Normal modes, addressability, and physical controls
 
-**Conceptual connection:** Closure removes final spin–bus entanglement in the model; motional coherence remains a distinct physical requirement during the trajectory.
+**Central question.** Which independent resources are present when many qubits share motion?
 
-**Source pointers:** Anchor [§2.6.4][hrb264] and [§3.2, “Motional coherence”][hrb32]; project [model, exact closure](../science/model.md#hamiltonian-and-exact-closure) and [hardware resources §4](../science/hardware_resources.md#4-oscillator-excursion-and-noise-exposure).
+**Understanding target.** Interpret collective normal modes, qubit participation in each mode, and individually specified control coefficients. Keep physical modes $`b`$, data qubits $`n`$, control channels, and temporal modulation harmonics distinct. The same oscillator can carry several time-dependent directions without becoming several physical buses.
 
-### M07 — The phase matrix and a target pair
+**Earlier dependencies and story role.** [M03](#m03-from-ion-light-coupling-to-a-conditional-force) and [M04](#m04-a-closed-loop-as-an-entangling-primitive) extend from one pair to a register.
 
-**Central question:** How does a real symmetric matrix specify the spin gate produced by closed paths?
+**Conceptual connection.** A converse for independent envelopes remains valid when hardware imposes further restrictions. An attaining waveform may cease to be available when couplings are tied or only one real quadrature is controlled.
 
-**Understanding target:** Read $`Z^{\mathsf T}AZ`$ as a quadratic phase: an off-diagonal entry contributes $`2A_{ij}Z_iZ_j`$, while the diagonal contributes only a global phase. Identify $`A_{A_jB_j}=\pi/8`$ as the preferred representative of one target $`ZZ(\pi/4)`$ gate.
+**Anchor and project sources.** [HRB] §2.6.1, especially the normal-mode discussion and Fig. 10, plus §2.7; [control access](../science/model.md#1-dynamics-and-admissible-controls) and [physical-mode accounting](../science/architecture.md#5-bandwidth-occupation-preparation-and-memory).
 
-**Dependencies and story role:** Uses M01, M05, and M06. It collects many geometric phases into the matrix that carries the rest of the argument.
+### M08 A register of conditional paths and its phase matrix
 
-**Conceptual connection:** The factor of two and the diagonal freedom connect a control calculation to the actual quantum operation.
+**Central question.** How can one matrix describe all computational branches of a multiqubit gate?
 
-**Source pointers:** Anchor [§2.6.3, conditional-phase interpretation][hrb263] and [§2.6.4][hrb264]; project [spectral cost §1](../science/spectral_cost.md#1-control-class-and-normalization) and [model, target gate](../science/model.md#target-and-physical-gate-equivalence).
+**Understanding target.** Interpret the columns of $`A(t)\in\mathbb{C}^{b\times n}`$ as displacement coefficients and $`A(t)z`$ as a branch amplitude. A quadratic phase $`z^{\mathsf{T}}Kz`$ encodes all pair angles. For symmetric $`K`$, the physical coefficient is $`2K_{ij}`$ and its ordinary diagonal contributes only $`\mathrm{tr}K`$.
 
-### M08 — Independent directions in a phase matrix
+**Earlier dependencies and story role.** [M01](#m01-local-qubits-and-phase-conventions), [M04](#m04-a-closed-loop-as-an-entangling-primitive), and [M07](#m07-normal-modes-addressability-and-physical-controls) provide the branch and mode interpretation.
 
-**Central question:** What do eigenvalues, singular values, and rank reveal about a collection of interactions?
+**Conceptual connection.** A collective rank-one phase and a matching of independent pairs are different tasks, even if both create entanglement. Fixing a full matrix $`K`$ is also a stronger requirement than fixing its physical quantum gate.
 
-**Understanding target:** Interpret a real symmetric matrix as a sum of signed orthogonal rank-one contributions. Distinguish the sign of an eigenvalue from its magnitude, and recognize singular values as the nonnegative magnitudes used for the generally nonsymmetric matching cross block.
+**Anchor and project sources.** [HRB] §§2.6.3–2.6.4 and §3.3 provide multiqubit context; [matrix trajectories and phase](../science/model.md#2-conditional-trajectories-closure-and-phase) supplies this notation.
 
-**Dependencies and story role:** Uses M07. It supplies the matrix language for counting and charging independent phase directions.
+### M09 Real Gram matrices and spectral matrix tools
 
-**Conceptual connection:** A collective spin phase and a collection of independently specified pair phases can have different spectral requirements even when both involve many qubits.
+**Central question.** Which matrix properties express independent phase directions and unavoidable cost?
 
-**Source pointers:** Project [spectral cost §2, spectral notation](../science/spectral_cost.md#2-exact-minimum-for-a-prescribed-full-matrix), [§3, singular values](../science/spectral_cost.md#3-a-bound-in-terms-of-singular-values), and [model, physical interpretation](../science/model.md#physical-interpretation-and-scope). These matrix prerequisites are supplied by the project rather than attributed to the review.
+**Understanding target.** Connect Gram positivity, real and complex ranks, positive and negative eigenvalue lists, singular values, and Frobenius/nuclear/operator norms. Understand the roles of eigenvalue monotonicity, low-rank approximation, and norm duality. A real Gram matrix obtained from complex vectors can have twice their complex rank.
 
-### M09 — Waveforms, force fluence, and time rescaling
+**Earlier dependencies and story role.** [M02](#m02-one-harmonic-mode-and-coherent-displacement) and [M08](#m08-a-register-of-conditional-paths-and-its-phase-matrix) give the vectors and matrices being analyzed.
 
-**Central question:** Which resource stays fixed when a closed-loop pulse is stretched in time?
+**Conceptual connection.** Real environmental-record rank, complex jump-operator rank, and the number of physical oscillators are not interchangeable. Matrix order and scalar trace inequalities also carry different information.
 
-**Understanding target:** Distinguish force amplitude, integrated squared force $`\mathcal E`$, action $`T\mathcal E`$, and oscillator occupation. Explain how inverse amplitude scaling preserves the phase and action under a time stretch, and how a Fourier harmonic labels temporal structure within a pulse.
+**Anchor and project sources.** [HRB] §§2.6.1 and 3.3 are physical context only; [environmental rank](../science/model.md#5-environmental-rank-is-not-physical-bus-count) and [spectral proofs, §§2–4](../science/spectral_cost.md#2-fixed-matrix-optimum) supply the additional matrix tools.
 
-**Dependencies and story role:** Uses M02, M05, and M07. It establishes the resource and waveform language needed for a duration law.
+### M10 Closed trajectories, Fourier modes, and variational spectra
 
-**Conceptual connection:** A gate phase is geometric, whereas the conversion from action to duration depends on the allowed force norm. Fourier tones organize controls without changing the number of physical modes.
+**Central question.** What mathematical structure makes a continuum of possible pulses analyzable?
 
-**Source pointers:** Project [model, charged resources](../science/model.md#charged-resources-and-optimization-problems), [spectral cost §2.1](../science/spectral_cost.md#21-fourier-representation-for-the-entire-control-class), and [hardware resources, resource table](../science/hardware_resources.md).
+**Understanding target.** Interpret $`L^2`$ controls, $`H_0^1`$ paths, endpoint traces, Fourier orthogonality, Parseval, and Dirichlet Poincaré. Understand why a quadratic area form can be represented relative to a positive control-cost inner product, and how a complete self-adjoint spectrum can replace a pulse-by-pulse search.
 
-### M10 — A physical gate has many phase representatives
+**Earlier dependencies and story role.** [M04](#m04-a-closed-loop-as-an-entangling-primitive), [M08](#m08-a-register-of-conditional-paths-and-its-phase-matrix), and [M09](#m09-real-gram-matrices-and-spectral-matrix-tools) connect closure, matrices, and quadratic costs.
 
-**Central question:** Why can different real phase matrices implement the same allowed gate?
+**Conceptual connection.** Satisfying oscillator return imposes a boundary condition, not a hard bandwidth or zero-force switching condition. Completeness of a modal description requires an analytic argument beyond checking a few pulse shapes.
 
-**Understanding target:** Distinguish global phases, free final local $`Z`$ rotations, and genuinely different entangling phases. Understand the diagonal freedom and the elementary identity that makes an off-diagonal shift by $`\pi/4`$ a local correction up to global phase.
+**Anchor and project sources.** [HRB] §§2.6.4 and 3.3 motivate the control problem; [Fourier regularity](../science/spectral_cost.md#21-fourier-representation-including-the-endpoint-issue) and [the area operator](../science/loss_and_frontier.md#3-spectrum-of-the-closed-loop-area-operator) supply the functional analysis.
 
-**Dependencies and story role:** Uses M01 and M07. It identifies the optimization domain before the project tries to bound its cost.
+### M11 Quadratic Boolean phases and their modular ambiguity
 
-**Conceptual connection:** A resource bound for one chosen logarithm of a unitary must be extended to all physically equivalent representatives.
+**Central question.** Which algebra keeps track of a phase specified only modulo $`2\pi`$?
 
-**Source pointers:** Anchor [§2.6.3, basis and phase conventions][hrb263]; project [spectral cost §4, phase matrix versus physical gate](../science/spectral_cost.md#4-a-phase-matrix-and-a-physical-gate-have-different-optimization-domains) and [model, local corrections](../science/model.md#target-and-physical-gate-equivalence).
+**Understanding target.** Relate multilinear polynomials on the bit cube to Walsh characters on the sign cube. Mixed finite differences expose polynomial degree; integer-valued functions have integer multilinear coefficients when evaluated by differences at the origin. Walsh orthogonality and Parseval turn a uniform residual bound into a bound on its coefficient squares.
 
-### M11 — Error for the entire coherent gate layer
+**Earlier dependencies and story role.** [M01](#m01-local-qubits-and-phase-conventions), [M06](#m06-state-fidelity-process-error-and-operational-distance), and [M08](#m08-a-register-of-conditional-paths-and-its-phase-matrix) identify the modular phase whose accuracy will matter.
 
-**Central question:** What does a fixed error tolerance for a layer of gates actually constrain?
+**Conceptual connection.** Selecting a principal value separately at every basis state need not preserve a low polynomial degree. The later robustness proof must justify that passage before applying a matrix perturbation bound.
 
-**Understanding target:** Interpret half-diamond distance as worst-case channel distinguishability, including a reference system. Distinguish a bound on the full layer from separate per-pair errors or average fidelity, and retain exact bus closure as a separate hypothesis.
+**Anchor and project sources.** [HRB] §2.6.4 supplies only the conditional-phase motivation. The finite-difference and Walsh/Parseval tools are project supplements in [matching, §5](../science/matching.md#5-uniform-phase-unwrapping-on-the-boolean-cube).
 
-**Dependencies and story role:** Uses M06, M07, and M10. It completes the accuracy specification required for a robust architectural statement.
+### M12 A complete ledger of control resources
 
-**Conceptual connection:** The relevant approximation is closeness of physical quantum channels; it does not initially require closeness of any chosen real phase matrices.
+**Central question.** What is paid when the same gate is delivered by different paths, modes, or durations?
 
-**Source pointers:** Project [model, Eq. (7) and error discussion](../science/model.md#target-and-physical-gate-equivalence) and [gate-layer bounds §3, channel-error convention](../science/gate_layer_bounds.md#3-half-diamond-error-gives-a-uniform-phase-lift). The channel metric and its research references are supplied there, not in the selected review.
+**Understanding target.** Distinguish derivative action $`E=\int\Vert \dot A\Vert _F^2dt`$, exposure $`X=\int\Vert A\Vert _F^2dt`$, and physical drive action $`G=\int\Vert u\Vert _F^2dt`$. Under exact damped closure, $`G=E+\kappa^2X/4`$. A pointwise total cap gives $`G\leq PT`$, while a per-qubit cap sums over all modes coupled to that qubit.
 
-### M12 — Background synthesis: the finite-bus architectural question
+**Earlier dependencies and story role.** [M05](#m05-an-open-bus-leaves-an-environmental-record), [M07](#m07-normal-modes-addressability-and-physical-controls), [M08](#m08-a-register-of-conditional-paths-and-its-phase-matrix), and [M10](#m10-closed-trajectories-fourier-modes-and-variational-spectra) establish the physical and analytic quantities being budgeted.
 
-**Central question:** What is the complete problem once the mechanism, resources, and success criterion are specified?
+**Conceptual connection.** Squared-coupling action is not automatically laboratory energy in joules. Basis-averaged exposure does not bound maximum branch occupation, and an integrated action bound does not imply an instantaneous force cap.
 
-**Understanding target:** Connect $`K`$ disjoint maximally entangling pairs, $`m`$ canonical modes, commuting independently controlled forces, exact closure, allowed local phases, and whole-layer error into one optimization problem. Explain why the existence of parallel gates leaves a further question about their force action and duration.
+**Anchor and project sources.** [HRB] §§2.7 and 6–8 motivate hardware accounting; [what is paid](../science/model.md#3-what-is-paid) and [architecture resources](../science/architecture.md#5-bandwidth-occupation-preparation-and-memory) define the project ledger.
 
-**Dependencies and story role:** Integrates M01–M11 and closes the background phase. The next phase can now ask which cost is unavoidable and which controls achieve the same order.
+### M13 The complete architecture question
 
-**Conceptual connection:** The review's simultaneous-pair example supplies a concrete physical precedent; the project asks a quantified resource question across varying pair and mode counts.
+**Central question.** Which operational task and which assumptions make a congestion theorem meaningful?
 
-**Source pointers:** Anchor [§5.5, “Entanglement purification,” simultaneous pair operations][hrb55]; project [model, architectural question](../science/model.md#the-architectural-question), [optimization definitions](../science/model.md#charged-resources-and-optimization-problems), and [Häffner bridge](HAEFFNER_BRIDGE.md).
+**Understanding target.** Assemble the task: a layer of $`m`$ independent CZ pairs on arbitrary input states, implemented through $`b`$ linear harmonic buses with commuting force axes, exact conditional return, and specified force and accuracy budgets. Separate a fixed-$`K`$ optimum, a gate-equivalent minimum, a constructive upper bound, and a noisy necessary condition.
 
-## Phase II — Narrative and innovation
+**Earlier dependencies and story role.** [M06](#m06-state-fidelity-process-error-and-operational-distance), [M09](#m09-real-gram-matrices-and-spectral-matrix-tools), [M10](#m10-closed-trajectories-fourier-modes-and-variational-spectra), [M11](#m11-quadratic-boolean-phases-and-their-modular-ambiguity), and [M12](#m12-a-complete-ledger-of-control-resources) complete the preliminary framework.
 
-### M13 — The phase directions supplied by one Fourier harmonic
+**Conceptual connection.** Small demonstrations of simultaneous pair gates and collective entanglement are compatible with a scaling cost for an extensive matching. Connectivity alone does not specify simultaneous independent-gate capacity.
 
-**Central question:** How many independent real phase directions can one signed harmonic contribute?
+**Anchor and project sources.** [HRB] §§2.1, 5.5, and 8 provide task and architecture context; [matching scope](../science/matching.md#1-conventions-and-precise-scope), [architecture question](../science/architecture.md#1-independent-gates-and-collective-phases-have-different-costs), and [claim boundaries](../references/related_work.md#6-precise-boundary-of-the-claims).
 
-**Understanding target:** Explain why a complex coefficient $`v=x+iy`$ contributes $`\mathrm{Re}(vv^\dagger)=xx^{\mathsf T}+yy^{\mathsf T}`$, so each mode supplies two real directions. Track the independent positive and negative harmonics and the resulting $`2m`$ directions per sign.
+## Phase II: narrative/innovation
 
-**Dependencies and story role:** Uses M08, M09, and M12. It begins the project argument with the local contribution of one waveform component.
+### M14 A fully paid single-CZ loop
 
-**Conceptual connection:** Force quadratures become spectral capacity, with the harmonic sign fixing the sign of the area contribution.
+**Central question.** What does one exact entangling gate cost in the project's conventions?
 
-**Source pointers:** Project [spectral cost §2.1, Eqs. (11)–(12)](../science/spectral_cost.md#21-fourier-representation-for-the-entire-control-class) and [§2.3, signed contributions](../science/spectral_cost.md#23-signed-contributions-and-the-lower-bound).
+**Understanding target.** Interpret the one-bus path $`\alpha_1=\alpha_2=(e^{2\pi it/T}-1)/4`$. Every entry of its two-by-two $`K`$ is $`\pi/8`$, so its physical pair angle is $`\pi/4`$ and local $`Z`$ corrections give CZ. The path closes, has $`E=\pi^2/(2T)`$ and $`X=T/4`$, and saturates the lossless individual cap when $`gT=\pi/2`$.
 
-### M14 — Why higher spectral directions carry higher cost
+**Earlier dependencies and story role.** [M04](#m04-a-closed-loop-as-an-entangling-primitive), [M08](#m08-a-register-of-conditional-paths-and-its-phase-matrix), [M12](#m12-a-complete-ledger-of-control-resources), and [M13](#m13-the-complete-architecture-question) support this local restart of the project narrative.
 
-**Central question:** Why does finite capacity at each harmonic produce staircase weights in the action?
+**Conceptual connection.** The same explicit trajectory fixes phase, action, exposure, and peak force. Its simplicity does not license free damping compensation or a size-independent claim for many independent pairs.
 
-**Understanding target:** Explain the positive-decomposition lemma: the first few harmonics can cover only a limited-dimensional subspace, leaving spectral weight in later tails. Understand why summing these tails yields weights $`\lceil r/(2m)\rceil`$ without assuming a special decomposition.
+**Anchor and project sources.** [HRB] §2.6.4 and Fig. 15; [Häffner bridge](HAEFFNER_BRIDGE.md); [matching construction, equations (M.10)–(M.13)](../science/matching.md#32-explicit-lossless-upper-construction).
 
-**Dependencies and story role:** Uses M08 and M13. It turns the local harmonic capacity into a lower bound covering arbitrary positive spectral decompositions.
+### M15 From conditional loops to the admissible matrix model
 
-**Conceptual connection:** Limited dimensional capacity becomes a quantitative cost on eigenvalue magnitudes, rather than just a count of nonzero directions.
+**Central question.** How does the single-pair example become a controlled statement for a whole register?
 
-**Source pointers:** Project [spectral cost §2.2, Lemma 2 and its proof](../science/spectral_cost.md#22-a-weighted-positive-decomposition-lemma); [§5, connection to classical spectral area costs](../science/spectral_cost.md#5-relation-to-the-classical-spectral-area-problem).
+**Understanding target.** Follow the branch evolution $`A(t)z`$, the equivalence of all-branch return and $`A(T)=0`$, and the area formula $`K=\mathrm{Im}\int A^\dagger\dot A`$. Integration by parts makes $`K`$ real symmetric. Independent complex controls realize any admitted $`H_0^1`$ path through $`u=\dot A+\kappa A/2`$.
 
-### M15 — Exact cost for a prescribed full matrix
+**Earlier dependencies and story role.** [M07](#m07-normal-modes-addressability-and-physical-controls), [M10](#m10-closed-trajectories-fourier-modes-and-variational-spectra), [M13](#m13-the-complete-architecture-question), and [M14](#m14-a-fully-paid-single-cz-loop) establish the general model behind the example.
 
-**Central question:** How do the positive and negative contributions combine into an exact control theorem?
+**Conceptual connection.** An interaction-picture description does not grant uncharged direct two-qubit gates, bus squeezing, or intermediate noncommuting spin controls. These would change the feasible set.
 
-**Understanding target:** Connect the separate weighted spectra to $`\mathcal E_{\min}=2\pi\Phi_m(A)/T`$. Explain why arbitrary sign cancellation cannot beat the lower bound, why finite harmonic controls attain it, and why the theorem covers the whole square-integrable control class.
+**Anchor and project sources.** [HRB] §§2.2, 2.6.4, and 3.3; [model, §§1–2](../science/model.md#1-dynamics-and-admissible-controls), equations (M1)–(M8).
 
-**Dependencies and story role:** Combines M13 and M14 into the first global control result. M10 identifies the additional optimization still needed for a physical gate.
+### M16 The geometric phase-exposure bound and its limits
 
-**Conceptual connection:** A complete variational statement supplies both a universal lower bound and an explicit realization for each fixed matrix.
+**Central question.** What control cost is unavoidable before the finite number of buses is considered?
 
-**Source pointers:** Project [spectral cost §2, Theorem 1](../science/spectral_cost.md#2-exact-minimum-for-a-prescribed-full-matrix), [§2.3](../science/spectral_cost.md#23-signed-contributions-and-the-lower-bound), and [§2.4, attainment](../science/spectral_cost.md#24-attainment-with-finitely-many-harmonics).
+**Understanding target.** Relate the real block Gram matrix to $`E_{\rm mat}\succeq KF^+K`$ and $`EX\geq\Vert K\Vert _*^2`$. A rotated-path Dirichlet argument strengthens the scalar bound to $`E\geq\Vert K\Vert _*^2/X+\pi^2X/T^2`$. The explicit two-column counterexample shows why the finite-time term cannot generally be added as a matrix-order inequality.
 
-### M16 — Matching gates impose an integer-parity constraint
+**Earlier dependencies and story role.** [M09](#m09-real-gram-matrices-and-spectral-matrix-tools), [M10](#m10-closed-trajectories-fourier-modes-and-variational-spectra), [M12](#m12-a-complete-ledger-of-control-resources), and [M15](#m15-from-conditional-loops-to-the-admissible-matrix-model) provide the first universal resource converse.
 
-**Central question:** What constraint survives every allowed phase representative of the target layer?
+**Conceptual connection.** A nuclear-norm trace bound controls total geometric demand but does not yet charge the limited multiplicity of low-cost temporal directions.
 
-**Understanding target:** Explain why Boolean mixed differences remove local phases and force the matching cross block to have the form $`C=(\pi/8)(I+2M)`$ with integer $`M`$. Interpret reduction modulo two as a constraint shared by all exact representatives.
+**Anchor and project sources.** [HRB] §2.6.4 provides the area interpretation; the inequalities and counterexample are project derivations in [spectral cost, §4](../science/spectral_cost.md#4-phaseexposureenergy-inequalities), equations (SC.14)–(SC.16).
 
-**Dependencies and story role:** Uses M07, M10, and M15. It transfers the discussion from a prescribed matrix to the entire physical-gate equivalence class.
+### M17 The temporal capacity of a finite bus
 
-**Conceptual connection:** An unobservable choice of logarithm becomes controlled by an arithmetic invariant of the cross block.
+**Central question.** Why does using more temporal directions make a fixed number of buses more expensive?
 
-**Source pointers:** Project [gate-layer bounds §2, exact phase wraps](../science/gate_layer_bounds.md#2-exact-gates-force-an-odd-determinant-cross-block) and [spectral cost §4, equivalence class](../science/spectral_cost.md#4-a-phase-matrix-and-a-physical-gate-have-different-optimization-domains).
+**Understanding target.** Follow the closed Fourier expansion $`A(t)=\sum_{k\ne0}V_k(e^{2\pi ikt/T}-1)`$, including the convergence needed for endpoint values and area integrals. Each signed harmonic has a positive semidefinite real Gram matrix of rank at most $`2b`$; the sign of $`k`$ determines the sign of its area contribution. Its area magnitude scales with $`\vert k\vert `$, while derivative action scales with $`k^2`$.
 
-### M17 — From an odd determinant to the exact gate converse
+**Earlier dependencies and story role.** [M09](#m09-real-gram-matrices-and-spectral-matrix-tools), [M10](#m10-closed-trajectories-fourier-modes-and-variational-spectra), and [M15](#m15-from-conditional-loops-to-the-admissible-matrix-model) expose the mechanism absent from the trace-only bound.
 
-**Central question:** How does the parity constraint force a minimum action even for badly conditioned representatives?
+**Conceptual connection.** Two real quadratures per complex bus and separate positive/negative harmonics determine capacity. Adding a temporal tone spends control action without increasing the count of physical oscillators.
 
-**Understanding target:** Connect the nonzero odd determinant of $`I+2M`$ to a lower bound on the product of singular values of $`C`$. Combine singular-value compression and weighted arithmetic–geometric mean to understand $`\mathcal ET\ge(\pi^2/4)KG_{K,m}`$, where $`G_{K,m}`$ is the geometric mean of $`w_r=\lceil r/(4m)\rceil`$.
+**Anchor and project sources.** [HRB] §2.6.1 supplies the physical-mode comparison; [Fourier reduction](../science/spectral_cost.md#21-fourier-representation-including-the-endpoint-issue), equations (SC.6)–(SC.8), supplies the temporal argument.
 
-**Dependencies and story role:** Combines M08, M15, and M16 into the exact physical-gate lower bound.
+### M18 The exact fixed-matrix spectral optimum
 
-**Conceptual connection:** The invariant controls the collective spectral cost without requiring every singular value to be individually large.
+**Central question.** How is a desired phase spectrum assigned to the cheapest available temporal directions?
 
-**Source pointers:** Project [spectral cost §3, merged singular-value bound](../science/spectral_cost.md#3-a-bound-in-terms-of-singular-values) and [gate-layer bounds §§1–2](../science/gate_layer_bounds.md#1-statement-and-spectral-input).
+**Understanding target.** Read the separately ordered positive and negative eigenvalue lists in $`\Phi_b(K)`$ and understand the exact formula $`E_{\min}T=2\pi\Phi_b(K)`$. Low-frequency rank limits force eigenvalue-tail costs; packing at most $`2b`$ real eigenvectors into each signed harmonic attains the lower bound.
 
-### M18 — Small channel error gives one short phase arc
+**Earlier dependencies and story role.** [M09](#m09-real-gram-matrices-and-spectral-matrix-tools) and [M17](#m17-the-temporal-capacity-of-a-finite-bus) convert the temporal mechanism into a sharp fixed-$`K`$ theorem.
 
-**Central question:** How can an error bound on unitary channels constrain every relative eigenphase at once?
+**Conceptual connection.** This is an application of inherited weighted spectral control geometry. It establishes an exact optimum for a specified full matrix, while a quantum gate still admits diagonal completions and different phase representatives.
 
-**Understanding target:** Explain the convex-hull description of unitary-channel distance and the role of a global phase in centering the relative spectrum. Understand the conversion from half-diamond error $`\epsilon`$ to a uniform phase radius $`\delta=\arcsin\epsilon`$.
+**Anchor and project sources.** [HRB] §§2.6.1 and 2.6.4 provide physical context; [Theorem SC1 and attainment](../science/spectral_cost.md#2-fixed-matrix-optimum); [Wong–Baillieul, Brockett, and Rizzi–Serres attribution](../references/related_work.md#2-the-spectral-control-mathematics-is-inherited).
 
-**Dependencies and story role:** Uses M10, M11, and M17. It begins the fixed-error extension at the physically meaningful channel level.
+### M19 The sharp cost of a cross block
 
-**Conceptual connection:** Worst-case coherent error becomes a simultaneous bound on a real residual phase over the entire Boolean cube.
+**Central question.** Which part of the spectral cost survives freedom in the rest of the phase matrix?
 
-**Source pointers:** Project [gate-layer bounds §3, spectral-arc lemma](../science/gate_layer_bounds.md#3-half-diamond-error-gives-a-uniform-phase-lift) and its primary channel-metric reference; [model, error definition](../science/model.md#target-and-physical-gate-equivalence).
+**Understanding target.** For $`C=K_{\mathcal{A}\mathcal{B}}`$, connect symmetric nuclear-norm duality and best low-rank approximation to $`\Phi_b(K)\geq2\sum_j\lceil j/(4b)\rceil\sigma_j(C)`$. The factor $`4b`$ combines the separate signed capacities. Understand the signed rank-one completion that attains equality when both diagonal blocks are free.
 
-### M19 — Uniformly small error constrains the integer wrap
+**Earlier dependencies and story role.** [M09](#m09-real-gram-matrices-and-spectral-matrix-tools) and [M18](#m18-the-exact-fixed-matrix-spectral-optimum) provide the bridge from a fixed matrix to a gate-level invariant.
 
-**Central question:** Why can a nearby physical gate not hide an arbitrary high-degree pattern of phase wraps?
+**Conceptual connection.** A free diagonal block is not the same as freedom in ordinary diagonal entries. General completions can create same-side interactions; for $`C=cI`$, the attaining completion changes only ordinary diagonal entries and therefore only a global phase.
 
-**Understanding target:** Understand the decomposition $`q=2\pi k+r`$ with quadratic $`q`$, integer-valued $`k`$, and bounded $`r`$. Explain how a third Boolean difference and the strict inequality $`8\delta<2\pi`$ force $`k`$ itself to be quadratic.
+**Anchor and project sources.** [HRB] §2.6.4 supplies the phase-gate setting; [Theorem SC2 and sharp completion](../science/spectral_cost.md#3-sharp-cross-block-cost) supplies this project specialization.
 
-**Dependencies and story role:** Uses M16 and M18. It restores the arithmetic structure required for the converse at nonzero channel error.
+### M20 Quantum phase equivalence and the odd determinant
 
-**Conceptual connection:** Discreteness of the integer wraps and uniformity of the residual jointly control a possible discontinuity of the logarithm.
+**Central question.** Can a different equivalent phase representative remove the matching's required directions?
 
-**Source pointers:** Project [gate-layer bounds §4, quadratic integer unwrapping](../science/gate_layer_bounds.md#4-small-uniform-error-forces-quadratic-integer-wraps); [verification guide, strict-threshold example](../verification/README.md#what-is-checked).
+**Understanding target.** Follow the four-point phase difference that gives the complete lift class $`K_{ij}=\pi\Gamma_{ij}/8+\pi N_{ij}/4`$. For a matching, $`C=(\pi/8)(I+2B)`$ with integer $`B`$. Reduction modulo two makes its determinant odd, so $`\prod_j\sigma_j(C)\geq(\pi/8)^m`$ for every lift.
 
-### M20 — A global phase bound controls a whole residual matrix
+**Earlier dependencies and story role.** [M01](#m01-local-qubits-and-phase-conventions), [M11](#m11-quadratic-boolean-phases-and-their-modular-ambiguity), [M13](#m13-the-complete-architecture-question), and [M19](#m19-the-sharp-cost-of-a-cross-block) remove the arbitrary choice of phase branch from the converse.
 
-**Central question:** How can a bound on phase values avoid an error penalty growing with the number of matrix entries?
+**Conceptual connection.** The result constrains a physical diagonal gate up to the allowed local corrections. It does not assume small matrix entries or bound the number of phase wraps.
 
-**Understanding target:** Explain how the four-sign difference isolates the cross residual $`R`$ in $`C=(\pi/8)(I+2M)+R`$. Connect the uniform bilinear bound, averaging over independent signs, and $`\lVert R\rVert_F\le\delta/2`$.
+**Anchor and project sources.** [HRB] §§2.5 and 2.6.4 provide local/conditional phase context; [Lemma M1 and the determinant argument](../science/matching.md#2-every-exact-phase-lift); [quantum phase-equivalence attribution](../references/related_work.md#3-what-the-quantum-unitary-adds).
 
-**Dependencies and story role:** Uses M08, M18, and M19. It supplies the matrix perturbation control needed for a dimension-sensitive lower bound.
+### M21 The exact matching sandwich and an attaining family
 
-**Conceptual connection:** Whole-layer accuracy controls all cross coefficients together through their squared sum; treating their errors separately would discard that information.
+**Central question.** What remains after the all-lift converse and a physically allowed construction are combined?
 
-**Source pointers:** Project [gate-layer bounds §4, Eqs. (14)–(17)](../science/gate_layer_bounds.md#4-small-uniform-error-forces-quadratic-integer-wraps) and [verification guide, Boolean gate cases](../verification/README.md#what-is-checked).
+**Understanding target.** With $`w_j=\lceil j/(4b)\rceil`$, connect the determinant and weighted arithmetic–geometric mean to the lower bound in Theorem M2, and the construction carrying $`4b`$ pairs per harmonic magnitude to its upper bound. Together they give $`E^*_{m,b}(T)=\Theta((m+m^2/b)/T)`$. For $`m\leq4b`$, both bounds equal $`\pi^2m/(2T)`$.
 
-### M21 — The robust converse for every pair and mode count
+**Earlier dependencies and story role.** [M14](#m14-a-fully-paid-single-cz-loop), [M19](#m19-the-sharp-cost-of-a-cross-block), and [M20](#m20-quantum-phase-equivalence-and-the-odd-determinant) establish the exact-gate congestion law.
 
-**Central question:** How does the exact determinant argument survive perturbation without assuming well-conditioned phase wraps?
+**Conceptual connection.** Exact target synthesis and an exact finite-size optimum are separate claims. The integer-lift optimum is not evaluated in closed form for larger matchings, although the scaling is attained.
 
-**Understanding target:** Connect Mirsky's singular-value inequality, the Frobenius residual bound, and the weighted error penalty $`\pi\delta\lVert w\rVert_2`$. Explain how $`\lVert w\rVert_2\le KG_{K,m}`$ produces a positive factor $`1-4\arcsin(\epsilon)/\pi`$ for every $`K,m\ge1`$ and fixed $`\epsilon<1/\sqrt2`$.
+**Anchor and project sources.** [HRB] §§2.6.4 and 5.5 provide pair-gate context; [Theorem M2 and explicit construction](../science/matching.md#3-exact-matching-cost-including-all-lifts), equations (M.6)–(M.16).
 
-**Dependencies and story role:** Integrates M17–M20 into the fixed-error physical-gate converse, including its explicit range and constants.
+### M22 From integrated action to physical force caps
 
-**Conceptual connection:** Magnitude-sensitive spectral control preserves the resource law even when individual singular values become small.
+**Central question.** Which gate-duration law follows from a total cap, and which requires an individual-cap construction?
 
-**Source pointers:** Project [gate-layer bounds §5, weighted perturbation](../science/gate_layer_bounds.md#5-a-weighted-singular-value-perturbation-bound), [§6, uniform constants](../science/gate_layer_bounds.md#6-uniform-constants-for-every-k-and-m), and [§1, theorem](../science/gate_layer_bounds.md#1-statement-and-spectral-input).
+**Understanding target.** Combine the action converse with $`E\leq PT`$ at zero loss. The explicit matching controls have constant total power and individual powers $`\pi^2k_j/(4T^2)`$. Their separate peak analysis gives $`T_{\min}=\Theta(g^{-1}\sqrt{1+m/b})`$ when every qubit obeys $`\sum_\mu\vert u_{\mu i}\vert ^2\leq g^2`$.
 
-### M22 — One pair needs only one signed spectral direction
+**Earlier dependencies and story role.** [M12](#m12-a-complete-ledger-of-control-resources), [M13](#m13-the-complete-architecture-question), and [M21](#m21-the-exact-matching-sandwich-and-an-attaining-family) turn the control theorem into the first architecture conclusion.
 
-**Central question:** How can diagonal phase freedom reduce the spectral resources of a target pair?
+**Conceptual connection.** Increasing available modes does not increase the allowed total drive per qubit. Collective low-rank entangling phases can have a different duration law from independent matchings.
 
-**Understanding target:** Explain why equal forces at a positive harmonic and opposite forces at a negative harmonic each realize the desired cross entry $`\pi/8`$ with a rank-one pair block. Recognize the different diagonal entries as global phase choices.
+**Anchor and project sources.** [HRB] §§2.7, 5.5, and 8 provide implementation context; [total and individual caps](../science/matching.md#4-scaling-and-the-two-power-conventions) and [collective-phase comparison](../science/architecture.md#1-independent-gates-and-collective-phases-have-different-costs).
 
-**Dependencies and story role:** Uses M07, M10, M13, and M15. It starts the constructive side with one physically equivalent pair representative.
+### M23 Unwrapping a nearly correct quadratic gate
 
-**Conceptual connection:** The same equivalence freedom protected against in the converse becomes useful when designing an efficient control.
+**Central question.** Does a small channel error justify comparing ordinary quadratic coefficients despite arbitrary phase wraps?
 
-**Source pointers:** Project [matching construction §1, Eqs. (2)–(6)](../science/matching_construction.md#1-four-real-slots-per-mode-and-harmonic) and [spectral cost §4](../science/spectral_cost.md#4-a-phase-matrix-and-a-physical-gate-have-different-optimization-domains).
+**Understanding target.** For two diagonal unitary channels, connect half-diamond error $`\epsilon`$ to a phase arc with radius $`\delta=\arcsin\epsilon`$. If $`q=2\pi h+e`$ and $`\vert e\vert \leq\delta\lt \pi/4`$, every third finite difference of the integer-valued $`h`$ vanishes because its magnitude is less than one. Thus $`h`$ is an integer quadratic polynomial, and Walsh/Parseval gives $`\Vert R_{\mathcal{A}\mathcal{B}}\Vert _F\leq\delta/2`$.
 
-### M23 — Packing independent pairs without unwanted couplings
+**Earlier dependencies and story role.** [M06](#m06-state-fidelity-process-error-and-operational-distance), [M11](#m11-quadratic-boolean-phases-and-their-modular-ambiguity), and [M20](#m20-quantum-phase-equivalence-and-the-odd-determinant) justify the passage from gate accuracy to matrix stability.
 
-**Central question:** How do the local pair controls combine into an exact parallel layer?
+**Conceptual connection.** The integer unwrapping and the coefficient-norm bound are distinct steps. A pointwise choice of phase branch alone would not justify the second.
 
-**Understanding target:** Explain cancellation between real and imaginary quadrature slots, independence across modes and signed harmonics, and the allocation of $`4m`$ pairs per harmonic magnitude. Connect this packing to exact closure and action $`(\pi^2/2)\sum_{r=1}^K\lceil r/(4m)\rceil`$.
+**Anchor and project sources.** [HRB] §§2.6.4 and 4.7 motivate phase gates and process accuracy; the phase arc, finite differences, and Walsh argument are project derivations in [Lemma M3 and matching §5](../science/matching.md#5-uniform-phase-unwrapping-on-the-boolean-cube).
 
-**Dependencies and story role:** Uses M13 and M22, with M21 supplying the lower-bound comparison. It turns the one-pair mechanism into the matching-order upper construction.
+### M24 A positive congestion bound at every size
 
-**Conceptual connection:** Orthogonality in control space creates independent interactions even though the pairs share a mediator.
+**Central question.** How does the exact matching converse survive a bounded coefficient residual?
 
-**Source pointers:** Project [matching construction §1](../science/matching_construction.md#1-four-real-slots-per-mode-and-harmonic), [§2, exact action](../science/matching_construction.md#2-exact-action-and-force-limited-duration), and [verification guide, construction and integration checks](../verification/README.md#what-is-checked).
+**Understanding target.** Apply singular-value stability to the unwrapped cross block. With $`\eta=4\delta/\pi\lt 1`$, distinguish the weighted determinant lower bound from the positive term $`m-\eta\sqrt m`$. Their combination yields the all-size bound $`E\geq\pi^2(1-\eta)(m+m^2/b)/(60T)`$ for every $`m,b\geq1`$.
 
-### M24 — Converting the action law into a clock law
+**Earlier dependencies and story role.** [M09](#m09-real-gram-matrices-and-spectral-matrix-tools), [M21](#m21-the-exact-matching-sandwich-and-an-attaining-family), and [M23](#m23-unwrapping-a-nearly-correct-quadratic-gate) establish fixed-error congestion with explicit finite-size control.
 
-**Central question:** What duration follows when each qubit has a fixed total force budget?
+**Conceptual connection.** An increasing weighted singular-value function is not assumed to be a norm. Stability uses the Frobenius perturbation inequality, and the number $`30`$ appearing inside one proof is not a restriction on the theorem's system size.
 
-**Understanding target:** Explain the lower-bound conversion $`\mathcal E\le2Kg^2T`$ and the constant-magnitude tones of the upper construction. Connect the resulting $`\Theta_\epsilon(\sqrt{1+K/m}/g)`$ duration to the distinct regimes of bounded $`m`$ and $`m`$ proportional to $`K`$.
+**Anchor and project sources.** [HRB] §4.7 gives accuracy context only; [Theorem M4](../science/matching.md#6-explicit-finite-error-lower-bounds-positive-for-every-m), including equations (M.28)–(M.35), supplies the bound and its unitary threshold $`\epsilon\lt 1/\sqrt2`$.
 
-**Dependencies and story role:** Combines M09, M21, and M23 into the central architectural scaling statement.
+### M25 The exact lossy channel and its skew phase
 
-**Conceptual connection:** The action theorem becomes a throughput constraint only after the force resource is specified consistently across all modes.
+**Central question.** Which spin channel is actually implemented by a closed damped bus?
 
-**Source pointers:** Project [gate-layer bounds §7, force-limited clock](../science/gate_layer_bounds.md#7-consequence-for-a-force-limited-clock), [matching construction §2](../science/matching_construction.md#2-exact-action-and-force-limited-duration), and [model, physical interpretation](../science/model.md#physical-interpretation-and-scope).
+**Understanding target.** Follow the coherent-output dilation with $`\beta_z=\sqrt\kappa\,Az`$. The overlap gives attenuation governed by $`F=\mathrm{Re}\int A^\dagger A`$ and a phase $`\kappa z'^{\mathsf{T}}Jz`$, with $`J=\mathrm{Im}\int A^\dagger A`$ antisymmetric. The resulting Schur multiplier is completely positive because it is an environment Gram matrix.
 
-### M25 — The exact construction's harmonic resources
+**Earlier dependencies and story role.** [M05](#m05-an-open-bus-leaves-an-environmental-record), [M06](#m06-state-fidelity-process-error-and-operational-distance), [M09](#m09-real-gram-matrices-and-spectral-matrix-tools), and [M15](#m15-from-conditional-loops-to-the-admissible-matrix-model) identify the actual operation needed for noisy claims.
 
-**Central question:** What additional restrictions follow when only finitely many Fourier harmonics are allowed?
+**Conceptual connection.** The skew phase generally cannot be removed by one diagonal Hamiltonian correction. When $`J=0`$, Gaussian dephasing is available; diagonal $`F`$ permits independent dephasing. Correlated noise is therefore not asserted to be unavoidable.
 
-**Understanding target:** Connect the construction's largest harmonic $`L`$ to its highest envelope frequency $`2\pi L/T`$, and understand the exact-gate capacity $`K\le4mL`$. Distinguish finite Fourier support on the pulse interval from a complete physical bandwidth or switching specification.
+**Anchor and project sources.** [HRB] §§3.2–3.3 motivate open motion; [exact channel, equations (L2)–(L4)](../science/loss_and_frontier.md#1-exact-channel-including-the-imaginary-trajectory-gram-matrix); [Louis and Müller–Luoma–Strunz attribution](../references/related_work.md#5-dissipation-known-mechanism-paid-resource-frontier).
 
-**Dependencies and story role:** Uses M13, M16, M23, and M24. It exposes a resource assumption behind the matching upper duration.
+### M26 What channel accuracy forces on phase and exposure
 
-**Conceptual connection:** The spectral slot count gives an exact capacity statement, while actual waveform-generation limits require a separate physical interpretation.
+**Central question.** How can the actual noisy channel constrain both the geometric gate and its environmental record?
 
-**Source pointers:** Project [matching construction §3, bandwidth](../science/matching_construction.md#3-bandwidth-of-the-construction), [§5, exact harmonic capacity](../science/matching_construction.md#5-exact-capacity-with-finitely-many-fourier-harmonics), and [hardware resources §3](../science/hardware_resources.md#3-bandwidth-of-the-explicit-upper-construction).
+**Understanding target.** For a diagonally dressed matching target, fixing a reference string makes the skew bath phase linear in the other string. Two-branch input states then give a phase radius $`\delta=\arcsin(2\epsilon)`$, so the same unwrapping works for $`\epsilon\lt 1/(2\sqrt2)`$. Separately, an antipodal superposition gives the target-independent floor $`\epsilon\geq(1-e^{-2\kappa X})/2`$ relative to any unitary.
 
-### M26 — Why harmonic capacity is not an approximate rank bound
+**Earlier dependencies and story role.** [M06](#m06-state-fidelity-process-error-and-operational-distance), [M23](#m23-unwrapping-a-nearly-correct-quadratic-gate), [M24](#m24-a-positive-congestion-bound-at-every-size), and [M25](#m25-the-exact-lossy-channel-and-its-skew-phase) extend the converse to implemented noisy gates.
 
-**Central question:** How can very few spectral directions approximate many pairs without defeating the action converse?
+**Conceptual connection.** The reference-dependent linear term is a proof device, not a correction that removes all bath phases. The antipodal argument constrains purity and remains valid even when the target's geometric phase differs from the realized $`K`$.
 
-**Understanding target:** Explain how large integer phase wraps can have tiny singular values and a few very large ones. Connect the rank-one approximation to $`(I-2tN)^{-1}`$ with a rank-two full phase matrix, first-harmonic synthesis, small error at fixed $`K`$, and divergent action.
+**Anchor and project sources.** [HRB] §§3.2 and 4.7 provide noise/process context; [Theorem M5](../science/matching.md#7-direct-robustness-for-the-implemented-lossy-channel) and [the operational loss floor, equations (L5)–(L6)](../science/loss_and_frontier.md#a-nonperturbative-floor-relative-to-any-unitary-target).
 
-**Dependencies and story role:** Uses M16–M21 and M25. It resolves the apparent tension between exact harmonic capacity and fixed-error synthesis.
+### M27 The damped area spectrum and paid action
 
-**Conceptual connection:** Rank is unstable under approximation; the charged magnitudes of surviving singular values preserve the robust lower bound.
+**Central question.** What changes in the exact spectral optimum when maintaining a closed path itself costs force?
 
-**Source pointers:** Project [gate-layer bounds §8, two-pair shear example](../science/gate_layer_bounds.md#8-why-approximate-rank-is-insufficient) and [matching construction §6, finite-harmonic boundary proposition](../science/matching_construction.md#6-a-boundary-of-the-exact-harmonic-capacity-law).
+**Understanding target.** Follow the area operator relative to the cost $`E+\lambda X`$. Its Dirichlet eigenfunctions are $`e^{\pm i\omega_kt}\sin(k\pi t/T)`$, with $`\omega_k=\sqrt{(k\pi/T)^2+\lambda}`$ and signed real multiplicity $`2b`$. Rank allocation with these new weights gives the exact priced optimum. Setting $`\lambda=\kappa^2/4`$ gives the minimum paid action $`G`$.
 
-### M27 — Intermediate excursion and exposure to noise
+**Earlier dependencies and story role.** [M10](#m10-closed-trajectories-fourier-modes-and-variational-spectra), [M12](#m12-a-complete-ledger-of-control-resources), [M18](#m18-the-exact-fixed-matrix-spectral-optimum), and [M25](#m25-the-exact-lossy-channel-and-its-skew-phase) extend the inherited spectral engine to compensated loss.
 
-**Central question:** What happens to the oscillator during an exact parallel gate, before its path closes?
+**Conceptual connection.** The complete spectrum and explicit attaining paths prove an integrated-action optimum. A separate peak-force constraint is not automatically satisfied at the value $`G/T`$.
 
-**Understanding target:** Distinguish a single-qubit path from the summed displacement conditioned on an entire spin string. Compare the construction's worst-case excursion bound with its uniform-basis mean occupation, and explain why final closure does not reverse loss of information to an environment.
+**Anchor and project sources.** [HRB] §§2.6.4 and 3.3 motivate controlled damped trajectories; [area spectrum and priced optimum](../science/loss_and_frontier.md#3-spectrum-of-the-closed-loop-area-operator), equations (L11)–(L20); [mathematical attribution](../references/related_work.md#2-the-spectral-control-mathematics-is-inherited).
 
-**Dependencies and story role:** Uses M02, M06, and M23–M25. It connects the ideal closed-loop construction to the physical demands of its intermediate motion.
+### M28 The complete fixed-matrix exposure frontier
 
-**Conceptual connection:** Geometric phase accumulation and endpoint disentanglement coexist with finite excitation and noise exposure during the gate.
+**Central question.** Which action–exposure tradeoffs are optimal when the full phase matrix and time are fixed?
 
-**Source pointers:** Anchor [§3.2, motional coherence][hrb32]; project [matching construction §4, displacement bounds](../science/matching_construction.md#4-displacement-and-oscillator-excursion) and [hardware resources §4](../science/hardware_resources.md#4-oscillator-excursion-and-noise-exposure).
+**Understanding target.** Introduce an exposure price $`\mu\geq0`$ through $`\lambda=\kappa^2/4+\mu`$. The supporting function gives $`X(\mu)=S'(\mu)`$ and $`G(\mu)=S(\mu)-\mu X(\mu)`$, with explicit attaining controls. Monotonicity and domination show that this parameterization covers every nondominated $`(G,X)`$ pair for fixed $`K,T,b,\kappa`$.
 
-### M28 — Applying the law to a specified device
+**Earlier dependencies and story role.** [M16](#m16-the-geometric-phase-exposure-bound-and-its-limits), [M25](#m25-the-exact-lossy-channel-and-its-skew-phase), and [M27](#m27-the-damped-area-spectrum-and-paid-action) complete the exact scalar resource optimization.
 
-**Central question:** What must be identified before the ideal force bound becomes a meaningful hardware statement?
+**Conceptual connection.** For nonzero $`K`$, as exposure tends to zero, action and phase-rotation rate diverge; asymptotically $`GX\to\Vert K\Vert _*^2`$. An exposure optimum is not a diamond-error optimum, and it does not minimize over gate-equivalent phase lifts.
 
-**Understanding target:** Connect physical actuator amplitudes, participation factors, rotating-frame conventions, and the total per-qubit force norm. Explain why a lower bound survives further actuator restrictions, while attaining the ideal upper bound requires the stated quadratures, bandwidth, and mode access; identify when growing normal-mode count changes the scaling regime.
+**Anchor and project sources.** [HRB] §§3.2 and 8 motivate the coherence/control tradeoff; [complete fixed-$`K`$ frontier](../science/loss_and_frontier.md#5-paid-damping-and-the-complete-fixed-k-exposure-frontier), equations (L21)–(L23), and its scope discussion.
 
-**Dependencies and story role:** Combines M03, M04, M09, and M24–M27 into a consistent device-level interpretation.
+### M29 A paid architecture comparison with global accuracy
 
-**Conceptual connection:** A permissive control model supports a general converse; hardware calibration determines the variables and the attainability of its upper construction.
+**Central question.** What do the proved resource laws imply when force, duration, and whole-layer accuracy are budgeted together?
 
-**Source pointers:** Anchor [§2.2][hrb22] and [§2.6.1][hrb261]; project [hardware resources §§1–2](../science/hardware_resources.md#1-converting-a-laboratory-coupling-to-the-force-norm), [§5, parameterized resonator example](../science/hardware_resources.md#5-a-parameterized-single-resonator-example), and [§6, changes of frame](../science/hardware_resources.md#6-changes-of-frame-and-resources-outside-the-model); [bridge](HAEFFNER_BRIDGE.md).
+**Understanding target.** For $`\kappa\gt 0`$, $`0\lt \epsilon\lt 1/(2\sqrt2)`$, and $`\delta=\arcsin(2\epsilon)`$, combine the robust bound $`\Vert K\Vert _*\geq\pi m/4-\delta\sqrt m`$, the exposure ceiling from M26, and $`G\leq PT`$ to obtain
+$`T\geq2\kappa(\pi m/4-\delta\sqrt m)^2/[P(-\log(1-2\epsilon))]`$.
+Interpret the peak-constrained damped example and the two figure panels with their distinct optimization domains.
 
-### M29 — The contribution and the evidence supporting it
+**Earlier dependencies and story role.** [M22](#m22-from-integrated-action-to-physical-force-caps), [M24](#m24-a-positive-congestion-bound-at-every-size), [M26](#m26-what-channel-accuracy-forces-on-phase-and-exposure), and [M28](#m28-the-complete-fixed-matrix-exposure-frontier) join ideal congestion to a separately paid global noise requirement.
 
-**Central question:** Which conclusion follows from each kind of scientific evidence in the repository?
+**Conceptual connection.** More modes can improve lossless parallelism without guaranteeing a chosen global accuracy. Modulation, growing branch occupation, initial preparation, and data-memory noise remain explicit resources. A lower error bound for a pulse family is not its exact error.
 
-**Understanding target:** Distinguish established geometric gates, prior parallel constructions, and classical spectral-area optimization from the combined all-representative, fixed-error converse. Explain how finite calculations check normalization, waveform cancellation, and examples while the universal statements depend on the analytical proofs.
+**Anchor and project sources.** [HRB] §§2.7, 3.2, and 6–8 provide architecture context; [global accuracy consequence](../science/architecture.md#2-a-global-accuracy-constraint-from-loss), [resource examples](../science/architecture.md#3-two-resource-comparisons), and [finite verification](../verification/README.md).
 
-**Dependencies and story role:** Uses M12 and M15–M28. It places the complete result in its mathematical and physical context before the final synthesis.
+### M30 The complete scoped architecture story
 
-**Conceptual connection:** Attribution and reproducibility clarify the content and limits of the architectural claim, including why an existing parallel-gate demonstration is compatible with the new converse.
+**Central question.** What does finite-bus congestion establish about an architecture, and where do its conclusions stop?
 
-**Source pointers:** Anchor [§5.5, simultaneous-pair precedent][hrb55]; project [related work §§1–2](../references/related_work.md#1-geometric-optimal-control-is-an-antecedent), [§5, scope of the additional converse](../references/related_work.md#5-what-the-additional-converse-establishes), [spectral cost §5](../science/spectral_cost.md#5-relation-to-the-classical-spectral-area-problem), and [verification guide](../verification/README.md).
+**Understanding target.** Connect the conditional-area primitive to temporal multiplicity, the inherited spectral optimum to all quantum phase representatives, and phase unwrapping to fixed-error congestion. Join that lossless attainable law with the actual noisy-channel converse and the exact fixed-matrix exposure frontier. The resulting account identifies what is possible, what is necessary, and which assumptions support each statement.
 
-### M30 — Final synthesis: connectivity and independent-pair throughput
+**Earlier dependencies and story role.** [M13](#m13-the-complete-architecture-question), [M21](#m21-the-exact-matching-sandwich-and-an-attaining-family), [M24](#m24-a-positive-congestion-bound-at-every-size), [M28](#m28-the-complete-fixed-matrix-exposure-frontier), and [M29](#m29-a-paid-architecture-comparison-with-global-accuracy) supply the complete synthesis.
 
-**Central question:** What does the complete result establish about an architecture that shares harmonic mediators?
+**Conceptual connection.** Fixed per-qubit coupling requires $`b=\Omega(m)`$ for constant-duration independent matching in the lossless model; global loss accuracy adds a mode-independent necessary cost. Neither statement covers unrestricted processors, nonlinear or encoded buses, intermediate noncommuting controls, approximate return, or fault tolerance without new analysis. Mathematical attribution, analytic proofs, finite numerical checks, and hardware evidence retain their separate roles.
 
-**Understanding target:** Give a connected account from conditional geometric phases through spectral capacity, physical gate equivalence, and fixed-error robustness to the laws $`\mathcal A_\epsilon=\Theta_\epsilon(K+K^2/m)`$ and $`T_\epsilon=\Theta_\epsilon(\sqrt{1+K/m}/g)`$ for fixed $`0\le\epsilon<1/\sqrt2`$. Explain their assumptions, why collective connectivity alone does not determine independent-pair throughput, and how bandwidth, excitation, and device controls qualify the achievable construction.
-
-**Dependencies and story role:** Integrates both phases, especially M12, M21, M24, and M26–M29. It closes the map with the scientific meaning of the whole argument and its stated domain.
-
-**Conceptual connection:** A familiar bus-mediated gate mechanism becomes a quantitative architecture comparison once physical equivalence, accuracy, and charged resources are treated together.
-
-**Source pointers:** [Häffner bridge](HAEFFNER_BRIDGE.md); project [model, exact statements and proof route](../science/model.md#exact-statements-and-proof-route), [gate-layer theorem](../science/gate_layer_bounds.md#1-statement-and-spectral-input), [matching construction](../science/matching_construction.md), and [hardware scope](../science/hardware_resources.md#6-changes-of-frame-and-resources-outside-the-model).
-
-[hrb22]: https://arxiv.org/pdf/0809.4368v1#page=8
-[hrb261]: https://arxiv.org/pdf/0809.4368v1#page=22
-[hrb263]: https://arxiv.org/pdf/0809.4368v1#page=28
-[hrb264]: https://arxiv.org/pdf/0809.4368v1#page=29
-[hrb32]: https://arxiv.org/pdf/0809.4368v1#page=45
-[hrb55]: https://arxiv.org/pdf/0809.4368v1#page=73
+**Anchor and project sources.** [HRB] §8 supplies the broader architecture perspective; [scientific reading map](../science/README.md), [complete model](../science/model.md), [architecture conclusions](../science/architecture.md#6-what-follows-for-architecture), [related work and claim boundaries](../references/related_work.md), and [verification limits](../verification/README.md).

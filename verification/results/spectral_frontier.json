@@ -1,0 +1,108 @@
+{
+  "construction_checks": [
+    {
+      "buses": 1,
+      "T": 1.7,
+      "kappa": 0.0,
+      "eta": 0.0,
+      "phase_matrix_error": 4.440892098500626e-15,
+      "closure_error": 1.4526032792951658e-16,
+      "exposure_error": 1.7763568394002505e-15,
+      "force_action_error": 7.105427357601002e-15,
+      "exposure": 3.814943985912733,
+      "force_action": 33.263922214480175
+    },
+    {
+      "buses": 1,
+      "T": 1.7,
+      "kappa": 0.7,
+      "eta": 0.0,
+      "phase_matrix_error": 2.9976021664879227e-15,
+      "closure_error": 1.471313663133414e-16,
+      "exposure_error": 2.6645352591003757e-15,
+      "force_action_error": 1.4210854715202004e-14,
+      "exposure": 3.75288690033283,
+      "force_action": 33.72741899977136
+    },
+    {
+      "buses": 1,
+      "T": 1.7,
+      "kappa": 0.7,
+      "eta": 3.0,
+      "phase_matrix_error": 3.219646771412954e-15,
+      "closure_error": 1.573096303861e-16,
+      "exposure_error": 1.3322676295501878e-15,
+      "force_action_error": 7.105427357601002e-15,
+      "exposure": 2.8203891643788177,
+      "force_action": 34.91816675142911
+    },
+    {
+      "buses": 2,
+      "T": 1.7,
+      "kappa": 0.0,
+      "eta": 0.0,
+      "phase_matrix_error": 4.3298697960381105e-15,
+      "closure_error": 1.282479428089155e-16,
+      "exposure_error": 1.7763568394002505e-15,
+      "force_action_error": 3.552713678800501e-15,
+      "exposure": 4.166676410145822,
+      "force_action": 28.459133450166373
+    },
+    {
+      "buses": 2,
+      "T": 1.7,
+      "kappa": 0.7,
+      "eta": 0.0,
+      "phase_matrix_error": 3.774758283725532e-15,
+      "closure_error": 1.2541550236051408e-16,
+      "exposure_error": 1.7763568394002505e-15,
+      "force_action_error": 1.4210854715202004e-14,
+      "exposure": 4.093898749108288,
+      "force_action": 28.96505440585912
+    },
+    {
+      "buses": 2,
+      "T": 1.7,
+      "kappa": 0.7,
+      "eta": 3.0,
+      "phase_matrix_error": 3.9968028886505635e-15,
+      "closure_error": 1.0112035985143791e-16,
+      "exposure_error": 1.3322676295501878e-15,
+      "force_action_error": 1.0658141036401503e-14,
+      "exposure": 3.0114936402014685,
+      "force_action": 30.34132861690707
+    }
+  ],
+  "finite_difference_spectrum": [
+    {
+      "points": 120,
+      "observed": [
+        0.24915885376810765,
+        0.13223713730504788,
+        0.0891234862964403
+      ],
+      "expected": [
+        0.24921966789693242,
+        0.1323587508289003,
+        0.0893059467487939
+      ],
+      "max_relative_error": 0.002043094093911013
+    },
+    {
+      "points": 240,
+      "observed": [
+        0.2492043383088674,
+        0.13232809846009205,
+        0.08925996580486795
+      ],
+      "expected": [
+        0.24921966789693242,
+        0.1323587508289003,
+        0.0893059467487939
+      ],
+      "max_relative_error": 0.0005148699006045643
+    }
+  ],
+  "status": "passed",
+  "scope": "Finite convention/construction checks only; analytical proofs remain necessary."
+}

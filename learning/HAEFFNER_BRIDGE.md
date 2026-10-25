@@ -1,236 +1,388 @@
-# From trapped-ion gates to a shared-bus parallelism bound
+# From trapped-ion geometric gates to finite-bus congestion
 
-Two qubits can interact by pushing a shared oscillator around a closed path. The oscillator returns, while the qubits retain a conditional phase. The question here is how the resources change when the desired operation contains many independent pairs sharing the same oscillators.
+A harmonic mediator can connect many qubits. The question here is how much independently programmable entangling action that connection supplies at a fixed force budget: can a few modes perform an extensive layer of independent CZ gates quickly, and what does loss add to the resource requirement?
 
-This bridge connects the selected trapped-ion review to the project's definitions, a complete one-pair example, and the additional reasoning behind its parallelism bound. The [30-milestone map](MILESTONES.md) organizes the broader conceptual route; the [model](../science/model.md) is the authoritative statement of assumptions and results.
+The selected educational anchor is **H. Häffner, C. F. Roos and R. Blatt, *Quantum computing with trapped ions*, Physics Reports 469, 155–203 (2008)**. All section and page pointers below refer to the **99-page arXiv:0809.4368v1 preprint, submitted 25 September 2008**: [version record](https://arxiv.org/abs/0809.4368v1), [open PDF](https://arxiv.org/pdf/0809.4368v1). The page numbers are the preprint/PDF pages, not the journal pagination.
 
-## 1. The selected source and a focused reading map
+This is the single foundations anchor. The [30-milestone map](MILESTONES.md) organizes the complete account. The [model](../science/model.md) defines the admissible controls, and the scientific pages supply the resource theorems and proofs.
 
-**H. Häffner, C. F. Roos, and R. Blatt, “Quantum computing with trapped ions,” *Physics Reports* 469, 155–203 (2008).** [Published DOI](https://doi.org/10.1016/j.physrep.2008.09.003). The selected version is [arXiv:0809.4368v1](https://arxiv.org/abs/0809.4368v1), submitted 25 September 2008: [PDF](https://arxiv.org/pdf/0809.4368v1), [HTML](https://arxiv.org/html/0809.4368v1). All source section, figure, and equation pointers below follow the pinned v1 **PDF**; the generated HTML renumbers some equations. The bibliography key is `Haeffner2008`.
+## Targeted route through the anchor
 
-| Source location in v1 | Connection developed here |
-|---|---|
-| §2.2, “The basic Hamiltonian,” Eqs. (1)–(7) | Convert laser and sideband parameters to effective-force coefficients. |
-| §2.6.1, “Motion of ion strings,” especially Fig. 10 | Identify the canonical modes and their participation factors. |
-| §2.6.3, “Mølmer–Sørensen gate,” Eq. (15) in the PDF | Keep the spin-axis and basis conventions explicit. |
-| §2.6.4, “Geometric phase gate,” especially Fig. 15 | Connect conditional forces and motional return to the closed-path model. |
-| §3.1.3, “Imperfect control” | Separate the intended Hamiltonian from unwanted terms. |
-| §3.2, “Motional coherence” | Distinguish endpoint closure from noise accumulated during a gate. |
+These selections are sufficient for the physical connection; reading the entire review is unnecessary.
 
-These sections provide the physical entry point. The mathematical translation, worked pulse, and resource argument below use the project's conventions. The review's experimental descriptions belong to their 2008 context; the project does not use them as current hardware specifications.
+| Connection | Verified v1 pointer | Milestones |
+|---|---|---|
+| Oscillator and laser coupling | [§2.2, pp. 8–10, Eqs. (1)–(7)](https://arxiv.org/pdf/0809.4368v1#page=8) | M02–M03 |
+| Fixed spin basis and local rotations | [§2.5, pp. 16–17; Eq. (10), p. 17](https://arxiv.org/pdf/0809.4368v1#page=17) | M01, M03 |
+| Physical normal modes | [§2.6.1, pp. 22–23; Fig. 10, p. 23](https://arxiv.org/pdf/0809.4368v1#page=22) | M07 |
+| A phase gate in the spin-$`x`$ basis | [§2.6.3, pp. 28–29; Eq. (15), p. 28](https://arxiv.org/pdf/0809.4368v1#page=28) | M01, M04 |
+| Conditional force and return of motion | [§2.6.4, pp. 29–31; Fig. 15, p. 30](https://arxiv.org/pdf/0809.4368v1#page=29) | M04, M14 |
+| Heating and motional dephasing | [§3.2, starting p. 45; heating on pp. 46–47](https://arxiv.org/pdf/0809.4368v1#page=45) | M05, M25 |
 
-## 2. Translating the physical objects into the model
+The review supplies the physical mechanism and its experimental context. Its historical device figures are not current hardware estimates. The matrix optimization, phase-lift converse, and robust Boolean argument below are supplied by this project and its attributed research ingredients.
 
-### Normal modes and the meaning of the mode count
+## Notation and the effective model
 
-Let $`j`$ label ions and $`\ell`$ label harmonic normal modes. For identical ions, a useful notation for the displacement of ion $`j`$ along a chosen direction is
+| Anchor notation or object | Convention used here | Required distinction |
+|---|---|---|
+| $`a,a^\dagger`$ | $`a_\mu,a_\mu^\dagger`$, $`\mu=1,\ldots,b`$ | $`b`$ counts physical oscillator modes. |
+| $`\sigma_x`$ or another fixed spin axis | $`Z_i`$ in a fixed rotated basis | A basis choice does not authorize changing the coupled axis during the gate. |
+| $`\Omega,\eta`$ | Effective coefficients $`u_{\mu i}(t)`$ and bound $`g`$ | Laser strength and Lamb–Dicke factors need a device-specific conversion. |
+| Motional occupation | $`\langle a_\mu^\dagger a_\mu\rangle`$ | Here $`n`$ counts qubits and $`m`$ counts disjoint CZ pairs. |
+
+A fixed change of spin basis is straightforward: for the Hadamard operator $`H_{\rm Had}`$, $`H_{\rm Had}\sigma_xH_{\rm Had}=Z`$. Applying one fixed basis convention throughout preserves commutation of the spin-dependent forces. The theorem does not include interspersed rotations that change that axis.
+
+The project takes the following effective interaction as its starting assumption, with $`\hbar=1`$:
+
+**(B1)**
 
 ```math
-\delta q_j=\sum_{\ell}b_{j\ell}x_{\mathrm{zpf},\ell}
-(a_\ell+a_\ell^\dagger),
+H_{\rm bus}(t)=
+i\sum_{\mu,i}Z_i
+\left[u_{\mu i}(t)a_\mu^\dagger-u_{\mu i}(t)^*a_\mu\right].
+```
+
+Every complex coefficient is independently programmable. That control freedom is stronger than access to a single global laser envelope or a fixed set of mode participation factors. A device reduction must establish which coefficients can actually be controlled and how its laser constraints map to
+
+**(B2)**
+
+```math
+\sum_\mu\vert u_{\mu i}(t)\vert ^2\leq g^2
+\quad\text{for each qubit }i.
+```
+
+In particular, neither $`g=\Omega`$ nor $`g=\eta\Omega`$ is assumed. Detunings, normalization conventions, mode shapes, and shared control channels all matter. The [resource ledger](../science/architecture.md) also separates force, occupation, modulation, preparation, and memory costs.
+
+## From a conditional loop to the phase matrix
+
+This is the connection between M04, M08 and M15. Begin without loss and let
+
+```math
+\dot\alpha_{\mu i}(t)=u_{\mu i}(t),\qquad
+\alpha_{\mu i}(0)=\alpha_{\mu i}(T)=0.
+```
+
+Collect the trajectories into a $`b\times n`$ matrix $`A(t)`$. For a computational string $`z\in\{+1,-1\}^n`$, the conditional coherent amplitude is $`A(t)z`$.
+
+Displacements do not commute as scalar translations. With $`D(\alpha)=\exp(\alpha a^\dagger-\alpha^*a)`$, the phase accumulated around a closed branch path is
+
+**(B3)**
+
+```math
+q(z)=\mathrm{Im}\int_0^T
+[A(t)z]^\dagger\dot A(t)z\,dt=z^TKz,
 \qquad
-x_{\mathrm{zpf},\ell}=\sqrt{\frac{\hbar}{2M_{\mathrm{ion}}\omega_\ell}}.
-\qquad\text{(B1)}
+K=\mathrm{Im}\int_0^T A^\dagger\dot A\,dt.
 ```
 
-Here $`b_{j\ell}`$ is the $`j`$th entry of a real normalized mode vector, $`M_{\mathrm{ion}}`$ is the ion mass, and $`a_\ell`$ removes one excitation of mode $`\ell`$. Different modes are independent canonical coordinates, with $`[a_\ell,a_k^\dagger]=\delta_{\ell k}`$. Their spatial patterns determine which ions respond to a drive and with which relative signs.
+Closure removes the final spin–bus displacement correlation; the accumulated phase remains. Integration by parts makes $`K`$ real symmetric. The resulting data gate is
 
-The project's $`m`$ counts these dynamical oscillator coordinates. Several modulation tones can act on the same $`a_\ell`$ without creating additional modes. Conversely, one laser envelope can couple to several different $`a_\ell`$. A mode omitted from a finite-$`m`$ description must have a justified negligible role in the interaction; calling it a spectator does not itself establish that condition. The [hardware account](../science/hardware_resources.md#2-which-modes-and-controls-count) gives the precise resource interpretation.
-
-### From a physical drive to an inverse-time coefficient
-
-An explicit conversion avoids ambiguity about what is being bounded. Consider a linear state-dependent potential with the sign convention
+**(B4)**
 
 ```math
-H_F(t)=\sum_j F_j(t)Z_j\delta q_j,
-\qquad
-G_{j\ell}(t)=\frac{F_j(t)b_{j\ell}x_{\mathrm{zpf},\ell}}{\hbar}.
-\qquad\text{(B2)}
+U_K=\exp(i\mathbf{Z}^TK\mathbf{Z})
+=e^{i\mathrm{tr}K}
+\exp\left(2i\sum_{i\lt j}K_{ij}Z_iZ_j\right).
 ```
 
-The real quantity $`F_j`$ is the signed coefficient of the potential; the corresponding mechanical force has the opposite sign. The free-oscillator interaction picture gives
+The coefficient of $`Z_iZ_j`$ is therefore $`2K_{ij}`$. The diagonal of $`K`$ changes only a global phase. These two facts will be essential when deciding whether a control bound applies to a physical gate or only to one matrix representing it.
+
+The basic scalar resources are
+
+**(B5)**
 
 ```math
-\frac{H_I(t)}{\hbar}
-=\sum_{j,\ell}Z_jG_{j\ell}(t)
-\left(a_\ell e^{-i\omega_\ell t}
-+a_\ell^\dagger e^{i\omega_\ell t}\right).
-\qquad\text{(B3)}
+E=\int_0^T\Vert \dot A(t)\Vert _F^2dt,\qquad
+X=\int_0^T\Vert A(t)\Vert _F^2dt.
 ```
 
-This is exactly the project's convention
+At zero loss, $`E`$ is the squared-force action. The exposure $`X`$ is the integrated bus occupation averaged over uniform computational strings. Neither quantity alone imposes a maximum occupation on every branch.
+
+## A fully paid single-CZ loop
+
+[M14](MILESTONES.md#m14-a-fully-paid-single-cz-loop) makes the normalization concrete. Take two qubits, one bus, vacuum initially, and
+
+**(B6)**
 
 ```math
-\frac{H_I(t)}{\hbar}
-=i\sum_{j,\ell}Z_j
-\left(u_{j\ell}(t)a_\ell^\dagger-u_{j\ell}(t)^*a_\ell\right)
-\quad\text{with}\quad
-u_{j\ell}(t)=-iG_{j\ell}(t)e^{i\omega_\ell t}.
-\qquad\text{(B4)}
+\alpha_1(t)=\alpha_2(t)=\frac14
+\left(e^{2\pi it/T}-1\right).
 ```
 
-Thus $`u_{j\ell}`$ has units of inverse time. This change of frame preserves its magnitude. A different sign for the potential changes the sign of $`u`$, without changing the charged force norm.
+Both columns close exactly. Their forces are
 
-Sideband drives can produce an effective linear-force Hamiltonian through a different sequence of frame changes and approximations. The conversion is made at the level of its coefficients: if a term is written as $`Z_j[f_{j\ell}a_\ell^\dagger+f_{j\ell}^*a_\ell]`$ in $`H_I/\hbar`$, then $`u_{j\ell}=-if_{j\ell}`$. This rule is independent of how the drive amplitude was named.
-
-| Review notation | Convention used in this project |
-|---|---|
-| Ion mass $`m`$ in $`z_0`$ | Write $`M_{\mathrm{ion}}`$ for mass; reserve $`m`$ for the number of modes. |
-| Trap frequency $`\omega_{\mathrm t}`$ and one-mode operators $`a,a^\dagger`$ | Use $`\omega_\ell,a_\ell,a_\ell^\dagger`$ for a multimode bus. |
-| $`z_0`$ and $`\eta=k_z z_0`$ | Mode participation and zero-point length enter the hardware coupling; they are absorbed into the calibrated $`u_{j\ell}`$. |
-| Laser strength $`\Omega`$, detuning $`\Delta`$, and optical phase $`\varphi`$ | These determine $`u`$ after the chosen interaction picture and approximations. The force bound $`g`$ applies to the resulting coefficient, not directly to the symbol $`\Omega`$. |
-| A fixed spin direction in the gate basis | Denote that Pauli operator by $`Z_j`$, with eigenvalues $`\pm1`$. A fixed change of basis is a relabeling of the model; time-dependent noncommuting spin axes change it. |
-
-In particular, a statement such as $`g=\eta\Omega`$ needs a specified Hamiltonian normalization, drive arrangement, and mode participation. The review's Rabi-frequency convention is stated in §2.2. Reading the actual coefficient avoids importing an unintended factor of two.
-
-### What the independent-control relaxation grants
-
-In (B2), one function $`F_j(t)`$ determines all the mode components on ion $`j`$. An addressed laser envelope likewise generally produces components linked by participation factors and mode-dependent phases. The project instead permits each complex $`u_{j\ell}(t)`$ to be chosen independently, while charging
-
-```math
-\sum_{\ell=1}^{m}|u_{j\ell}(t)|^2\le g^2
-\quad\text{for every qubit},
-\qquad
-\mathcal E=\int_0^T\sum_{j,\ell}|u_{j\ell}(t)|^2\,dt.
-\qquad\text{(B5)}
-```
-
-This enlarged control class is useful for a converse: any hardware controls satisfying the same Hamiltonian and budget are among its admissible controls. Attaining its upper construction requires those particular complex waveforms to be physically available. The bound is on one qubit's total force across modes; assigning an independent allowance $`g`$ to every mode would increase the available total force as $`m`$ grows.
-
-## 3. A complete one-pair closed-loop gate
-
-Take two qubits and one harmonic mode. Fix a duration $`T>0`$ and use the equal effective forces
+**(B7)**
 
 ```math
 u_1(t)=u_2(t)=\frac{i\pi}{2T}e^{2\pi it/T},
-\qquad 0\le t\le T.
-\qquad\text{(B6)}
+\qquad
+\max_t\vert u_i(t)\vert =\frac{\pi}{2T}.
 ```
 
-All amplitudes in this example are Hamiltonian coefficients in (B4). The extra factor $`i`$ simply chooses the origin of the drive phase.
+The relevant integrals are
 
-### The motion returns in every spin sector
-
-Integrating either force gives
+**(B8)**
 
 ```math
-\alpha_1(t)=\alpha_2(t)=\alpha(t)
-=\frac{e^{2\pi it/T}-1}{4},
-\qquad \alpha(0)=\alpha(T)=0.
-\qquad\text{(B7)}
+K=\frac{\pi}{8}
+\begin{pmatrix}1&1\\1&1\end{pmatrix},
+\qquad
+F:=\mathrm{Re}\int_0^T A^\dagger A\,dt
+=\frac{T}{8}
+\begin{pmatrix}1&1\\1&1\end{pmatrix}.
 ```
 
-For spin eigenvalues $`z_1,z_2\in\{\pm1\}`$, the actual conditional displacement of the oscillator is
-
-```math
-\beta_z(t)=z_1\alpha_1(t)+z_2\alpha_2(t)
-=(z_1+z_2)\alpha(t).
-\qquad\text{(B8)}
-```
-
-Opposite spin signs give zero displacement. Equal signs give a circular path with one of two opposite displacement amplitudes. All four paths end at the origin. The final bus operator is therefore the identity in the interaction picture, for every initial bus state within the harmonic model. The pulse can entangle an initially uncorrelated bus with the spins during the path, while factorizing into a spin gate and bus identity at $`T`$.
-
-### The closed motion leaves the required pair phase
-
-The [closed-loop phase formula](../science/model.md#hamiltonian-and-exact-closure) gives
-
-```math
-\begin{aligned}
-A_{ij}
-&=\mathrm{Im}\int_0^T\alpha(t)^*\dot\alpha(t)\,dt\\
-&=\mathrm{Im}\left[
-\frac{i(2\pi/T)}{16}\int_0^T
-\left(1-e^{2\pi it/T}\right)dt\right]
-=\frac\pi8,
-\qquad i,j\in\{1,2\}.
-\end{aligned}
-\qquad\text{(B9)}
-```
-
+For example, $`\int_0^T\vert e^{2\pi it/T}-1\vert ^2dt=2T`$ gives $`F`$, and
+$`\mathrm{Im}\int_0^T(e^{-2\pi it/T}-1) (2\pi i/T)e^{2\pi it/T}dt=2\pi`$ gives $`K`$.
 Thus
 
+**(B9)**
+
 ```math
-A=\frac\pi8\begin{pmatrix}1&1\\1&1\end{pmatrix},
+U_K=e^{i\pi/4}e^{i\pi Z_1Z_2/4},
 \qquad
-U_A=\exp\!\left[\frac{i\pi}{8}(Z_1+Z_2)^2\right]
-=e^{i\pi/4}\exp\!\left(\frac{i\pi}{4}Z_1Z_2\right).
-\qquad\text{(B10)}
+e^{-i\pi(Z_1+Z_2)/4}U_K=\mathrm{CZ}.
 ```
 
-The two diagonal entries contribute the global phase $`e^{i\pi/4}`$. The physical pair angle is **$`2A_{12}=\pi/4`$** because $`Z^{\mathsf T}AZ`$ contains both $`A_{12}Z_1Z_2`$ and $`A_{21}Z_2Z_1`$.
+The final correction is a product of local $`Z`$ rotations, as permitted by the target convention. Its implementation or frame tracking belongs to the device account.
 
-With $`Z\lvert0\rangle=\lvert0\rangle`$ and $`Z\lvert1\rangle=-\lvert1\rangle`$, the gate matrix is $`\mathrm{diag}(i,1,1,i)`$. On the product input $`\lvert++\rangle`$, where $`\lvert+\rangle=(\lvert0\rangle+\lvert1\rangle)/\sqrt2`$, it produces
+The complete force and displacement ledger for this loop is
+
+**(B10)**
 
 ```math
-U_A\lvert++\rangle
-=\frac{i\lvert00\rangle+\lvert01\rangle
-+\lvert10\rangle+i\lvert11\rangle}{2}.
-\qquad\text{(B11)}
+E=\frac{\pi^2}{2T},\qquad
+X=\frac T4,\qquad
+\max_{z,t}\vert A(t)z\vert ^2=1.
 ```
 
-Either qubit alone has reduced state $`I/2`$, so this pure two-qubit output is maximally entangled. The qubits have retained an operation even though the bus has returned.
-
-### The force, action, and excursion are different quantities
-
-Each qubit's force magnitude is $`\pi/(2T)`$, and
+Under the individual cap (B2), its shortest duration is $`T=\pi/(2g)`$. At that duration,
 
 ```math
-\mathcal E=2T\left(\frac\pi{2T}\right)^2
-=\frac{\pi^2}{2T},
+gT=\frac\pi2,\qquad E/g=\pi,\qquad gX=\frac\pi8.
+```
+
+The force is nonzero at the interval endpoints. Vacuum preparation, local correction overhead, and finite switching bandwidth are not included in this gate interval; they have explicit places in the [architecture account](../science/architecture.md). This example is a normalized control construction, not a calibrated trapped-ion pulse prescription.
+
+## Why a finite bus has a temporal cost
+
+M17–M19 extend the loop to a matrix target. Every closed $`H^1`$ trajectory admits
+
+```math
+A(t)=\sum_{k\neq0}V_k
+\left(e^{2\pi ikt/T}-1\right).
+```
+
+The phase and action become
+
+**(B11)**
+
+```math
+K=2\pi\sum_{k\neq0}k\,\mathrm{Re}(V_k^\dagger V_k),
 \qquad
-T\mathcal E=\frac{\pi^2}{2}.
-\qquad\text{(B12)}
+E=\frac{4\pi^2}{T}\sum_{k\neq0}k^2\Vert V_k\Vert _F^2.
 ```
 
-The pulse meets the per-qubit bound $`g`$ by choosing $`T=\pi/(2g)`$. Its phase matrix has eigenvalues $`\pi/4`$ and zero, so its action also agrees with the [exact prescribed-matrix optimum](../science/spectral_cost.md#2-exact-minimum-for-a-prescribed-full-matrix).
+At a fixed signed harmonic, $`\mathrm{Re}(V_k^\dagger V_k)`$ has real rank at most $`2b`$: each complex bus coefficient has two real quadratures. More independent directions require higher temporal harmonics, which cost more action per unit phase.
 
-The displacement satisfies $`|\alpha(t)|\le1/2`$, hence $`|\beta_z(t)|\le1`$. For an initially empty bus, the largest conditional oscillator occupation in this example is one quantum. Stretching the waveform while reducing its force inversely leaves this excursion, the phase, and $`T\mathcal E`$ unchanged. It reduces the fluence $`\mathcal E`$ and increases the duration $`T`$. Oscillator energy and force fluence therefore quantify different resources.
+Let $`\ell_j^+`$ and $`\ell_j^-`$ be the positive eigenvalues and negative-eigenvalue magnitudes of $`K`$, descending separately within each sign. The exact fixed-matrix optimum is
 
-## 4. From one pair to independent parallel pairs
-
-Giving the same force to every qubit produces a matrix proportional to $`\mathbf{1}\mathbf{1}^{\mathsf T}`$ and a collective phase proportional to $`(\sum_jZ_j)^2`$. That phase contains couplings between all pairs. A matching instead requires selected pairs to interact while the other pair couplings cancel, up to the allowed local phases and phase wraps.
-
-The target for $`K`$ disjoint pairs is
+**(B12)**
 
 ```math
-V_K=\prod_{r=1}^K\exp\!\left(\frac{i\pi}{4}Z_{A_r}Z_{B_r}\right).
-\qquad\text{(B13)}
+E_{\min}=\frac{2\pi}{T}
+\sum_{\sigma\in\{+,-\}}\sum_j
+\left\lceil\frac{j}{2b}\right\rceil\ell_j^\sigma.
 ```
 
-The [matching construction](../science/matching_construction.md) extends the example by assigning pair directions to mode, frequency-sign, and quadrature slots. Two real directions fit in one complex Fourier coefficient; the two frequency signs give separate signs of geometric phase. Each harmonic magnitude therefore supplies $`4m`$ slots. Additional pairs can use higher harmonics, with a corresponding action and force cost.
+The [spectral proof](../science/spectral_cost.md) supplies both the lower bound and attaining pulses. Its spectral allocation uses the established weighted bilinear-control framework of [Wong and Baillieul, Theorem 5.1 and Corollary 5.1](https://arxiv.org/pdf/1201.6527v2). The selected review supplies the physical foundations, not this optimization theorem.
 
-The full result is
+For each disjoint CZ pair, either block
 
 ```math
-\mathcal A_\epsilon(K,m)=\Theta_\epsilon(K+K^2/m),
+\frac\pi8\begin{pmatrix}1&1\\1&1\end{pmatrix}
+\quad\text{or}\quad
+\frac\pi8\begin{pmatrix}-1&1\\1&-1\end{pmatrix}
+```
+
+has the desired off-diagonal entry. Its sole nonzero eigenvalue is respectively $`+\pi/4`$ or $`-\pi/4`$. Distributing pair blocks between signs therefore places up to $`4b`$ independent pairs into each absolute harmonic. The pointwise force calculation extends (B7) and gives the explicit upper bound
+
+**(B13)**
+
+```math
+gT_{\rm construct}=\frac\pi2
+\sqrt{\left\lceil\frac{m}{4b}\right\rceil}.
+```
+
+This is an achievable duration, with the cap summing all modes at each qubit. To prove it has the right scaling for the gate, every other phase representative must also be included.
+
+## From a matrix representative to the quantum gate
+
+M11 and M20 supply the missing step. A four-point mixed phase difference of $`z^TKz`$ is $`8K_{ij}`$. For a CZ graph with adjacency $`\mathsf{A}`$, agreement up to local $`Z`$ rotations requires
+
+**(B14)**
+
+```math
+K_{ij}=\frac\pi8\mathsf{A}_{ij}+\frac\pi4N_{ij},
+\qquad N_{ij}\in\mathbb{Z},\quad i\neq j.
+```
+
+The integers can be large. Minimizing only the unwrapped adjacency matrix would not give a gate-level converse.
+
+Across the two sides of an $`m`$-pair matching, (B14) gives
+
+**(B15)**
+
+```math
+K_{AB}=\frac\pi8(I_m+2B),\qquad B\in\mathbb{Z}^{m\times m}.
+```
+
+Its integer factor has odd, nonzero determinant. If $`\sigma_j`$ are its cross-block singular values, this implies
+
+```math
+\prod_{j=1}^m\sigma_j(K_{AB})\geq(\pi/8)^m.
+```
+
+This statement survives every phase lift and every diagonal completion. A weighted arithmetic–geometric mean estimate, combined with the sharp cross-block spectral bound, yields the converse matching the scaling of (B13):
+
+**(B16)**
+
+```math
+T_{\min}=
+\Theta\left(\frac{\sqrt{1+m/b}}{g}\right)
+```
+
+in the stated lossless model. [The matching theorem](../science/matching.md) contains the finite constants, construction, and exact quantifiers.
+
+### Nearly correct gates still require consistent phase lifts
+
+M23–M24 address approximation. A useful algebraic fact is that a quadratic Boolean phase cannot wrap independently at every input while remaining uniformly close to a valid phase function.
+
+Suppose a degree-two polynomial on $`x\in\{0,1\}^n`$ satisfies
+
+```math
+q(x)=2\pi h(x)+e(x),\qquad
+h(x)\in\mathbb{Z},\quad \vert e(x)\vert \leq\delta\lt \pi/4.
+```
+
+On every three-coordinate cube, the third mixed finite difference of $`q`$ vanishes. The corresponding difference of $`e`$ has magnitude at most $`8\delta\lt 2\pi`$, so the integer third difference of $`h`$ must be zero. Hence $`h`$ itself has Boolean degree at most two. Parseval then controls the matrix coefficients of the residual.
+
+For the actual closed-bus noisy channel at global half-diamond error $`\epsilon\lt 1/(2\sqrt2)`$, testing two-state superpositions with one fixed reference string confines the relative coherence phases to an arc of half-width $`\delta=\arcsin(2\epsilon)`$. The argument then gives
+
+**(B17)**
+
+```math
+K_{AB}=\frac\pi8(I_m+2B)+R,\qquad
+\Vert R\Vert _F\leq\frac{\delta}{2}.
+```
+
+The reference-string argument also handles the extra environmental phase in the next section: at fixed reference string it is only linear in the other string. Thus (B17) does not assume that the geometric unitary alone approximates the target. Singular-value perturbation bounds then preserve the congestion converse at fixed sufficiently small global error. The [full proof](../science/matching.md) states a positive bound at every system size.
+
+## What loss adds, and what motional heating does not mean here
+
+M25–M28 introduce a specific open-system model:
+
+**(B18)**
+
+```math
+\dot\rho=-i[H_{\rm bus},\rho]
++\kappa\sum_\mu\mathcal{D}[a_\mu](\rho),
 \qquad
-T_\epsilon(K,m,g)=
-\Theta_\epsilon\!\left(\frac{\sqrt{1+K/m}}g\right).
-\qquad\text{(B14)}
+\mathcal{D}[L](\rho)=L\rho L^\dagger-\tfrac12\{L^\dagger L,\rho\}.
 ```
 
-Here $`\mathcal A_\epsilon`$ is the optimal action $`T\mathcal E`$, and $`T_\epsilon`$ is the optimal duration under (B5). The error is the half-diamond distance for the **whole layer**, optimized over final local $`Z`$ corrections. It measures worst-case distinguishability of the spin operations, including inputs entangled with a reference. For every fixed $`0\le\epsilon<1/\sqrt2`$, the constants in (B14) are independent of $`K,m,g`$. Exact conditional bus closure is required even when the allowed spin-gate error is nonzero.
+This is vacuum Markov damping. Without a drive it obeys
+$`d\langle a^\dagger a\rangle/dt=-\kappa\langle a^\dagger a\rangle`$.
+A heating process can increase occupation from vacuum; it requires a different generator, for example an excitation term $`\mathcal{D}[a^\dagger]`$. An experimental motional heating rate therefore cannot simply be substituted for $`\kappa`$.
 
-At fixed force per qubit, a bounded number of modes gives a duration growing as $`\sqrt K`$. A mode budget proportional to $`K`$ permits constant-order duration in the independently controlled model. An ion chain with a growing number of available motional modes therefore need not lie in the fixed-$`m`$ regime. The mode count and the actual force budget must be established before applying the scaling law to a device.
+A prescribed path now requires
 
-## 5. The additional reasoning supplied by the project
+**(B19)**
 
-The review provides the physical starting point. Four linked arguments establish the resource statement in (B14).
+```math
+u=\dot A+\frac{\kappa}{2}A,\qquad
+G:=\int_0^T\Vert u\Vert _F^2dt
+=E+\frac{\kappa^2}{4}X.
+```
 
-1. **Closed paths have an exact spectral cost.** The [spectral theorem](../science/spectral_cost.md) optimizes all square-integrable complex forces producing a full real matrix $`A`$. Its weighted eigenvalue cost counts the available directions at each harmonic. That account proves convergence for the entire control class and connects the geometry to its classical area-minimization antecedents.
+For the single-CZ loop (B6), this is
 
-2. **A physical gate has many phase-matrix representatives.** Diagonal entries change only a global phase. Shifting an off-diagonal entry by $`\pi/4`$ changes the operation by a product of local $`Z`$ operators and a global phase. The [exact gate converse](../science/gate_layer_bounds.md#2-exact-gates-force-an-odd-determinant-cross-block) addresses all such choices: the matching cross block is $`(\pi/8)(I+2M)`$ with integer $`M`$, whose determinant cannot vanish. Evaluating the cost of one chosen logarithm would leave these freedoms unexamined.
+**(B20)**
 
-3. **Small whole-layer error preserves a quantitative constraint.** The [robust argument](../science/gate_layer_bounds.md#3-half-diamond-error-gives-a-uniform-phase-lift) controls a uniform phase error across all computational-basis strings, constrains the integer wraps, and bounds the residual cross block. A singular-value perturbation argument then preserves the action lower bound. Average fidelity or separate pairwise error guarantees do not supply this particular premise.
+```math
+u_i(t)=\frac14\left[
+\left(\frac{2\pi i}{T}+\frac{\kappa}{2}\right)e^{2\pi it/T}
+-\frac{\kappa}{2}\right],
+\qquad
+G=\frac{\pi^2}{2T}+\frac{\kappa^2T}{16}.
+```
 
-4. **Explicit controls attain the same order.** The [construction](../science/matching_construction.md#2-exact-action-and-force-limited-duration) realizes the matching with zero error and states its bandwidth and excursion costs. Combining this upper bound with the converse yields (B14). Finite examples in the [verification guide](../verification/README.md) check conventions and implementations; the universal bounds depend on the analytical proofs.
+Keeping the original path does not keep the original peak force. In this example the exact individual peak is
 
-The source's physical foundations, these project arguments, and the research-level attributions have distinct roles. The [related-work account](../references/related_work.md) and [bibliography](../references/references.bib) identify the imported mathematical ingredients and established parallel-gate constructions. Those primary sources support attribution and specialist verification; the educational starting point remains the selected review.
+```math
+\frac14\left[
+\sqrt{(2\pi/T)^2+\kappa^2/4}+\kappa/2\right].
+```
 
-## 6. Keeping the physical assumptions attached to the result
+The damped cap is met when
+$`gT\geq\pi/[2\sqrt{1-\kappa/(4g)}]`$, provided $`\kappa\lt 4g`$ for this particular circular family. This restriction is not a universal impossibility statement for other paths.
 
-The force model is linear in oscillator coordinates and uses commuting spin axes throughout the pulse. Its exact return for arbitrary bus states is a statement about that Hamiltonian. A resonant spin–phonon exchange protocol belongs to a different Hamiltonian class unless a valid reduction to (B4) is established. A trapped-ion derivation can require harmonic confinement, a Lamb–Dicke expansion, rotating-wave approximations, and control of unwanted carrier or Stark-shift terms. Those approximations must remain valid over the actual initial occupations and driven excursions.
+Although the bus returns to vacuum, the output field retains a branch-dependent coherent record with amplitude $`\sqrt{\kappa}A(t)z`$. Write
 
-Endpoint closure also leaves the consequences of noise during the path intact. The fixed-error theorem concerns a closed-bus unitary spin operation; it does not establish a bound for residual spin–bus entanglement, motional heating, or a general noisy channel.
+```math
+\int_0^T A^\dagger A\,dt=F+iJ,\qquad J^T=-J.
+```
 
-Finally, the increasing harmonics in the upper construction require adequate waveform control. A finite Fourier series on a pulse interval does not by itself account for switching transients or a laboratory filter. The [hardware resources page](../science/hardware_resources.md) gives these conversion and feasibility questions an explicit place alongside the ideal lower bound.
+Relative to $`U_K`$, a data coherence $`\vert z\rangle\langle z'\vert `$ is multiplied exactly by
+
+**(B21)**
+
+```math
+\exp\left[
+-\frac{\kappa}{2}(z-z')^TF(z-z')
++i\kappa z'^TJz
+\right].
+```
+
+The skew-Gram phase generally cannot be discarded. The coherent-overlap loss mechanism is established in [Louis et al.](https://arxiv.org/pdf/0804.3240) and [Müller, Luoma and Strunz](https://arxiv.org/html/1907.08033v2). Louis et al. also construct independent single-qubit dephasing by suitable sequences, so loss does not make correlated errors unavoidable.
+
+An antipodal computational-basis superposition supplies the target-independent bound
+
+**(B22)**
+
+```math
+\frac12\Vert \mathcal{E}-\mathcal{V}\Vert _\diamond
+\geq\frac{1-e^{-2\kappa X}}2
+```
+
+for every unitary target $`\mathcal{V}`$. At fixed trajectories, the first-order entanglement infidelity relative to $`U_K`$ is $`\kappa X`$. Average gate infidelity has the additional factor $`d/(d+1)`$, $`d=2^n`$. These are whole-gate metrics.
+
+The exact fixed-$`K`$ frontier prices $`X`$ together with the paid action $`G`$. If
+$`r_j=\lceil j/(2b)\rceil`$ and $`a_j=(r_j\pi/T)^2+\kappa^2/4`$, its parameterization is
+
+**(B23)**
+
+```math
+X(\mu)=\sum_{\sigma,j}\frac{\ell_j^\sigma}{\sqrt{a_j+\mu}},
+\qquad
+G(\mu)=\sum_{\sigma,j}
+\frac{(2a_j+\mu)\ell_j^\sigma}{\sqrt{a_j+\mu}},
+\qquad \mu\geq0.
+```
+
+Here $`\mu`$ is an exposure price, not a physical mode index. The [loss/frontier derivation](../science/loss_and_frontier.md) proves attainment and completeness using the compact area-operator spectrum. This resource frontier does not determine the optimal full channel error, because $`F`$ and $`J`$ contain information beyond their exposure trace.
+
+## Connection to the complete scientific record
+
+The [milestone map](MILESTONES.md) has 13 background milestones, M01–M13, followed by 17 narrative milestones, M14–M30. The bridge above supplies a connected route through their physical core.
+
+| Question | Complete account |
+|---|---|
+| Which trajectories and resources are allowed? | [Model](../science/model.md), M12–M15 |
+| Why do extra independent directions cost action? | [Spectral cost](../science/spectral_cost.md), M16–M19 |
+| Why does the bound survive phase wrapping and approximation? | [Matching theorem](../science/matching.md), M20–M24 |
+| What channel does vacuum loss produce, and what is optimized exactly? | [Loss and frontier](../science/loss_and_frontier.md), M25–M28 |
+| What does the result require of an architecture? | [Paid resource comparison](../science/architecture.md), M29–M30 |
+| Which ingredients are inherited, and what finite checks support the formulas? | [Related work](../references/related_work.md) and [verification guide](../verification/README.md) |
+
+The selected review motivates conditional motion and geometric gates. Weighted control geometry, modular phase equivalence, and the exact resource converses have their own attributed proofs. The conclusions remain specific to independently driven, linear harmonic buses with a fixed commuting spin axis and exact conditional return. Additional modes, different control algebras, encoded mediators, measurement, and different environmental models change the resources or the problem being studied.

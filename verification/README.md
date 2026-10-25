@@ -1,48 +1,39 @@
-# Finite verification
+# Reproduce the finite checks
 
-The analytical results are proved in [spectral cost](../science/spectral_cost.md), [gate-layer bounds](../science/gate_layer_bounds.md), and [matching construction](../science/matching_construction.md). This directory provides small, reproducible numerical checks of their normalization, constructions, and error conversions. The calculations do not establish the universal lower bound or certify a literature-priority claim.
+These calculations support conventions, attaining controls and the resource example. They do not replace the analytical proofs of universal bounds, establish a device forecast, or certify a full noisy-gate optimum.
 
-## Run
+## Environment and one-command run
 
-Use Python 3.11 or later with the dependency in [requirements.txt](requirements.txt):
+Use Python 3.11 or later; the recorded checks used Python 3.12.14. The versions pinned in [requirements.txt](requirements.txt) are NumPy 2.3.5, SciPy 1.17.0 and Matplotlib 3.10.8. From the repository root:
 
-```sh
-python -m pip install -r verification/requirements.txt
-python verification/verify_bus.py
+```bash
+python3 -m pip install -r verification/requirements.txt
+python3 verification/run_all.py
 ```
 
-The commands above are relative to the repository root. The script also works from another directory because it locates its expected summary relative to its own file. A normal run checks every assertion and compares a stable summary with [expected_results.json](expected_results.json). It also prints numerical residuals for inspection. To inspect the computed summary alone, run:
+The scripts require no network access after dependency installation. Numerical outputs are written to [results/](results/). The resource figure is regenerated at [science/figures/resource_frontiers.svg](../science/figures/resource_frontiers.svg). Matplotlib's temporary cache and the review PNG are created in the operating system's temporary directory. No credentials or hardware services are used.
 
-```sh
-python verification/verify_bus.py --json
-```
+Each script can also be run directly from the repository root. An assertion failure produces a nonzero exit status. Floating-point last digits can differ by platform; the tolerances below define success, rather than bitwise equality of output files.
 
-There is no network access in the script. All random coefficients use the fixed seed `20261023`. Illustrative floating-point results in the summary are rounded to six decimal places; the assertions use the explicit tolerances below. The printed residuals can vary slightly with the numerical library and platform.
+## What each check tests
 
-## What is checked
+| Command | Independent calculation | Assertion and observed scale |
+|---|---|---|
+| `python3 verification/check_matching.py` | Integrates five explicit matching controls with different pair/mode counts, including both quadratures, both signs, multiple harmonics and incomplete final groups. Checks all phase-matrix entries, closure, exposure, constant total power and individual peak caps. Enumerates the smallest gates after their local corrections. | Phase, closure, cost and power residuals below $`10^{-9}`$; observed maximum phase error about $`1.4\times10^{-15}`$. |
+| `python3 verification/check_spectral_frontier.py` | Reconstructs a general real $`8\times8`$ phase matrix with positive, negative and zero eigenvalues using six combinations of mode count, damping and exposure price. Independently diagonalizes a finite-difference generalized area operator. | Phase/exposure residuals below $`10^{-9}`$ and force-action residual below $`10^{-8}`$; observed phase error below $`4.5\times10^{-15}`$. Leading-spectrum relative error falls from about $`2.04\times10^{-3}`$ to $`5.15\times10^{-4}`$ when the grid is doubled. |
+| `python3 verification/check_damped_channel.py` | Integrates the Lindblad equation directly for all 16 two-qubit coherences and a 12-level oscillator. Compares against the coherent-output channel, using a trajectory with nonzero imaginary Gram matrix. | Maximum multiplier error below $`2\times10^{-8}`$; observed error about $`1.43\times10^{-10}`$. |
+| `python3 verification/resource_examples.py` | Evaluates the exact analytical bounds and frontier, regenerates the figure, and checks the peak physical force of the compensated circular example. | Peak individual force at most $`g`$ within $`10^{-12}`$; monotone exposure/action curves; the stated noisy duration converse is $`gT\geq7.7915984`$ for the specified example. |
 
-| Calculation | Instances | Check and purpose |
-|---|---:|---|
-| Fourier slot construction | $`K=1,\ldots,20`$, $`m=1,2,3`$; 60 cases | Every desired cross entry is $`\pi/8`$, unwanted off-diagonal terms vanish, each qubit has one tone, and the action agrees with both the harmonic sum and the prescribed-matrix spectral expression. |
-| Direct waveform integration | $`(K,m)=(1,1),(4,1),(5,1),(9,2),(13,3)`$ | Integrate the phase area using the analytic displacement primitive, then independently obtain that primitive by cumulative trapezoidal integration of the force. Check the phase sign, normalization, closure, and peak force. |
-| Small Boolean gate layers | $`K=1,2,3,4`$ and phase radii $`0.1,0.4,0.72`$; 12 cases | Add integer quadratic wraps and quadratic residuals with constant, local, within-side, and cross terms. Recover the integer wrap from principal phases, check its degree, recover the cross residual, and verify the Frobenius, Mirsky, weighted-action, and spectral-arc formulas. There are 36 comparisons across $`m=1,2,3`$. |
-| Staircase weights | $`K=1,\ldots,128`$, $`m=1,2,3,4`$; 512 cases | Check the finite-size inequalities $`\lVert w\rVert_2\le KG_{K,m}`$ and $`G_{K,m}\ge\max\{1,K/(4em)\}`$. Their proofs cover all integers, independently of this range. |
-| Ill-conditioned phase wraps | $`K=2,4,6`$, integer shear $`8,32,128,1024`$, $`m=1,2,3`$; 36 comparisons | Truncate the small singular values of unimodular blocks $`\left(\begin{smallmatrix}1&2h\\0&1\end{smallmatrix}\right)`$. Verify rank reduction, small whole-layer error after phase wrapping, and the fixed-error action lower bound. |
+The actual numeric records are [matching.json](results/matching.json), [spectral_frontier.json](results/spectral_frontier.json), [damped_channel.json](results/damped_channel.json), and [resource_examples.json](results/resource_examples.json).
 
-The Boolean checks also include the exact boundary example
+## Why these checks matter
 
-```math
-k(x)=x_1x_2x_3,\qquad
-r(z)=\frac\pi4z_1z_2z_3,\qquad
-q=2\pi k+r.
-```
+The matching integration catches missing factors of two in the physical $`ZZ`$ angle and checks that the constructive action bound does not hide a total or individual peak-force violation. The spectral reconstruction tests the real multiplicity $`2b`$ and the simultaneous use of positive and negative modes; the finite-difference spectrum supplies a calculation different from substituting the analytical eigenfunctions. The direct Lindblad integration checks the damping-rate convention and the easily omitted skew bath phase.
 
-Here $`q`$ is quadratic and $`|r|=\pi/4`$, but $`k`$ is cubic. This illustrates why the proof of quadratic integer unwrapping uses the strict inequality $`\delta<\pi/4`$. It does not show that the resource theorem fails at or beyond that threshold.
+The oscillator calculation is a finite, low-excitation truncation. Its agreement supports the stated example, not a universal truncation theorem. The finite-difference spectrum is a convergence check, not a proof of spectral completeness. That proof is given in [loss_and_frontier.md](../science/loss_and_frontier.md). The gate-level phase-lift and fixed-error statements are proved in [matching.md](../science/matching.md), not inferred from a finite set of matrices.
 
-## Tolerances and expected behavior
+The figure is a deterministic evaluation of established formulas. Panel A uses the all-phase-lift converse and a particular lossless construction under individual force caps. Panel B fixes the same full $`K`$ across mode counts and imposes no pointwise cap. The damped table uses compensated circular paths and reports error lower bounds. These domains must remain distinct when reusing the numbers.
 
-For the explicit Fourier construction, the largest allowed off-diagonal phase discrepancy is $`10^{-13}`$ and the action discrepancy is $`10^{-10}`$. With 8,193 uniform quadrature points, the analytic-path phase integration and closure checks use $`2\times10^{-12}`$; the independently integrated path uses $`2\times10^{-7}`$ to allow the trapezoidal discretization error. The intentionally large phase wraps use a $`2\times10^{-10}`$ tolerance when comparing principal phases, because reducing large phases modulo $`2\pi`$ loses some floating-point precision.
+## Proof route
 
-The example with $`K=6`$, $`m=1`$, and shear 1,024 has a cross block of rank three while its whole-layer phase radius is about $`0.00115`$. Its prescribed-matrix action is approximately $`4.04\times10^4`$, well above the finite-size converse. The example demonstrates the limitation of a rank-only approximate argument; it is not an efficient gate synthesis.
-
-The universal first-harmonic approximation proposition in [matching construction, Section 6](../science/matching_construction.md#6-a-boundary-of-the-exact-harmonic-capacity-law) uses growing triangular integer matrices. Its proof is exact and does not rely on numerically resolving their increasingly ill-conditioned singular values. The numerical illustration instead uses the smaller shear blocks to avoid treating unstable floating-point ranks as evidence for that general proposition.
+The mathematical chain is [model and resources](../science/model.md) → [spectral cost](../science/spectral_cost.md) → [phase lifts and robustness](../science/matching.md), with [loss and exposure](../science/loss_and_frontier.md) supplying the noisy channel and paid frontier. [Architecture](../science/architecture.md) combines them with explicit physical qualifications.
