@@ -1,6 +1,6 @@
 # Finite verification
 
-The analytical results are proved in [spectral cost](../science/spectral_cost.md), [gate-layer bounds](../science/gate_layer_bounds.md), [matching construction](../science/matching_construction.md), and [loss and frontier](../science/loss_and_frontier.md). This directory provides small, reproducible numerical checks of their normalization, constructions, and error conversions. The calculations do not establish the universal lower bound or certify a literature-priority claim.
+The [scientific route](../science/README.md) maps the analytical results to their proofs. This directory checks explicit constructions, phase and error conventions, spectral controls, damped channels and resource examples. The computations support finite ingredients; the universal theorems rest on the written proofs.
 
 ## Run
 
@@ -11,9 +11,9 @@ python -m pip install -r verification/requirements.txt
 python verification/run_all.py
 ```
 
-The commands above are relative to the repository root. The runner also works from another directory. A normal run executes the lossless gate engine and the complementary resource/loss modules, compares the two stable summaries [expected_results.json](expected_results.json) and [expected_supplemental.json](expected_supplemental.json), and regenerates [the resource figure](../science/figures/resource_frontiers.svg). Numerical residuals are printed for inspection; no per-run JSON records or process logs are written. Use `--no-figure` to execute every mathematical check without rewriting the SVG.
+The commands above are relative to the repository root. The runner also works from another directory. A normal run checks the lossless gates, resource bounds, spectral frontier and damped channel, compares [expected_results.json](expected_results.json) and [expected_supplemental.json](expected_supplemental.json), and regenerates [the resource figure](../science/figures/resource_frontiers.svg). It prints numerical residuals for inspection. Use `--no-figure` to execute every mathematical check without rewriting the SVG.
 
-The lossless runner `verify_bus.py` checks the Fourier construction, phase normalization and robust-action inequalities against `expected_results.json`. The resource checks reuse that Fourier engine and also exercise the sharp cross-block factor and stronger fixed-error combinations. Their summary, together with the loss and frontier results, is in `expected_supplemental.json`.
+The checks share one Fourier-control engine. The gate cases are recorded in `expected_results.json`; the resource, loss and frontier cases are in `expected_supplemental.json`. The table below states each calculation's domain and purpose.
 
 To inspect the computed stable summaries alone, run:
 

@@ -202,9 +202,6 @@ Active squeezing instead mixes annihilation and creation operators through a Bog
 
 Direct qubit interactions, conditional oscillator rotations such as $`Za^\dagger a`$, oscillator nonlinearities, measurements with feedback, and spin rotations that make the interaction axes noncommuting during the force evolution change the model. Sign reversals that keep the toggling-frame axis $`\pm Z`$ remain compatible with it. A claimed improvement using another interaction mechanism should be evaluated with that mechanism's own resource accounting.
 
-For a device that satisfies the stated Hamiltonian, closure, mode-count, and total-force assumptions, the lower bound survives all further restrictions on its actuators. The scaling upper bound belongs to the independently programmable model; a hardware implementation must separately establish the required controls, bandwidth, and allowed excursions.
-
-
 ## 7. Independent directions and a collective phase
 
 The matching law concerns independent phase directions. A collective rank-one matrix $`A=\chi vv^{\mathsf T}`$, with $`v_j\in\{\pm1\}`$ on $`n`$ qubits, has only one nonzero eigenvalue of magnitude $`|\chi|n`$. One mode therefore attains $`T\mathcal E=2\pi|\chi|n`$. Each qubit can obey the same fixed force cap while duration remains independent of $`n`$ at fixed $`\chi`$. This gate generally couples every pair; its cost is compatible with the matching converse.
@@ -325,3 +322,5 @@ For the lossless individual-cap circular family, multiplying every harmonic by a
 ```
 
 For $`\gamma>0`$, its continuous optimum is $`q=\kappa X_1/(2K\gamma T_1)`$, clipped to $`q\ge1`$ before comparing adjacent integers. If $`\gamma=0`$ and $`\kappa>0`$, this unrestricted family has no finite minimizing winding. This optimizes only the first-order expression within this family. Damping compensation, modulation, and occupation still need checking. The small-excursion/more-winding idea is established in [Müller, Luoma and Strunz, Section III.2](https://arxiv.org/html/1907.08033v2); these formulas state its force and duration price.
+
+**Scope.** For a device that satisfies the stated Hamiltonian, closure, mode-count, and total-force assumptions, the lower bound survives all further restrictions on its actuators. The scaling upper bound belongs to the independently programmable model; a hardware implementation must separately establish the required controls, bandwidth, and allowed excursions.

@@ -278,7 +278,7 @@ Let
 
 be the positive eigenvalues of $`A`$ and the magnitudes of its negative eigenvalues. The two lists are indexed separately. Set $`r_j=\lceil j/(2m)\rceil`$.
 
-**Theorem.** For every real symmetric $`A`$, $`T\gt 0`$, $`m\geq1`$, and $`\lambda\geq0`$,
+**Theorem — exact priced trajectory cost.** For every real symmetric $`A`$, $`T\gt 0`$, $`m\geq1`$, and $`\lambda\geq0`$,
 
 **(L15)**
 
