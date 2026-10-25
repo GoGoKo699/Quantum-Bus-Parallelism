@@ -8,7 +8,7 @@
 - **Lossless theorem:** [model](science/model.md) → [spectral cost](science/spectral_cost.md) → [gate-layer bounds](science/gate_layer_bounds.md) → [matching construction](science/matching_construction.md).
 - **Loss and architecture:** [vacuum channel and fixed-matrix frontier](science/loss_and_frontier.md) → [hardware resources](science/hardware_resources.md).
 - **Study:** [Häffner–Roos–Blatt bridge](learning/HAEFFNER_BRIDGE.md) → [30-milestone map](learning/MILESTONES.md) → each milestone's scientific pointers. The sole educational anchor is Häffner, Roos and Blatt (2008); it supplies physical foundations, while the project pages own the resource proofs.
-- **Reproduction:** [verification guide](verification/README.md) → `python3 verification/run_all.py`. The original [lossless runner](verification/verify_bus.py) remains available through the common command.
+- **Reproduction:** [verification guide](verification/README.md) → `python3 verification/run_all.py`. The command runs the [lossless gate checks](verification/verify_bus.py) together with the resource, frontier and channel checks.
 
 ## Find an authoritative answer
 

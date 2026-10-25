@@ -1,6 +1,6 @@
 # Thirty milestones for quantum bus parallelism
 
-This map follows one scientific question: what force action and duration are required to implement many independent entangling pairs through a finite number of harmonic bus modes? It connects the physical gate mechanism to the spectral control cost, the converse for physically equivalent gates, the matching construction, and the interpretation for hardware.
+This map follows one scientific question: what force action and duration are required to implement many independent entangling pairs through a finite number of harmonic bus modes? It connects the physical gate mechanism to the spectral control cost, the converse for physically equivalent gates, the matching construction, and the interpretation for hardware, including the force and exposure paid under vacuum loss.
 
 The single educational anchor is H. Häffner, C. F. Roos, and R. Blatt, *Quantum computing with trapped ions* (2008), using [arXiv:0809.4368v1](https://arxiv.org/abs/0809.4368v1). The [Häffner bridge](HAEFFNER_BRIDGE.md) translates its physical language into this project's notation and assumptions. The review supplies the trapped-ion and geometric-gate foundation. The project's canonical science pages supply the spectral optimization, phase-wrap, and channel-error arguments, with their own research references.
 
@@ -16,6 +16,8 @@ The allocation is **12 background/preliminaries milestones and 18 narrative/inno
 There are $`K`$ disjoint target pairs on $`2K`$ qubits, $`m`$ canonical harmonic modes, and a pulse duration $`T`$. The effective complex forces are $`u_{j\ell}(t)`$, their paths are $`\alpha_{j\ell}(t)`$, and the closed-loop spin gate is $`U_A=\exp(iZ^{\mathsf T}AZ)`$. Force fluence is $`\mathcal E=\int\sum_{j,\ell}|u_{j\ell}|^2dt`$, and action is $`T\mathcal E`$. The force-limited problem uses a per-qubit bound $`\sum_\ell|u_{j\ell}|^2\le g^2`$. The layer error $`\epsilon`$ is half the diamond norm after optimizing final local $`Z`$ corrections.
 
 The [model](../science/model.md#hamiltonian-and-exact-closure), [gate-equivalence definition](../science/model.md#target-and-physical-gate-equivalence), and [resource definitions](../science/model.md#charged-resources-and-optimization-problems) are authoritative throughout. In particular, the force axes commute during the evolution and every conditional path closes exactly. The fixed-error result changes the allowed spin-gate error while retaining exact bus closure. Source pointers below identify the relevant proof sections rather than reproduce their derivations.
+
+The converse-and-construction route through M26 concerns the lossless unitary model. M27–M30 also follow the [vacuum-loss continuation](../science/model.md#vacuum-loss-extension-and-exposure), which assumes vacuum initial modes and input fields, common Markov damping, and exactly closed actual damped paths. There the mode-first trajectory matrix is $`D_{\ell j}=\alpha_{j\ell}`$, exposure is $`X=\int_0^T\lVert D\rVert_F^2dt`$, and the paid force fluence includes damping compensation. The noisy-channel converse and fixed-matrix resource frontier have their own scope; neither supplies a noisy analogue of the lossless matching upper bound.
 
 ## Phase I — Background and preliminaries
 
@@ -339,11 +341,13 @@ The [model](../science/model.md#hamiltonian-and-exact-closure), [gate-equivalenc
 
 **Understanding target:** Distinguish a single-qubit path from the summed displacement conditioned on an entire spin string. Compare the construction's worst-case excursion bound with its uniform-basis mean occupation, and explain why final closure does not reverse loss of information to an environment.
 
+For the vacuum-loss continuation, interpret $`X`$ as integrated mean occupation and distinguish it from maximum branch occupation. Explain why preserving the same closed path requires $`u=\dot D+\kappa D/2`$ and changes paid fluence to $`\mathcal E=E_{\rm path}+\kappa^2X/4`$. Recognize that the exact reduced channel retains both the real and imaginary parts of $`\int D^\dagger D\,dt`$, so exposure alone does not specify gate error.
+
 **Dependencies and story role:** Uses M02, M06, and M23–M25. It connects the ideal closed-loop construction to the physical demands of its intermediate motion.
 
 **Conceptual connection:** Geometric phase accumulation and endpoint disentanglement coexist with finite excitation and noise exposure during the gate.
 
-**Source pointers:** Anchor [§3.2, motional coherence][hrb32]; project [matching construction §4, displacement bounds](../science/matching_construction.md#4-displacement-and-oscillator-excursion) and [hardware resources §4](../science/hardware_resources.md#4-oscillator-excursion-and-noise-exposure).
+**Source pointers:** Anchor [§3.2, motional coherence][hrb32]; project [matching construction §4, displacement bounds](../science/matching_construction.md#4-displacement-and-oscillator-excursion), [§7, compensated damping](../science/matching_construction.md#7-exposure-total-force-and-compensated-damping), [hardware resources §4](../science/hardware_resources.md#4-oscillator-excursion-and-noise-exposure), [exact vacuum-loss channel](../science/loss_and_frontier.md#1-exact-channel-including-the-imaginary-trajectory-gram-matrix), [operational error and exposure](../science/loss_and_frontier.md#2-operational-error-and-first-order-gate-metrics), and [bridge §7, one-pair damping example](HAEFFNER_BRIDGE.md#7-a-closed-loop-with-vacuum-loss).
 
 ### M28 — Applying the law to a specified device
 
@@ -351,11 +355,13 @@ The [model](../science/model.md#hamiltonian-and-exact-closure), [gate-equivalenc
 
 **Understanding target:** Connect physical actuator amplitudes, participation factors, rotating-frame conventions, and the total per-qubit force norm. Explain why a lower bound survives further actuator restrictions, while attaining the ideal upper bound requires the stated quadratures, bandwidth, and mode access; identify when growing normal-mode count changes the scaling regime.
 
+Under the specified vacuum-loss model, distinguish a necessary global loss-duration constraint from an achievable pulse with a checked peak-force cap. Identify preparation, occupation, and data-memory costs that require additional device assumptions.
+
 **Dependencies and story role:** Combines M03, M04, M09, and M24–M27 into a consistent device-level interpretation.
 
 **Conceptual connection:** A permissive control model supports a general converse; hardware calibration determines the variables and the attainability of its upper construction.
 
-**Source pointers:** Anchor [§2.2][hrb22] and [§2.6.1][hrb261]; project [hardware resources §§1–2](../science/hardware_resources.md#1-converting-a-laboratory-coupling-to-the-force-norm), [§5, parameterized resonator example](../science/hardware_resources.md#5-a-parameterized-single-resonator-example), and [§6, changes of frame](../science/hardware_resources.md#6-changes-of-frame-and-resources-outside-the-model); [bridge](HAEFFNER_BRIDGE.md).
+**Source pointers:** Anchor [§2.2][hrb22] and [§2.6.1][hrb261]; project [hardware resources §§1–2](../science/hardware_resources.md#1-converting-a-laboratory-coupling-to-the-force-norm), [§5, parameterized resonator example](../science/hardware_resources.md#5-a-parameterized-single-resonator-example), [§6, changes of frame](../science/hardware_resources.md#6-changes-of-frame-and-resources-outside-the-model), [§8, global loss-duration constraint](../science/hardware_resources.md#8-a-global-accuracy-constraint-from-vacuum-loss), [§10, damped pulse with a peak-force cap](../science/hardware_resources.md#10-a-damped-matching-with-an-actual-peak-force-cap), and [§11, preparation and memory](../science/hardware_resources.md#11-preparation-occupation-and-data-memory); [bridge](HAEFFNER_BRIDGE.md).
 
 ### M29 — The contribution and the evidence supporting it
 
@@ -363,11 +369,13 @@ The [model](../science/model.md#hamiltonian-and-exact-closure), [gate-equivalenc
 
 **Understanding target:** Distinguish established geometric gates, prior parallel constructions, and classical spectral-area optimization from the combined all-representative, fixed-error converse. Explain how finite calculations check normalization, waveform cancellation, and examples while the universal statements depend on the analytical proofs.
 
+Apply the same distinction to the established loss mechanism and the project's exact fixed-matrix force–exposure frontier. Separate checks of the full damped channel and frontier formulas from proof of a universal noisy-channel converse or optimization of gate error.
+
 **Dependencies and story role:** Uses M12 and M15–M28. It places the complete result in its mathematical and physical context before the final synthesis.
 
 **Conceptual connection:** Attribution and reproducibility clarify the content and limits of the architectural claim, including why an existing parallel-gate demonstration is compatible with the new converse.
 
-**Source pointers:** Anchor [§5.5, simultaneous-pair precedent][hrb55]; project [related work §§1–2](../references/related_work.md#1-geometric-optimal-control-is-an-antecedent), [§5, scope of the additional converse](../references/related_work.md#5-what-the-additional-converse-establishes), [spectral cost §5](../science/spectral_cost.md#5-relation-to-the-classical-spectral-area-problem), and [verification guide](../verification/README.md).
+**Source pointers:** Anchor [§5.5, simultaneous-pair precedent][hrb55]; project [related work §§1–2](../references/related_work.md#1-geometric-optimal-control-is-an-antecedent), [§5, scope of the additional converse](../references/related_work.md#5-what-the-additional-converse-establishes), [§6, loss antecedents and paid frontier](../references/related_work.md#6-vacuum-loss-established-mechanism-and-a-paid-frontier), [spectral cost §5](../science/spectral_cost.md#5-relation-to-the-classical-spectral-area-problem), [loss/frontier §6, attribution and boundaries](../science/loss_and_frontier.md#6-attribution-and-remaining-boundaries), and [verification guide](../verification/README.md).
 
 ### M30 — Final synthesis: connectivity and independent-pair throughput
 
@@ -375,11 +383,13 @@ The [model](../science/model.md#hamiltonian-and-exact-closure), [gate-equivalenc
 
 **Understanding target:** Give a connected account from conditional geometric phases through spectral capacity, physical gate equivalence, and fixed-error robustness to the laws $`\mathcal A_\epsilon=\Theta_\epsilon(K+K^2/m)`$ and $`T_\epsilon=\Theta_\epsilon(\sqrt{1+K/m}/g)`$ for fixed $`0\le\epsilon<1/\sqrt2`$. Explain their assumptions, why collective connectivity alone does not determine independent-pair throughput, and how bandwidth, excitation, and device controls qualify the achievable construction.
 
+Keep these lossless scaling laws distinct from necessary bounds for the actual vacuum-loss channel, whose phase-extraction theorem uses $`\epsilon<1/(2\sqrt2)`$ and $`\delta=\arcsin(2\epsilon)`$. Connect the exact paid force–exposure frontier at fixed full $`A,T,m,\kappa`$ to the physical cost of reducing exposure, while explaining why it neither optimizes over all phase-equivalent gates nor gives an exact diamond-error frontier or a matching noisy upper bound.
+
 **Dependencies and story role:** Integrates both phases, especially M12, M21, M24, and M26–M29. It closes the map with the scientific meaning of the whole argument and its stated domain.
 
 **Conceptual connection:** A familiar bus-mediated gate mechanism becomes a quantitative architecture comparison once physical equivalence, accuracy, and charged resources are treated together.
 
-**Source pointers:** [Häffner bridge](HAEFFNER_BRIDGE.md); project [model, exact statements and proof route](../science/model.md#exact-statements-and-proof-route), [gate-layer theorem](../science/gate_layer_bounds.md#1-statement-and-spectral-input), [matching construction](../science/matching_construction.md), and [hardware scope](../science/hardware_resources.md#6-changes-of-frame-and-resources-outside-the-model).
+**Source pointers:** [Häffner bridge](HAEFFNER_BRIDGE.md); project [model, exact statements and proof route](../science/model.md#exact-statements-and-proof-route), [gate-layer theorem](../science/gate_layer_bounds.md#1-statement-and-spectral-input), [matching construction](../science/matching_construction.md), [hardware scope](../science/hardware_resources.md#6-changes-of-frame-and-resources-outside-the-model), [direct vacuum-loss converse](../science/gate_layer_bounds.md#10-direct-converse-for-the-vacuum-lossy-channel), [exact fixed-matrix frontier](../science/loss_and_frontier.md#5-paid-damping-and-the-complete-fixed-a-exposure-frontier), and [hardware duration/frontier comparison](../science/hardware_resources.md#9-duration-brackets-and-the-exposure-frontier).
 
 [hrb22]: https://arxiv.org/pdf/0809.4368v1#page=8
 [hrb261]: https://arxiv.org/pdf/0809.4368v1#page=22

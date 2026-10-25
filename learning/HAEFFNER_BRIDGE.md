@@ -214,7 +214,7 @@ V_K=\prod_{r=1}^K\exp\!\left(\frac{i\pi}{4}Z_{A_r}Z_{B_r}\right).
 
 The [matching construction](../science/matching_construction.md) extends the example by assigning pair directions to mode, frequency-sign, and quadrature slots. Two real directions fit in one complex Fourier coefficient; the two frequency signs give separate signs of geometric phase. Each harmonic magnitude therefore supplies $`4m`$ slots. Additional pairs can use higher harmonics, with a corresponding action and force cost.
 
-The full result is
+The lossless matching result is
 
 ```math
 \mathcal A_\epsilon(K,m)=\Theta_\epsilon(K+K^2/m),
@@ -277,3 +277,5 @@ E_{\mathrm{path}}=\int_0^T\lVert\dot D(t)\rVert_F^2dt.
 Even when the damped oscillator returns to vacuum, the emitted field carries the conditional amplitude $`\sqrt{\kappa}D(t)z`$. Different spin strings can therefore leave distinguishable field states. Their overlap reduces spin coherence and can add a phase. The [exact channel](../science/loss_and_frontier.md) retains both the real and imaginary parts of $`\int D^\dagger D\,dt`$; exposure alone does not specify the channel.
 
 This physical mechanism and ways to alter its error correlations are established in [Louis et al.](https://arxiv.org/html/0804.3240v1), §IV. [Müller, Luoma, and Strunz](https://arxiv.org/html/1907.08033v2), §III.2, Eqs. (27)–(28), explain why additional winding can lower dephasing at fixed geometric phase. The project's [paid drive–exposure frontier](../science/loss_and_frontier.md) optimizes the extra control cost for a fixed full phase matrix. It does not establish the optimum noisy channel over all phase-equivalent gates. These specialist references extend the physical discussion; the selected Häffner–Roos–Blatt review remains the educational starting point for the [30-milestone map](MILESTONES.md).
+
+A separate [direct converse](../science/gate_layer_bounds.md#10-direct-converse-for-the-vacuum-lossy-channel) applies to the actual vacuum-loss channel and all allowed phase representatives. Its phase-extraction theorem requires half-diamond error $`\epsilon<1/(2\sqrt2)`$ and uses $`\delta=\arcsin(2\epsilon)`$, rather than the lossless threshold in (B14). Combined with the [global exposure constraint](../science/hardware_resources.md#8-a-global-accuracy-constraint-from-vacuum-loss), it supplies necessary resource bounds. Neither result supplies a noisy matching upper bound or turns the fixed-matrix exposure frontier into an exact gate-error optimum.
