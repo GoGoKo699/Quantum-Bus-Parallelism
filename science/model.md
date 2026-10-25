@@ -120,13 +120,14 @@ G_{K,m}=\left(\prod_{r=1}^K w_r\right)^{1/K},\qquad
 \qquad\text{(10)}
 ```
 
-The connected argument has four parts.
+The connected lossless argument has five parts.
 
 | Result | Statement and scope | Authoritative proof |
 |---|---|---|
 | Spectral control cost | For a **prescribed full real symmetric** $`A`$, the optimal action is $`2\pi\sum_r\lceil r/(2m)\rceil[\lambda_r^+(A)+\lambda_r^-(A)]`$. | [Spectral cost](spectral_cost.md) |
-| Exact physical-gate converse | Every exact implementation of (5), up to (6), has a cross block $`C=c(I+2M)`$ with integer $`M`$; therefore $`\mathcal ET\ge(\pi^2/4)KG_{K,m}`$. | [Gate-layer bounds](gate_layer_bounds.md) |
-| Fixed-error converse | If (7) is at most $`\epsilon<1/\sqrt2`$, then $`\mathcal ET\ge(\pi^2/4)KG_{K,m}-\pi\delta\lVert w\rVert_2\ge(\pi^2/4)(1-4\delta/\pi)KG_{K,m}`$. | [Gate-layer bounds](gate_layer_bounds.md) |
+| Sharp cross-block cost | Every completion of $`C=A_{AB}`$ obeys $`\mathcal ET\ge4\pi\sum_rw_rs_r(C)`$; the completion is attainable when its free blocks do not impose unwanted gate interactions. | [Spectral cost, Section 6](spectral_cost.md#6-sharp-cost-when-only-a-cross-block-is-prescribed) |
+| Exact physical-gate converse | Every exact implementation of (5), up to (6), has a cross block $`C=c(I+2M)`$ with integer $`M`$; therefore $`\mathcal ET\ge(\pi^2/2)KG_{K,m}`$. | [Gate-layer bounds](gate_layer_bounds.md) |
+| Fixed-error converse | If (7) is at most $`\epsilon<1/\sqrt2`$, then $`\mathcal ET\ge(\pi^2/2)KG_{K,m}-2\pi\delta\lVert w\rVert_2\ge(\pi^2/2)(1-4\delta/\pi)KG_{K,m}`$. | [Gate-layer bounds](gate_layer_bounds.md) |
 | Exact attaining order | An explicit closed-loop construction has $`\mathcal ET=(\pi^2/2)\sum_{r=1}^K w_r`$ and $`T=(\pi/2g)\sqrt{\lceil K/(4m)\rceil}`$. | [Matching construction](matching_construction.md) |
 
 Here $`\lambda_r^+`$ are the positive eigenvalues in descending order and $`\lambda_r^-`$ are the descending magnitudes of negative eigenvalues, with zeros appended. The last row attains the **scaling order** of the gate-level converse; the finite-size lower and upper constants need not coincide.
@@ -135,7 +136,7 @@ Since $`G_{K,m}\ge\max\{1,K/(4em)\}`$, the lower bounds and the explicit constru
 
 ```math
 T_\epsilon(K,m,g)
-\ge\frac\pi g\sqrt{\frac{1-4\arcsin(\epsilon)/\pi}{8}\,G_{K,m}},
+\ge\frac\pi{2g}\sqrt{(1-4\arcsin(\epsilon)/\pi)G_{K,m}},
 \qquad\text{(11)}
 ```
 
@@ -149,6 +150,25 @@ The assumptions permit sign reversals and time-dependent envelopes that preserve
 
 Closed-loop geometric gates, spectral area inequalities, and parallel constructions have substantial antecedents. The contribution developed here is the gate-equivalence-invariant, fixed-error finite-mode converse and the resulting resource scaling. The [related-work account](../references/related_work.md) separates those ingredients and states the scope of the literature comparison.
 
+## Vacuum-loss extension and exposure
+
+The ideal closed-loop theorem above remains valid for every initial bus state. The [loss extension](loss_and_frontier.md) adds a more specific physical model: vacuum initial modes and input fields, unmonitored Markovian damping at a common number-decay rate $`\kappa`$, and exactly closed **actual damped** paths. Writing their coefficients as $`D_{\ell j}(t)=\alpha_{j\ell}(t)`$ gives
+
+```math
+\dot D=u-\kappa D/2,\qquad D(0)=D(T)=0,\qquad
+A=\mathrm{Im}\int D^\dagger\dot D\,dt,
+```
+
+```math
+X=\int\lVert D\rVert_F^2dt,\qquad
+E_{\rm path}=\int\lVert\dot D\rVert_F^2dt,\qquad
+\mathcal E=E_{\rm path}+\kappa^2X/4.
+```
+
+Here $`u=[u_{j\ell}]_{\ell,j}`$ uses mode-first matrix indices. The paid force fluence remains $`\mathcal E`$ and its dimensionless action remains $`T\mathcal E`$. At zero loss, $`E_{\rm path}=\mathcal E`$; otherwise the derivative cost alone omits damping compensation. $`X`$ has time units and equals integrated bus occupation averaged over uniform computational strings. It is not a maximum-branch occupation or a complete channel-error measure.
+
+The emitted field retains which-branch information even when the bus closes. Its exact channel contains both the real and imaginary parts of $`\int D^\dagger D`$. The [direct noisy converse](gate_layer_bounds.md#10-direct-converse-for-the-vacuum-lossy-channel) proves the same congestion scaling as a necessary condition on the actual channel for $`\epsilon<1/(2\sqrt2)`$, with $`\delta=\arcsin(2\epsilon)`$. The [force–exposure frontier](loss_and_frontier.md#5-paid-damping-and-the-complete-fixed-a-exposure-frontier) is exact for a specified full phase matrix; it does not optimize diamond error or the physical gate's entire phase-equivalence class. A [separate loss-duration lower bound](hardware_resources.md#8-a-global-accuracy-constraint-from-vacuum-loss) charges the exposure required by a whole matching layer.
+
 ## Reading route
 
-Read [spectral cost](spectral_cost.md) for the geometric control theorem, then [gate-layer bounds](gate_layer_bounds.md) for phase wrapping and robustness. The [explicit construction](matching_construction.md) supplies the upper bound and its implementation costs. [Hardware resources](hardware_resources.md) translates the ideal law into device-level questions. The [verification guide](../verification/README.md) records finite checks of the formulas and constructions; the universal statements rest on the proofs.
+Read [spectral cost](spectral_cost.md) for the geometric control theorem, then [gate-layer bounds](gate_layer_bounds.md) for phase wrapping and robustness. The [explicit construction](matching_construction.md) supplies the upper bound and its implementation costs. [Hardware resources](hardware_resources.md) translates the ideal law into device-level questions. The [loss and exposure account](loss_and_frontier.md) derives the noisy channel and the exact scalar resource frontier. The [verification guide](../verification/README.md) records finite checks of the formulas and constructions; the universal statements rest on the proofs.

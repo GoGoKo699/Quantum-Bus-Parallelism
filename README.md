@@ -17,7 +17,7 @@ The corresponding minimum force-fluence action is
 =\Theta_\epsilon(K+K^2/m).
 ```
 
-These statements hold for every fixed whole-layer **half-diamond error** $`0\le\epsilon<1/\sqrt2`$, while requiring exact spin–bus disentanglement. The lower bound permits final local $`Z`$ corrections and every equivalent phase wrap. An explicit zero-error construction attains the scaling in the independently controlled force model.
+These statements hold for every fixed whole-layer **half-diamond error** $`0\le\epsilon<1/\sqrt2`$, while requiring exact spin–bus disentanglement. The lower bound permits final local $`Z`$ corrections and every equivalent phase wrap. An explicit zero-error construction attains the scaling in the independently controlled force model. A separate vacuum-loss analysis derives the full damped channel and the exact tradeoff between paid force fluence and displacement exposure.
 
 | Mode budget at fixed force per qubit | Independent-pair layer duration |
 |---|---|
@@ -29,19 +29,17 @@ A collective interaction can occupy one geometric direction even when it couples
 
 ## Read the science
 
-Start with the [physical model and exact claims](science/model.md). The proof proceeds from the geometry of closed oscillator paths to a spectral cost, then to a bound that holds for every physical representation of the target gate.
+Start with the [scientific route](science/README.md), then follow the model, spectral mechanism, gate-layer converse, attaining pulses and resource interpretation.
 
 | Question | Authoritative account |
 |---|---|
-| What controls, resources, error convention, and bus-return condition are assumed? | [Model and claims](science/model.md) |
-| What is the exact cost of a prescribed real phase matrix? | [Spectral force-fluence theorem](science/spectral_cost.md) |
-| Why do phase wraps and fixed whole-layer error preserve the lower bound? | [Gate-layer converses](science/gate_layer_bounds.md) |
-| Which explicit waveforms attain the scaling? | [Matching construction](science/matching_construction.md) |
-| How do effective forces map to resonators and ion modes? | [Hardware resources](science/hardware_resources.md) |
-| Which ingredients and constructive endpoints are established prior work? | [Related work](references/related_work.md) and [bibliography](references/references.bib) |
-| How can the finite calculations be reproduced? | [Verification guide](verification/README.md) |
+| What controls, phase equivalences, error convention and return condition are assumed? | [Model](science/model.md) |
+| What is the exact prescribed-matrix cost, and why does an independent gate layer retain its cost under phase wrapping and fixed error? | [Spectral cost](science/spectral_cost.md) and [gate-layer bounds](science/gate_layer_bounds.md) |
+| Which pulses attain the bound, and what happens with finitely many harmonics? | [Matching construction](science/matching_construction.md) |
+| What channel does a closed damped trajectory implement, and what is the exact drive–exposure frontier? | [Vacuum loss and frontier](science/loss_and_frontier.md) |
+| How are mode count, drive, bandwidth, occupation and memory charged? | [Hardware resources](science/hardware_resources.md) |
 
-The [LLM reading guide](llms.txt) maps scientific questions to these files and records the distinctions needed to explain the result accurately.
+The [related-work account](references/related_work.md) and [bibliography](references/references.bib) identify inherited control methods, geometric-gate constructions and dissipative ingredients. The [LLM reading guide](llms.txt) maps reading goals to authoritative pages. Historical sources and restoration records are in [project provenance](references/PROVENANCE.md).
 
 ## Learn the project
 
@@ -57,16 +55,16 @@ From the repository root:
 
 ```bash
 python3 -m pip install -r verification/requirements.txt
-python3 verification/verify_bus.py
+python3 verification/run_all.py
 ```
 
-The deterministic checks examine the Fourier construction, closed-loop phase normalization, quadrature cancellation, and phase-wrap examples. The [verification guide](verification/README.md) describes the committed reference output and the scope of each check. Universal and asymptotic claims are established by the analytical proofs.
+The deterministic checks cover Fourier constructions, phase-wrap robustness, general spectral controls, the damped channel and drive–exposure examples. The [verification guide](verification/README.md) describes the committed reference output and the scope of each check. Universal and asymptotic claims are established by the analytical proofs.
 
 ## Physical scope
 
 The number $`m`$ counts dynamical oscillator modes, not drive channels or waveform tones. The force budget is the squared norm summed over modes for each qubit. It is an effective Hamiltonian resource, with a device-dependent conversion to actuator amplitude or physical energy.
 
-The upper construction requires independent complex forces, adequate modulation bandwidth, and oscillator excursions compatible with the harmonic approximation. Restricted hardware inherits the lower bound when it fits the model; it need not attain the upper bound. The result concerns commuting conditional-force gates with exact bus disentanglement. Other interaction mechanisms and intermediate noncommuting spin control require separate resource analysis.
+The upper construction requires independent complex forces, adequate modulation bandwidth, and oscillator excursions compatible with the harmonic approximation. Restricted hardware inherits the lower bound when it fits the model; it need not attain the upper bound. The lossless result concerns commuting conditional-force gates with exact bus disentanglement for any initial oscillator state. The loss analysis assumes vacuum initial modes and fields, common-rate Markov damping, and compensated trajectories that close exactly. Its resource frontier fixes a full phase matrix and optimizes paid force fluence versus exposure; it does not optimize full noisy-gate error. Other interaction mechanisms and intermediate noncommuting spin control require separate resource analysis.
 
 Spectral area inequalities and parallel-gate constructions have substantial precedents. The [attribution account](references/related_work.md) identifies the inherited ingredients and places the robust, gate-equivalence-invariant converse within that literature.
 

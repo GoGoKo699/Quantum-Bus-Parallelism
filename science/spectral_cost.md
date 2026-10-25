@@ -2,7 +2,7 @@
 
 For commuting forces through $`m`$ harmonic modes, the least fluence needed to generate a prescribed real phase matrix is an integer-weighted sum of its positive and negative eigenvalues. The weights count how many independent real directions fit at each Fourier harmonic. This section proves the exact result for square-integrable complex forces, including infinite Fourier series, and gives controls that attain it.
 
-The geometric mechanism belongs to the spectral area-minimization tradition of [Brockett](https://hrl.harvard.edu/publications/brockett81control.pdf) and [Rizzi–Serres](https://doi.org/10.1090/proc/13658). The connection to that work is made explicit below. The further optimization over physically equivalent gates is a separate step, developed in [gate-layer bounds](gate_layer_bounds.md).
+The weighted spectral method belongs to the bilinear-control and spectral area-minimization tradition of [Wong–Baillieul, Theorem 5.1 and Corollary 5.1](https://arxiv.org/pdf/1201.6527v2), [Brockett](https://hrl.harvard.edu/publications/brockett81control.pdf) and [Rizzi–Serres](https://doi.org/10.1090/proc/13658). The connection to that work is made explicit below. The further optimization over physically equivalent gates is a separate step, developed in [gate-layer bounds](gate_layer_bounds.md). Section 6 gives the sharp cross-block form used there; Section 7 connects phase to displacement exposure.
 
 ## 1. Control class and normalization
 
@@ -290,7 +290,7 @@ To see this directly, express the two weighted spectral sums in (5) as tails:
 
 At each $`q`$, the two omitted prefixes contain at most $`4mq`$ singular values. Their sum is at most the sum of the $`4mq`$ largest singular values. Hence the bracket in (27) is at least $`\sum_{r>4mq}s_r(A)`$. Summing the tails proves (26).
 
-Equation (26) relaxes the distinction between positive and negative harmonic resources. It can be weaker than the exact formula for a specified $`A`$, but its dependence only on singular values makes it useful for submatrix and determinant arguments. It is the form used in the [physical gate converse](gate_layer_bounds.md).
+Equation (26) relaxes the distinction between positive and negative harmonic resources. It can be weaker than the exact formula for a specified $`A`$, but its dependence only on singular values makes it useful for submatrix and determinant arguments. Section 6 retains the block structure and obtains the stronger sharp cross-block form used in the [physical gate converse](gate_layer_bounds.md).
 
 ## 4. A phase matrix and a physical gate have different optimization domains
 
@@ -317,11 +317,11 @@ a product of local $`Z`$ operators up to a global phase. The diagonal contribute
 It follows from Theorem 1 that the exact gate-level optimal action in this equivalence class is
 
 ```math
-\inf_{A\in\mathscr R(A_0)}2\pi\Phi_m(A).
+\min_{A\in\mathscr R(A_0)}2\pi\Phi_m(A).
 \qquad\text{(30)}
 ```
 
-The freedom in (28) is essential: even the identity channel admits representatives with nonzero spectrum. A lower bound evaluated only at a chosen diagonal or a chosen real logarithm does not bound every realization of the physical gate. The [gate-layer analysis](gate_layer_bounds.md) controls the entire class (28), and its fixed-error extension, by a constraint on the cross block of the phase matrix. The [matching construction](matching_construction.md) chooses useful diagonal representatives and applies the harmonic allocation above to obtain the matching order of resource cost.
+The minimum exists: $`\mathscr R(A_0)`$ is closed, $`\Phi_m`$ is continuous, and $`\Phi_m(A)\ge\lVert A\rVert_*`$ makes its sublevel sets bounded. This variational characterization does not solve the integer optimization in closed form. The freedom in (28) is essential: even the identity channel admits representatives with nonzero spectrum. A lower bound evaluated only at a chosen diagonal or a chosen real logarithm does not bound every realization of the physical gate. The [gate-layer analysis](gate_layer_bounds.md) controls the entire class (28), and its fixed-error extension, by a constraint on the cross block of the phase matrix. The [matching construction](matching_construction.md) chooses useful diagonal representatives and applies the harmonic allocation above to obtain the matching order of resource cost.
 
 ## 5. Relation to the classical spectral area problem
 
@@ -378,8 +378,140 @@ Equations (6) and (34) therefore give the explicit projected-area identity
 
 The Fourier proof evaluates this projection with its $`2m`$ real directions per sign and harmonic. The classical weighted-spectrum principle is the antecedent; the separate gate-equivalence and finite-error arguments are needed to obtain the architecture-level converse. The [related-work account](../references/related_work.md) places these mathematical and gate-synthesis ingredients in their broader context.
 
+## 6. Sharp cost when only a cross block is prescribed
+
+Let $`\mathsf A,\mathsf B`$ be disjoint sets of qubit coordinates, and put $`C=A_{\mathsf A\mathsf B}`$. Write its descending singular values as $`s_j(C)`$, with zeros appended.
+
+**Theorem 3 — sharp cross-block cost.** Every real symmetric completion of $`C`$ obeys
+
+```math
+\boxed{\Phi_m(A)\ge
+2\sum_{j\ge1}\left\lceil\frac j{4m}\right\rceil s_j(C).}
+\qquad\text{(36)}
+```
+
+Consequently every closed trajectory satisfies
+
+```math
+\boxed{T\mathcal E\ge
+4\pi\sum_{j\ge1}\left\lceil\frac j{4m}\right\rceil s_j(C).}
+\qquad\text{(37)}
+```
+
+In particular, $`T\mathcal E\ge4\pi\lVert C\rVert_*`$ and $`T\mathcal E\ge(\pi/m)\sum_jj s_j(C)`$. If both diagonal blocks may be chosen freely, equality in (36)–(37) is attainable.
+
+**Proof of the converse.** For every real symmetric block matrix $`R`$,
+
+```math
+\lVert R\rVert_*\ge2\lVert R_{\mathsf A\mathsf B}\rVert_*.
+\qquad\text{(38)}
+```
+
+Indeed, place the polar partial isometry of the cross block and its transpose in the two off-diagonal blocks of a symmetric matrix, with zeros elsewhere. This matrix has operator norm at most one, and its trace pairing with $`R`$ is $`2\lVert R_{\mathsf A\mathsf B}\rVert_*`$. Nuclear/operator-norm duality proves (38).
+
+For $`q\ge0`$, let $`A^{(q)}`$ retain the first $`2mq`$ positive eigenvectors and the first $`2mq`$ negative eigenvectors of $`A`$. It has rank at most $`4mq`$, and its cross block is a rank-at-most-$`4mq`$ approximation to $`C`$. The best-rank approximation characterization of nuclear-norm tails and (38) give
+
+```math
+\begin{aligned}
+\sum_{j>2mq}[\lambda_j^+(A)+\lambda_j^-(A)]
+&=\lVert A-A^{(q)}\rVert_*\\
+&\ge2\lVert C-(A^{(q)})_{\mathsf A\mathsf B}\rVert_*\\
+&\ge2\sum_{j>4mq}s_j(C).
+\end{aligned}
+```
+
+Sum over $`q\ge0`$ as in (27). The two tails count the weights $`\lceil j/(2m)\rceil`$ and $`\lceil j/(4m)\rceil`$, proving (36). Theorem 1 then proves (37). This retains both symmetric copies of the cross block, which are lost in the coordinate-compression relaxation of (26).
+
+**Sharp completion.** Take a real singular-value decomposition $`C=\sum_js_j u_jv_j^{\mathsf T}`$. In every consecutive batch of $`4m`$ singular directions, assign the first $`2m`$ sign $`\tau_j=+1`$ and the remaining $`2m`$ sign $`\tau_j=-1`$. Set
+
+```math
+q_j=\frac{u_j\oplus\tau_jv_j}{\sqrt2},\qquad
+A_* =\sum_j2\tau_j s_j q_jq_j^{\mathsf T}.
+\qquad\text{(39)}
+```
+
+Its cross block is $`C`$; its nonzero eigenvalues are $`2\tau_js_j`$. Within each sign, the magnitudes remain in descending order and have harmonic weight $`\lceil j/(4m)\rceil`$. Hence $`\Phi_m(A_*)=2\sum_j\lceil j/(4m)\rceil s_j(C)`$, and Theorem 1 supplies attaining trajectories.
+
+For a general $`C`$, these diagonal blocks can contain unwanted same-side interactions. Thus the completion alone is not an upper bound for every prescribed physical gate. For $`C=cI_K`$, the singular vectors are coordinate vectors and both blocks are ordinary diagonal matrices. Their only gate effect is global phase; this is the [matching construction](matching_construction.md).
+
+## 7. Phase, exposure, and trajectory energy
+
+Collect the closed trajectories into $`D(t)\in\mathbb C^{m\times n}`$, with $`D_{\ell j}=\alpha_{j\ell}`$. Define
+
+```math
+F=\mathrm{Re}\int_0^T D^\dagger D\,dt,\quad
+E_{\rm mat}=\mathrm{Re}\int_0^T\dot D^\dagger\dot D\,dt,\quad
+X=\mathrm{tr}F,\quad
+E_{\rm path}=\mathrm{tr}E_{\rm mat}.
+\qquad\text{(40)}
+```
+
+Here $`E_{\rm path}=\mathcal E`$ for the lossless force $`u=\dot D`$. Keeping a closed path under vacuum damping requires $`u=\dot D+\kappa D/2`$, so its paid fluence instead is $`\mathcal E=E_{\rm path}+\kappa^2X/4`$. The [loss account](loss_and_frontier.md) derives the physical channel and the exact priced optimum.
+
+The trajectories and $`-i`$ times their derivatives form a real Gram matrix:
+
+```math
+\begin{pmatrix}F&A\\A&E_{\rm mat}\end{pmatrix}\succeq0,
+\qquad
+\ker F\subseteq\ker A,\qquad
+E_{\rm mat}\succeq AF^+A.
+\qquad\text{(41)}
+```
+
+The Moore–Penrose inverse $`F^+`$ handles singular exposure. If $`S`$ is the real symmetric orthogonal sign matrix of $`A`$, extended by arbitrary signs on its kernel, Cauchy–Schwarz applied to the area pairing gives
+
+```math
+E_{\rm path}X\ge\lVert A\rVert_*^2.
+\qquad\text{(42)}
+```
+
+Closure supplies the stronger scalar inequality
+
+```math
+\boxed{E_{\rm path}\ge
+\frac{\lVert A\rVert_*^2}{X}+\frac{\pi^2}{T^2}X,\qquad X>0.}
+\qquad\text{(43)}
+```
+
+To prove it, apply Dirichlet Poincaré to $`B(t)=D(t)e^{-i\omega St}`$. Direct differentiation yields
+
+```math
+\int_0^T\lVert\dot B\rVert_F^2dt
+=E_{\rm path}-2\omega\lVert A\rVert_*+\omega^2X
+\ge\frac{\pi^2}{T^2}X.
+```
+
+Optimize over real $`\omega`$ to obtain (43). When the positive and negative ranks are each at most $`2m`$, equality is attainable. In a real eigenbasis of $`A`$, use columns proportional to $`\sin(\pi t/T)e^{i\operatorname{sign}(\lambda_j)\omega t}`$, with coefficient vectors real-orthogonal within each sign and scaled to the required area. The opposite-sign cross areas vanish by integration of a boundary derivative. Higher ranks require further temporal directions, as quantified by Theorem 1 and the [priced area spectrum](loss_and_frontier.md#3-spectrum-of-the-closed-loop-area-operator).
+
+### The finite-time term cannot be added as a matrix inequality
+
+The stronger assertion $`E_{\rm mat}\succeq AF^+A+(\pi/T)^2F`$ is false. For one mode and two columns, take
+
+```math
+\alpha_1(t)=\sin(\pi t/T)e^{i\pi t/T},\qquad
+\alpha_2(t)=\sin(\pi t/T)e^{-i\pi t/T}.
+```
+
+Direct integration gives
+
+```math
+F=\frac T4\begin{pmatrix}2&-1\\-1&2\end{pmatrix},\quad
+A=\frac\pi2\begin{pmatrix}1&0\\0&-1\end{pmatrix},\quad
+E_{\rm mat}=\frac{\pi^2}{T}I_2.
+```
+
+The proposed matrix residual is
+
+```math
+E_{\rm mat}-AF^{-1}A-\frac{\pi^2}{T^2}F
+=\frac{\pi^2}{T}\begin{pmatrix}-1/6&7/12\\7/12&-1/6\end{pmatrix},
+```
+
+with eigenvalues $`(\pi^2/T)\{5/12,-3/4\}`$. The scalar inequality (43) is nevertheless saturated. It must not be inferred from that false matrix strengthening.
+
 ## Primary sources
 
+- **WongBaillieul2012:** W. S. Wong and J. Baillieul, “Control Communication Complexity of Distributed Actions,” Theorem 5.1 and Corollary 5.1. [Author preprint](https://arxiv.org/abs/1201.6527v2). These establish the inherited weighted bilinear-control method; the proofs here fix its symmetric phase and multimode normalization.
 - **Brockett1982:** R. W. Brockett, “Control theory and singular Riemannian geometry,” in *New Directions in Applied Mathematics*, pp. 11–27 (Springer, 1982), especially Theorem 2. [Author-hosted reprint](https://hrl.harvard.edu/publications/brockett81control.pdf); the reprint bears a 1981 copyright date.
 - **RizziSerres2017:** L. Rizzi and U. Serres, “On the cut locus of free, step two Carnot groups,” *Proceedings of the American Mathematical Society* **145**, 5341–5357 (2017), Appendix A, Proposition 15 and Eq. (48). [DOI](https://doi.org/10.1090/proc/13658); [author preprint](https://arxiv.org/html/1610.01596v2).
 - **RizziSerresErrata:** L. Rizzi and U. Serres, “Errata to: On the cut locus of free, step two Carnot groups,” undated. [Erratum](https://drive.google.com/file/d/1uSMry_CAEsKCGpL39tgO8ND7TX48HHLG/view), linked from [Luca Rizzi's research page](https://sites.google.com/view/rizziluca/research).

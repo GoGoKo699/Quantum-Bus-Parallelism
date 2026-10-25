@@ -2,7 +2,7 @@
 
 Two qubits can interact by pushing a shared oscillator around a closed path. The oscillator returns, while the qubits retain a conditional phase. The question here is how the resources change when the desired operation contains many independent pairs sharing the same oscillators.
 
-This bridge connects the selected trapped-ion review to the project's definitions, a complete one-pair example, and the additional reasoning behind its parallelism bound. The [30-milestone map](MILESTONES.md) organizes the broader conceptual route; the [model](../science/model.md) is the authoritative statement of assumptions and results.
+This bridge connects the selected trapped-ion review to the project's definitions, a complete one-pair example, and the additional reasoning behind its parallelism bound. A vacuum-loss continuation then shows why returning the bus does not erase information already emitted into an environment. The [30-milestone map](MILESTONES.md) organizes the broader conceptual route; the [model](../science/model.md) is the authoritative statement of assumptions and results.
 
 ## 1. The selected source and a focused reading map
 
@@ -157,7 +157,13 @@ U_A=\exp\!\left[\frac{i\pi}{8}(Z_1+Z_2)^2\right]
 \qquad\text{(B10)}
 ```
 
-The two diagonal entries contribute the global phase $`e^{i\pi/4}`$. The physical pair angle is **$`2A_{12}=\pi/4`$** because $`Z^{\mathsf T}AZ`$ contains both $`A_{12}Z_1Z_2`$ and $`A_{21}Z_2Z_1`$.
+The two diagonal entries contribute the global phase $`e^{i\pi/4}`$. The physical pair angle is **$`2A_{12}=\pi/4`$** because $`Z^{\mathsf T}AZ`$ contains both $`A_{12}Z_1Z_2`$ and $`A_{21}Z_2Z_1`$. The permitted local correction makes the controlled-$`Z`$ convention explicit:
+
+```math
+e^{-i\pi(Z_1+Z_2)/4}U_A=\mathrm{CZ}.
+```
+
+Implementing or tracking those local rotations belongs to the device resource account.
 
 With $`Z\lvert0\rangle=\lvert0\rangle`$ and $`Z\lvert1\rangle=-\lvert1\rangle`$, the gate matrix is $`\mathrm{diag}(i,1,1,i)`$. On the product input $`\lvert++\rangle`$, where $`\lvert+\rangle=(\lvert0\rangle+\lvert1\rangle)/\sqrt2`$, it produces
 
@@ -185,6 +191,15 @@ T\mathcal E=\frac{\pi^2}{2}.
 The pulse meets the per-qubit bound $`g`$ by choosing $`T=\pi/(2g)`$. Its phase matrix has eigenvalues $`\pi/4`$ and zero, so its action also agrees with the [exact prescribed-matrix optimum](../science/spectral_cost.md#2-exact-minimum-for-a-prescribed-full-matrix).
 
 The displacement satisfies $`|\alpha(t)|\le1/2`$, hence $`|\beta_z(t)|\le1`$. For an initially empty bus, the largest conditional oscillator occupation in this example is one quantum. Stretching the waveform while reducing its force inversely leaves this excursion, the phase, and $`T\mathcal E`$ unchanged. It reduces the fluence $`\mathcal E`$ and increases the duration $`T`$. Oscillator energy and force fluence therefore quantify different resources.
+
+Collect the paths into the matrix $`D(t)=(\alpha(t),\alpha(t))`$, with one row per oscillator and one column per qubit. Its integrated squared displacement is the **exposure**
+
+```math
+X=\int_0^T\lVert D(t)\rVert_F^2dt
+=2\int_0^T|\alpha(t)|^2dt=\frac T4.
+```
+
+For a vacuum bus and a uniformly sampled spin string, $`\lVert D(t)\rVert_F^2`$ is the mean conditional occupation. It is not a bound on the largest branch occupation: that maximum was one quantum here. Stretching this same loop increases $`X`$ linearly while reducing force fluence. The distinction becomes operational in the loss model below.
 
 ## 4. From one pair to independent parallel pairs
 
@@ -231,6 +246,34 @@ The source's physical foundations, these project arguments, and the research-lev
 
 The force model is linear in oscillator coordinates and uses commuting spin axes throughout the pulse. Its exact return for arbitrary bus states is a statement about that Hamiltonian. A resonant spin–phonon exchange protocol belongs to a different Hamiltonian class unless a valid reduction to (B4) is established. A trapped-ion derivation can require harmonic confinement, a Lamb–Dicke expansion, rotating-wave approximations, and control of unwanted carrier or Stark-shift terms. Those approximations must remain valid over the actual initial occupations and driven excursions.
 
-Endpoint closure also leaves the consequences of noise during the path intact. The fixed-error theorem concerns a closed-bus unitary spin operation; it does not establish a bound for residual spin–bus entanglement, motional heating, or a general noisy channel.
+Endpoint closure also leaves the consequences of noise during the path intact. The fixed-error theorem in (B14) concerns a closed-bus unitary spin operation. The vacuum-loss extension below treats a separately specified noisy channel; neither statement covers residual bus displacement or an arbitrary noise process.
 
 Finally, the increasing harmonics in the upper construction require adequate waveform control. A finite Fourier series on a pulse interval does not by itself account for switching transients or a laboratory filter. The [hardware resources page](../science/hardware_resources.md) gives these conversion and feasibility questions an explicit place alongside the ideal lower bound.
+
+## 7. A closed loop with vacuum loss
+
+The [loss and frontier account](../science/loss_and_frontier.md) adds uniform Markov damping at rate $`\kappa`$, with jump operators $`\sqrt{\kappa}a_\ell`$ and vacuum initial bus and reservoir. In this convention, occupation decays at rate $`\kappa`$ and amplitude at rate $`\kappa/2`$. This is a cooling-type loss process: it leaves undriven vacuum invariant. Motional heating requires a different generator and cannot be included by substituting its measured rate for $`\kappa`$.
+
+To retain the path in (B7), rather than retain its undamped force, use $`u_i=\dot\alpha+\kappa\alpha/2`$:
+
+```math
+u_i(t)=\frac14\left[
+\left(\frac{2\pi i}{T}+\frac\kappa2\right)e^{2\pi it/T}
+-\frac\kappa2\right],
+\qquad
+\mathcal E=\frac{\pi^2}{2T}+\frac{\kappa^2T}{16}.
+\qquad\text{(B15)}
+```
+
+The geometric path and pair phase remain the same, but the force budget must be checked again. The exact peak magnitude is $`[\sqrt{(2\pi/T)^2+\kappa^2/4}+\kappa/2]/4`$. The general closed-path identity is
+
+```math
+\mathcal E=E_{\mathrm{path}}+\frac{\kappa^2}{4}X,
+\qquad
+E_{\mathrm{path}}=\int_0^T\lVert\dot D(t)\rVert_F^2dt.
+\qquad\text{(B16)}
+```
+
+Even when the damped oscillator returns to vacuum, the emitted field carries the conditional amplitude $`\sqrt{\kappa}D(t)z`$. Different spin strings can therefore leave distinguishable field states. Their overlap reduces spin coherence and can add a phase. The [exact channel](../science/loss_and_frontier.md) retains both the real and imaginary parts of $`\int D^\dagger D\,dt`$; exposure alone does not specify the channel.
+
+This physical mechanism and ways to alter its error correlations are established in [Louis et al.](https://arxiv.org/html/0804.3240v1), §IV. [Müller, Luoma, and Strunz](https://arxiv.org/html/1907.08033v2), §III.2, Eqs. (27)–(28), explain why additional winding can lower dephasing at fixed geometric phase. The project's [paid drive–exposure frontier](../science/loss_and_frontier.md) optimizes the extra control cost for a fixed full phase matrix. It does not establish the optimum noisy channel over all phase-equivalent gates. These specialist references extend the physical discussion; the selected Häffner–Roos–Blatt review remains the educational starting point for the [30-milestone map](MILESTONES.md).

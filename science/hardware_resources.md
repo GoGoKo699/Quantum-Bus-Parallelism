@@ -203,3 +203,125 @@ Active squeezing instead mixes annihilation and creation operators through a Bog
 Direct qubit interactions, conditional oscillator rotations such as $`Za^\dagger a`$, oscillator nonlinearities, measurements with feedback, and spin rotations that make the interaction axes noncommuting during the force evolution change the model. Sign reversals that keep the toggling-frame axis $`\pm Z`$ remain compatible with it. A claimed improvement using another interaction mechanism should be evaluated with that mechanism's own resource accounting.
 
 For a device that satisfies the stated Hamiltonian, closure, mode-count, and total-force assumptions, the lower bound survives all further restrictions on its actuators. The scaling upper bound belongs to the independently programmable model; a hardware implementation must separately establish the required controls, bandwidth, and allowed excursions.
+
+
+## 7. Independent directions and a collective phase
+
+The matching law concerns independent phase directions. A collective rank-one matrix $`A=\chi vv^{\mathsf T}`$, with $`v_j\in\{\pm1\}`$ on $`n`$ qubits, has only one nonzero eigenvalue of magnitude $`|\chi|n`$. One mode therefore attains $`T\mathcal E=2\pi|\chi|n`$. Each qubit can obey the same fixed force cap while duration remains independent of $`n`$ at fixed $`\chi`$. This gate generally couples every pair; its cost is compatible with the matching converse.
+
+For the separate total instantaneous cap $`\sum_{j,\ell}|u_{j\ell}(t)|^2\le P`$, the [exact matching sandwich](gate_layer_bounds.md#9-additional-finite-size-and-total-force-consequences) gives $`\inf PT^2=\Theta(K+K^2/m)`$. Under the individual cap, the total cap is at most $`P=2Kg^2`$, and the independent construction gives the sharper per-qubit feasibility check. Adding modes never grants each qubit a separate allowance of $`g`$ on every mode.
+
+## 8. A global accuracy constraint from vacuum loss
+
+Assume the [vacuum Markov model](loss_and_frontier.md), with common number-decay rate $`\kappa>0`$ and exactly closed actual damped paths. Suppose the actual spin channel, including allowed local $`Z`$ corrections, has half-diamond error at most
+
+```math
+0<\epsilon<\frac1{2\sqrt2},\qquad
+\delta=\arcsin(2\epsilon),\qquad
+L_\epsilon=-\log(1-2\epsilon).
+\qquad\text{(H11)}
+```
+
+The [direct noisy phase extraction](gate_layer_bounds.md#10-direct-converse-for-the-vacuum-lossy-channel) gives $`A_{AB}=c(I+2M)+R`$, $`c=\pi/8`$, with integer $`M`$ and $`\lVert R\rVert_F\le\delta/2`$. The odd determinant and arithmetic–geometric mean imply $`\lVert c(I+2M)\rVert_*\ge\pi K/8`$. Since $`\lVert R\rVert_*\le\sqrt K\lVert R\rVert_F`$ and $`\lVert A\rVert_*\ge2\lVert A_{AB}\rVert_*`$,
+
+```math
+\lVert A\rVert_*\ge\frac{\pi K}{4}-\delta\sqrt K
+=:r_{K,\epsilon}>0.
+\qquad\text{(H12)}
+```
+
+Positivity follows from $`\delta<\pi/4`$ and $`K\ge1`$. Independently, the [target-independent exposure floor](loss_and_frontier.md#2-operational-error-and-first-order-gate-metrics) gives
+
+```math
+\epsilon\ge\frac{1-e^{-2\kappa X}}2,
+\qquad X\le\frac{L_\epsilon}{2\kappa}.
+```
+
+The geometric inequality $`E_{\rm path}X\ge\lVert A\rVert_*^2`$, the paid cost $`\mathcal E\ge E_{\rm path}`$, and a total physical-force cap $`\mathcal E\le PT`$ therefore yield
+
+```math
+\boxed{T\ge\frac{2\kappa r_{K,\epsilon}^2}{P L_\epsilon}.}
+\qquad\text{(H13)}
+```
+
+Under the individual cap $`P\le2Kg^2`$ this becomes
+
+```math
+\boxed{gT\ge\frac\kappa g
+\frac{(\pi K/4-\delta\sqrt K)^2}{K L_\epsilon}.}
+\qquad\text{(H14)}
+```
+
+At fixed small whole-layer error this grows linearly in $`K`$, independently of the number of modes. For small $`\epsilon`$ and large $`K`$, its leading expression is $`gT\gtrsim(\pi^2/32)(\kappa/g)K/\epsilon`$. It is a necessary condition to combine with the finite-mode bound, not a construction attaining the full noisy target. The environment receives a record of the conditional paths; adding modes does not by itself remove that record. This global worst-case error is not a local stochastic error parameter or a fault-tolerance threshold.
+
+## 9. Duration brackets and the exposure frontier
+
+![Lossless duration brackets and exact fixed-phase force/exposure frontiers](figures/resource_frontiers.svg)
+
+**Panel A.** The shaded intervals bracket the lossless optimal duration under the individual cap. With $`w_r=\lceil r/(4m)\rceil`$, the necessary lower and achievable upper bounds are
+
+```math
+\frac\pi2 G_{K,m}^{1/2}\le gT_{\min}
+\le\frac\pi2\sqrt{\left\lceil\frac K{4m}\right\rceil}.
+```
+
+The lower bound relaxes individual caps to their total budget and includes every phase representative. The constant gap is a converse gap, not experimental uncertainty. For $`K\le4m`$, both bounds are $`\pi/2`$.
+
+**Panel B.** The exact $`(\mathcal E,X)`$ frontier is at fixed $`T`$ and fixed full phase matrix $`A`$, without a pointwise force cap. All curves use the same completion for $`K=64`$ pairs: 32 positive and 32 negative rank-one blocks, each with eigenvalue magnitude $`\pi/4`$. Here $`\kappa T=0.1`$. Every point is attainable in the independent-force model. Increasing the exposure price reduces $`X`$ and increases $`\mathcal E`$. More modes lower the minimum-fluence endpoint; its exposure need not decrease. The full error also depends on the environmental Gram matrix, so this is not an exact diamond-error frontier.
+
+The [resource-examples script](../verification/resource_examples.py) reproduces the figure from analytical formulas.
+
+## 10. A damped matching with an actual peak-force cap
+
+Take $`K=256`$ independent pairs and the illustrative dimensionless rate $`\kappa/g=10^{-3}`$. This is a model parameter, not an estimate for a device. Pair $`r`$ uses harmonic $`n_r=\lceil r/(4m)\rceil`$ in the [compensated circular construction](matching_construction.md#7-exposure-total-force-and-compensated-damping). Its physical-force maximum, duration chosen to meet every individual cap, and exposure are
+
+```math
+\max_t|u_j(t)|=
+\frac{\sqrt{(2\pi n_r/T)^2+\kappa^2/4}+\kappa/2}{4\sqrt{n_r}},
+```
+
+```math
+gT=\max_r\frac{\pi\sqrt{n_r}}{2\sqrt{1-\kappa/(4g\sqrt{n_r})}},
+\qquad
+gX=\frac{gT}{4}\sum_{r=1}^K\frac1{n_r}.
+\qquad\text{(H15)}
+```
+
+The denominator condition holds for these parameters. The limiting harmonic saturates its cap.
+
+| Modes $`m`$ | Highest harmonic | Duration $`gT`$ | Exposure $`gX`$ | Highest in-interval angular frequency divided by $`g`$ | Rigorous half-diamond error floor |
+|---:|---:|---:|---:|---:|---:|
+| 1 | 64 | 12.5666 | 59.6144 | 31.9995 | 0.05620 |
+| 4 | 16 | 6.2834 | 84.9696 | 15.9995 | 0.07814 |
+| 16 | 4 | 3.1418 | 104.7263 | 7.9995 | 0.09449 |
+| 64 | 1 | 1.5710 | 100.5435 | 3.9995 | 0.09108 |
+
+The last column is $`(1-e^{-2\kappa X})/2`$, a lower bound for these controls rather than their exact diamond distance. Every row fails a 1% global half-diamond target. The architecture-wide converse (H14) gives $`gT\ge7.7916`$ for that target at every $`m`$. In particular, the last two short durations cannot meet the target through any other closed waveform at the same individual cap. The first row being slower than that necessary bound does not certify its accuracy; its explicit exposure rules it out.
+
+More modes improve ideal parallelism, while a low-error design must also pay to reduce exposure. The [exact fixed-matrix frontier](loss_and_frontier.md) gives its integrated-force price. Jointly optimizing a pointwise cap and the full channel is a further control problem. The [same script](../verification/resource_examples.py) reproduces this table.
+
+## 11. Preparation, occupation, and data memory
+
+Vacuum preparation is an additional hypothesis of the loss model; its preparation time is outside $`T`$. Exact closed layers leave no residual displacement to reset, while the emitted bath record remains. Implementing or tracking local corrections likewise has device-dependent timing and errors outside the force fluence.
+
+The collective excursion bound (H8), summed over modes at full filling $`K=4mL`$, gives $`\max_{z,t}\sum_\ell|\beta_{\ell,z}(t)|^2\le64mL=16K`$. Thus the construction allows occupation to grow. Neither the coefficient-force budget nor the exposure trace ensures a constant maximum-branch occupation.
+
+A specified memory model makes another duration price explicit. If each of the $`2K`$ qubits has independent Poisson $`Z`$ errors at rate $`\gamma`$, its idle-only entanglement infidelity over duration $`T`$ is exactly
+
+```math
+1-F_e^{\rm idle}
+=1-\left(\frac{1+e^{-2\gamma T}}2\right)^{2K}
+=2K\gamma T+O((K\gamma T)^2).
+\qquad\text{(H16)}
+```
+
+At fixed finite system size and weak noise, independent bus loss adds first-order coefficient $`\kappa X`$, so the leading infidelity is $`\kappa X+2K\gamma T`$. This is a perturbative fidelity metric in a specified noise model; it does not replace the nonperturbative global diamond bounds.
+
+For the lossless individual-cap circular family, multiplying every harmonic by an integer $`q\ge1`$ preserves area but changes $`T`$ to $`T_1\sqrt q`$ and $`X`$ to $`X_1/\sqrt q`$. The leading expression becomes
+
+```math
+\frac{\kappa X_1}{\sqrt q}+2K\gamma T_1\sqrt q.
+\qquad\text{(H17)}
+```
+
+For $`\gamma>0`$, its continuous optimum is $`q=\kappa X_1/(2K\gamma T_1)`$, clipped to $`q\ge1`$ before comparing adjacent integers. If $`\gamma=0`$ and $`\kappa>0`$, this unrestricted family has no finite minimizing winding. This optimizes only the first-order expression within this family. Damping compensation, modulation, and occupation still need checking. The small-excursion/more-winding idea is established in [Müller, Luoma and Strunz, Section III.2](https://arxiv.org/html/1907.08033v2); these formulas state its force and duration price.

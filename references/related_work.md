@@ -2,11 +2,15 @@
 
 Closed oscillator trajectories, geometric entangling phases, and spectral pulse optimization are established tools. The result developed in this repository concerns a more specific question: the force action and duration required for a layer of $`K`$ independent maximally entangling pairs through $`m`$ harmonic modes, when every physically equivalent phase representative is allowed and the whole layer may have a fixed worst-case error.
 
-The [model](../science/model.md) assumes commuting linear conditional forces and exact bus closure. It allows final local $`Z`$ corrections and global phase; it does not optimize over arbitrary local basis changes during the interaction. For every fixed half-diamond layer error $`\epsilon<1/\sqrt2`$, the [gate-layer bounds](../science/gate_layer_bounds.md) establish the finite-mode converse. The [construction](../science/matching_construction.md) supplies the matching scaling order. The distinction between a lower bound in an independently controlled relaxation and implementability on a specific device is developed in [hardware resources](../science/hardware_resources.md).
+The [model](../science/model.md) assumes commuting linear conditional forces and exact bus closure. It allows final local $`Z`$ corrections and global phase; it does not optimize over arbitrary local basis changes during the interaction. For the closed-system unitary core and every fixed half-diamond layer error $`\epsilon<1/\sqrt2`$, the [gate-layer bounds](../science/gate_layer_bounds.md) establish the finite-mode converse. The [construction](../science/matching_construction.md) supplies the matching scaling order. The distinction between a lower bound in an independently controlled relaxation and implementability on a specific device is developed in [hardware resources](../science/hardware_resources.md). A separately specified [vacuum-loss extension](../science/loss_and_frontier.md) derives the emitted-field channel and optimizes paid drive against displacement exposure for a fixed full phase matrix.
 
 Bibliographic entries, including publication metadata and versioned preprints, are collected in [references.bib](references.bib). Section and equation pointers below identify the actual primary version used; preprint and journal numbering can differ.
 
 ## 1. Geometric optimal control is an antecedent
+
+**Wong and Baillieul (2012), Theorem 5.1 and Corollary 5.1, Eqs. (5.1)–(5.2).** The primary [arXiv:1201.6527v2 PDF](https://arxiv.org/pdf/1201.6527v2), printed p. 17, minimizes quadratic effort for prescribed outputs of a bounded bilinear map. For the closed Brockett–Heisenberg system, the corollary yields harmonic weights $`\lceil j/2\rceil`$. Its cost averages over independently selected control families. The [author-institution publication record](https://research.cuhk.edu.hk/en/publications/control-communication-complexity-of-distributed-actions-2/) confirms *IEEE Transactions on Automatic Control* 57(11), 2731–2745 (2012), DOI [10.1109/TAC.2012.2192357](https://doi.org/10.1109/TAC.2012.2192357). Key: `WongBaillieul2012`.
+
+Fourier multiplicity and weighted singular-value allocation are direct antecedents. The project's signed real symmetric phase matrix, its $`2m`$ real directions per signed harmonic, and its summed per-qubit force normalization require the explicit translation in the [spectral proof](../science/spectral_cost.md). The spectral principle is inherited; the quantum phase-equivalence quotient is an additional problem.
 
 **Brockett (1982), Theorem 2.** The chapter [“Control Theory and Singular Riemannian Geometry”](https://doi.org/10.1007/978-1-4612-5651-9_2), pp. 11–27, treats the corresponding step-two control geometry and a vertical-distance spectral formula. An [author-hosted reprint](https://hrl.harvard.edu/publications/brockett81control.pdf) is available. Its normalization must be checked rather than transferred by inspection. BibTeX key: `Brockett1982`.
 
@@ -91,3 +95,23 @@ T\mathcal E=\Omega_\epsilon(K+K^2/m)
 for every fixed $`\epsilon<1/\sqrt2`$, with exact bus closure retained. Together with an explicit exact upper bound it yields the scaling law in the [model](../science/model.md).
 
 The cited geometric results and parallel-gate constructions are essential antecedents. The inspected results above do not supply this combined all-representative, fixed-error matching-layer converse under the same primitive-force assumptions. This scoped comparison is not a claim that spectral optimal control, geometric oscillator gates, parallel gates, or square-root upper constructions originate here.
+
+## 6. Vacuum loss: established mechanism and a paid frontier
+
+**Louis et al., “Loss in hybrid qubit-bus couplings and gates,” Physical Review A 78, 022326 (2008).** The primary [arXiv:0804.3240v1](https://arxiv.org/html/0804.3240v1), §IV, Eqs. (23)–(24), expresses lost-probe effects through coherent-state overlaps. Eqs. (36)–(39) combine sequences to retain a conditional phase with independent single-qubit dephasing. Loss-induced decoherence and control of error correlations are established; correlated errors are not unavoidable for every pulse sequence. Key: `Louis2008`.
+
+**Müller, Luoma, and Strunz, “Geometric phase gates in dissipative quantum dynamics,” Physical Review A 102, 032611 (2020).** The primary [arXiv:1907.08033v2](https://arxiv.org/html/1907.08033v2), §III.1, retains both coherence attenuation and an environment-induced phase. §III.2, Eqs. (27)–(28), explains how faster winding reduces the squared excursion integral at fixed geometric phase. The journal year is 2020; the inspected preprint revision is dated 14 April 2021. Their §VI distinguishes damping from the heating relevant to typical ion-gate conditions. Key: `Mueller2020`.
+
+The [vacuum-loss account](../science/loss_and_frontier.md) keeps this distinction explicit. With trajectory matrix $`D(t)`$, exact closure and uniform amplitude decay $`\kappa/2`$ give
+
+```math
+\mathcal E=E_{\mathrm{path}}+\frac{\kappa^2}{4}X,
+\qquad
+E_{\mathrm{path}}=\int_0^T\lVert\dot D\rVert_F^2dt,
+\qquad
+X=\int_0^T\lVert D\rVert_F^2dt.
+```
+
+Its fixed-matrix frontier charges both the drive needed to follow the path and the exposure that loss can reveal. The exact reduced channel retains the real and imaginary parts of $`\int D^\dagger D\,dt`$. The established winding-versus-dephasing mechanism is therefore coupled to an explicit finite-force optimization; exposure does not by itself solve the full channel-error problem. The exact frontier is for a prescribed full $`A`$. Optimization over every phase-equivalent gate remains separate, and a lossless upper construction alone supplies no noisy-gate upper bound.
+
+For fidelity conventions, [Nielsen (2002)](https://arxiv.org/html/quant-ph/0205035v2), Eqs. (2)–(3), gives a proof of the Horodecki relation $`F_{\mathrm{avg}}=(dF_e+1)/(d+1)`$ after composing with the inverse target unitary (`Nielsen2002`). These average quantities remain distinct from the whole-layer half-diamond error used by the converses.
